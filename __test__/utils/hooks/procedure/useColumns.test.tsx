@@ -8,8 +8,8 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
  * License for the specific language governing permissions and limitations
  * under the License.
  */
@@ -57,6 +57,10 @@ describe('useColumns', () => {
       rollbackOperation: [],
       rollbackDependencies: [undefined, undefined],
       rollbackStatus: [],
+      startedAt: [undefined, undefined],
+      endedAt: [undefined, undefined],
+      rollbackStartedAt: [undefined, undefined],
+      rollbackEndedAt: [undefined, undefined],
     },
     setQuery: {
       ID: jest.fn(),
@@ -68,12 +72,28 @@ describe('useColumns', () => {
       rollbackOperation: jest.fn(),
       rollbackDependencies: jest.fn(),
       rollbackStatus: jest.fn(),
+      startedAt: jest.fn(),
+      endedAt: jest.fn(),
+      rollbackStartedAt: jest.fn(),
+      rollbackEndedAt: jest.fn(),
     },
     selectOptions: {
-      operation: [],
-      status: [],
-      rollbackOperation: [],
-      rollbackStatus: [],
+      operation: [
+        { value: 'connect', label: 'Connect' },
+        { value: 'disconnect', label: 'Disconnect' },
+      ],
+      status: [
+        { value: 'COMPLETED', label: 'Completed' },
+        { value: 'FAILED', label: 'Failed' },
+      ],
+      rollbackOperation: [
+        { value: 'disconnect', label: 'Disconnect' },
+        { value: 'shutdown', label: 'Shutdown' },
+      ],
+      rollbackStatus: [
+        { value: 'COMPLETED', label: 'Completed' },
+        { value: 'FAILED', label: 'Failed' },
+      ],
     },
     filteredRecords: dummyFilteredRecords,
   };
@@ -105,16 +125,20 @@ describe('useColumns', () => {
     expect(isGroupNecessary).toBe(true);
 
     const applyColumns = columns[1].columns;
-    expect(applyColumns).toHaveLength(3);
+    expect(applyColumns).toHaveLength(5);
     expect(applyColumns[0].accessor).toBe('operation');
     expect(applyColumns[1].accessor).toBe('dependencies');
     expect(applyColumns[2].accessor).toBe('result');
+    expect(applyColumns[3].accessor).toBe('applyStartedAt');
+    expect(applyColumns[4].accessor).toBe('applyEndedAt');
 
     const rollbackColumns = columns[2].columns;
-    expect(rollbackColumns).toHaveLength(3);
+    expect(rollbackColumns).toHaveLength(5);
     expect(rollbackColumns[0].accessor).toBe('rollbackOperation');
     expect(rollbackColumns[1].accessor).toBe('rollbackDependencies');
     expect(rollbackColumns[2].accessor).toBe('rollbackResult');
+    expect(rollbackColumns[3].accessor).toBe('rollbackStartedAt');
+    expect(rollbackColumns[4].accessor).toBe('rollbackEndedAt');
   });
 
   test('operation id is rendered', async () => {
@@ -185,11 +209,21 @@ describe('useColumns', () => {
     render(targetCPUIDColumn.filter as ReactElement);
 
     const input = screen.getByLabelText('Host CPU ID');
-    // The number of times it is called is not counted because the initial value of the query is an empty string
+    expect(input).toBeInTheDocument(); // Input field exists
+
+    // Initial value is an empty string, so the call count is not incremented
     await userEvent.clear(input);
     await userEvent.type(input, 'cpu1234');
-    // called as many times as the number of characters entered
+    // Called as many times as the number of characters entered
     expect(filter.setQuery.targetCPUID).toHaveBeenCalledTimes(7);
+    // Check the last value
+    expect(filter.setQuery.targetCPUID).toHaveBeenCalledWith('c');
+    expect(filter.setQuery.targetCPUID).toHaveBeenCalledWith('p');
+    expect(filter.setQuery.targetCPUID).toHaveBeenCalledWith('u');
+    expect(filter.setQuery.targetCPUID).toHaveBeenCalledWith('1');
+    expect(filter.setQuery.targetCPUID).toHaveBeenCalledWith('2');
+    expect(filter.setQuery.targetCPUID).toHaveBeenCalledWith('3');
+    expect(filter.setQuery.targetCPUID).toHaveBeenCalledWith('4');
   });
 
   test('targetDevice is rendered', async () => {
@@ -464,8 +498,10 @@ describe('useColumns', () => {
 
     const dummy = {
       ...dummyFilteredRecords[0],
-      rollback: { ...dummyFilteredRecords[0].rollback, status: undefined },
-    } as APPProcedureWithResult;
+      rollback: dummyFilteredRecords[0].rollback
+        ? { ...dummyFilteredRecords[0].rollback, status: undefined }
+        : undefined,
+    };
 
     const view = rollbackResultColumn.render(dummy, 0);
     if (React.isValidElement(view)) {

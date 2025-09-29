@@ -18,10 +18,7 @@
 
 import { useState } from 'react';
 
-import { ActionIcon, Group, Modal, Space, Text, Title } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { IconPlus } from '@tabler/icons-react';
-import axios, { AxiosError } from 'axios';
+import { Button, Group, Stack, Text, Title } from '@mantine/core';
 import { useTranslations } from 'next-intl';
 import useSWRImmutable from 'swr/immutable';
 
@@ -34,19 +31,10 @@ import {
   usePermission,
 } from '@/shared-modules/utils/hooks';
 
-import {
-  APIDeviceTypeLowerCamel,
-  APIHardwareConnection, // APINodePolicy,
-  APIPolicies,
-  APIPolicyError,
-  APIPutPolicy, // APISystemPolicy,
-  APIUseThreshold,
-  APPPolicies,
-  ModalMode, // ModalTitle,
-} from '@/types';
-import { APIPostPolicy } from '@/types/APIPostPolicies';
+import { APIPolicies } from '@/types';
 
-import { PolicyCard, PolicyCards, PolicyConfirmModal, PolicyEditModal } from '@/components';
+import { PolicyCard, PolicyCards, PolicyModal } from '@/components';
+import { usePolicyModal } from '@/utils/hooks';
 
 /**
  * Policy page
@@ -71,346 +59,123 @@ const Policy = () => {
   );
   const loading = useLoading(isValidating || mswInitializing);
 
+  const policyModalProps = usePolicyModal({ data, setSuccessInfo, mutate });
+  const { changeModalMode, setCategory, setSelectedPolicyId, setModalOpen } = policyModalProps[1];
+
+  // handlers
   /** Functions passed to PolicyCard */
-  const functions = {
-    deletePolicy: (id: string) => {
-      setModalMode('delete');
+  const policyCardFunctions = {
+    deletePolicy: (id: string, category: 'nodeConfigurationPolicy' | 'systemOperationPolicy') => {
+      changeModalMode('delete');
+      setCategory(category);
       setSelectedPolicyId(id);
       setModalOpen();
     },
-    enablePolicy: (id: string) => {
-      setModalMode('enable');
+    enablePolicy: (id: string, category: 'nodeConfigurationPolicy' | 'systemOperationPolicy') => {
+      changeModalMode('enable');
+      setCategory(category);
       setSelectedPolicyId(id);
       setModalOpen();
     },
-    disablePolicy: (id: string) => {
-      setModalMode('disable');
+    disablePolicy: (id: string, category: 'nodeConfigurationPolicy' | 'systemOperationPolicy') => {
+      changeModalMode('disable');
+      setCategory(category);
       setSelectedPolicyId(id);
       setModalOpen();
     },
-    editPolicy: (id: string) => {
-      setModalMode('edit');
+    editPolicy: (id: string, category: 'nodeConfigurationPolicy' | 'systemOperationPolicy') => {
+      changeModalMode('edit');
+      setCategory(category);
       setSelectedPolicyId(id);
       setModalOpen();
     },
   };
-  const addPolicy = () => {
-    setModalMode('add');
+
+  const addPolicy = (category: 'nodeConfigurationPolicy' | 'systemOperationPolicy') => {
+    changeModalMode('add');
+    setCategory(category);
     setSelectedPolicyId(undefined);
     setModalOpen();
   };
-
-  /** Function called on submit */
-  const submitDelete = (policyId: string) => {
-    axios
-      .delete(`${process.env.NEXT_PUBLIC_URL_BE_POLICY_MANAGER}/policies/${policyId}`)
-      .then(() => {
-        setModalClose();
-        // Display API request success message
-        setSuccessInfo({ id: policyId, title: findPolicy(policyId)?.title as string, operation: t('Delete') });
-        // Fetch again
-        mutate();
-        return;
-      })
-      .catch((error) => {
-        setModalError(error);
-      });
-  };
-  const submitChangeEnabled = (policyId: string, enabled: boolean) => {
-    const data = enabled ? { enableIDList: [policyId] } : { disableIDList: [policyId] };
-    axios
-      .put(`${process.env.NEXT_PUBLIC_URL_BE_POLICY_MANAGER}/policies/change-enabled`, data)
-      .then(() => {
-        setModalClose();
-        // Display API request success message
-        setSuccessInfo({
-          id: policyId,
-          title: findPolicy(policyId)?.title as string,
-          operation: enabled ? t('Enable') : t('Disable'),
-        });
-        // Fetch again
-        mutate();
-        return;
-      })
-      .catch((error) => {
-        setModalError(error);
-      });
-  };
-
-  const makeAPIPolicy = (APPPolicies: APPPolicies) => {
-    const { policies, category } = APPPolicies;
-    if (category === 'nodeConfigurationPolicy') {
-      return {
-        hardwareConnectionsLimit: Object.keys(policies)
-          .filter((key) => policies[key as APIDeviceTypeLowerCamel].enabled)
-          .reduce<Record<string, APIHardwareConnection | APIUseThreshold>>((acc, key) => {
-            acc[key] = {
-              minNum: policies[key as APIDeviceTypeLowerCamel].minNum,
-              maxNum: policies[key as APIDeviceTypeLowerCamel].maxNum,
-            };
-            return acc;
-          }, {}),
-      };
-    } else {
-      return {
-        useThreshold: Object.keys(policies)
-          .filter((key) => policies[key as APIDeviceTypeLowerCamel].enabled)
-          .reduce<Record<string, APIHardwareConnection | APIUseThreshold>>((acc, key) => {
-            acc[key] = {
-              value: policies[key as APIDeviceTypeLowerCamel].value,
-              unit: policies[key as APIDeviceTypeLowerCamel].unit,
-              comparison: policies[key as APIDeviceTypeLowerCamel].comparison,
-            };
-            return acc;
-          }, {}),
-      };
-    }
-  };
-
-  const submitEdit = (policyId: string, policies: APPPolicies) => {
-    const putData: APIPutPolicy = {
-      category: policies.category,
-      title: policies.title,
-      policy: makeAPIPolicy(policies),
-    } as APIPutPolicy;
-    axios
-      .put(`${process.env.NEXT_PUBLIC_URL_BE_POLICY_MANAGER}/policies/${policyId}`, putData)
-      .then(() => {
-        setModalClose();
-        // Display API request success message
-        setSuccessInfo({
-          id: policyId,
-          title: policies.title,
-          operation: t('Update'),
-        });
-        // Fetch again
-        mutate();
-        return;
-      })
-      .catch((error) => {
-        setInputStatus(policies);
-        setModalError(error);
-      });
-  };
-
-  const submitAdd = (policies: APPPolicies) => {
-    const postData: APIPostPolicy = {
-      category: policies.category,
-      title: policies.title,
-      policy: makeAPIPolicy(policies),
-      enabled: false,
-    } as APIPostPolicy;
-    axios
-      .post(`${process.env.NEXT_PUBLIC_URL_BE_POLICY_MANAGER}/policies`, postData)
-      .then((res) => {
-        setModalClose();
-        // Display API request success message
-        setSuccessInfo({
-          id: res.data.policyID,
-          title: policies.title,
-          operation: t('Add'),
-        });
-        // Fetch again
-        mutate();
-        return;
-      })
-      .catch((error) => {
-        setInputStatus(policies);
-        setModalError(error);
-      });
-  };
-
-  const useModal = (): [
-    {
-      modalOpened: boolean;
-      modalMode: ModalMode;
-      selectedPolicyId: string | undefined;
-      modalTitle: string;
-      submitFunc: CallableFunction;
-      inputStatus: APPPolicies | undefined;
-      modalError: AxiosError<APIPolicyError> | undefined;
-    },
-    {
-      setModalMode: CallableFunction;
-      setSelectedPolicyId: CallableFunction;
-      setModalOpen: () => void;
-      setModalClose: () => void;
-      setInputStatus: CallableFunction;
-      setModalError: CallableFunction;
-    },
-  ] => {
-    /** Modal open/close */
-    const [modalOpened, { open: setModalOpen, close: setModalClose }] = useDisclosure(false);
-    /** Modal mode */
-    const [modalMode, changeModalMode] = useState<ModalMode>(undefined);
-    const [selectedPolicyId, setSelectedPolicyId] = useState<string | undefined>('');
-    const [modalTitle, setModalTitle] = useState<string>('');
-    const [submitFunc, setSubmitFunc] = useState<CallableFunction>(() => undefined);
-    const [modalError, setModalError] = useState<AxiosError<APIPolicyError> | undefined>(undefined);
-    const [inputStatus, setInputStatus] = useState<APPPolicies | undefined>(undefined);
-    const setModalMode = (mode: ModalMode) => {
-      changeModalMode(mode);
-      setInputStatus(undefined);
-      setModalError(undefined);
-      switch (mode) {
-        case 'delete':
-          setModalTitle(t('Delete'));
-          setSubmitFunc(() => submitDelete);
-          break;
-        case 'enable':
-          setModalTitle(t('Enable'));
-          setSubmitFunc(() => submitChangeEnabled);
-          break;
-        case 'disable':
-          setModalTitle(t('Disable'));
-          setSubmitFunc(() => submitChangeEnabled);
-          break;
-        case 'edit':
-          setModalTitle(t('Edit'));
-          setSubmitFunc(() => submitEdit);
-          break;
-        case 'add':
-          setModalTitle(t('Add'));
-          setSubmitFunc(() => submitAdd);
-          break;
-        // istanbul ignore next
-        default:
-          setModalTitle('');
-          break;
-      }
-    };
-    return [
-      { modalOpened, modalMode, selectedPolicyId, modalTitle, submitFunc, inputStatus, modalError },
-      { setModalMode, setSelectedPolicyId, setModalOpen, setModalClose, setInputStatus, setModalError },
-    ];
-  };
-
-  const [
-    { modalOpened, modalMode, selectedPolicyId, modalTitle, submitFunc, inputStatus, modalError },
-    { setModalMode, setSelectedPolicyId, setModalOpen, setModalClose, setInputStatus, setModalError },
-  ] = useModal();
-
-  const findPolicy = (id: string) => data?.policies.find((policy) => policy.policyID === id);
-  const ModalComponent = (props: { modalMode: ModalMode }) => {
-    const modalProps = {
-      modalMode: props.modalMode,
-      selectedPolicyId: selectedPolicyId,
-      policyTitle: selectedPolicyId && findPolicy(selectedPolicyId)?.title,
-      modalClose: setModalClose,
-      submit: submitFunc,
-      inputStatus: inputStatus,
-      error: modalError,
-      data: data,
-    };
-    switch (modalMode) {
-      case 'delete':
-      case 'enable':
-      case 'disable':
-        return <PolicyConfirmModal {...modalProps} />;
-      case 'add':
-      case 'edit':
-        return <PolicyEditModal {...modalProps} />;
-      // istanbul ignore next
-      default:
-        break;
-    }
-    // istanbul ignore next
-    return <></>;
-  };
+  // /handlers
 
   return (
     <>
-      <Group justify='space-between' align='end'>
+      <Stack gap='xl'>
         <PageHeader pageTitle={t('Policies')} items={items} mutate={mutate} loading={loading} />
-        <ActionIcon
-          disabled={!hasPermission}
-          variant='outline'
-          color='blue.6'
-          size={30}
-          title={t('Add')}
-          onClick={addPolicy}
-        >
-          <IconPlus />
-        </ActionIcon>
-      </Group>
 
-      {successInfo && (
-        <>
-          <Space h='xl' />
+        {successInfo && (
           <MessageBox
             type='success'
             title={t('The policy has been successfully {operation}', {
               operation: successInfo.operation.toLowerCase(),
             })}
             message={
-              <>
+              <Stack gap={0}>
                 <Text>
                   {t('ID')} : {successInfo.id}
                 </Text>
                 <Text>
                   {t('Title')} : {successInfo.title}
                 </Text>
-              </>
+              </Stack>
             }
             close={() => setSuccessInfo(undefined)}
           />
-        </>
-      )}
-      {error && (
-        <>
-          <Space h='xl' />
-          <MessageBox type='error' title={error.message} message={error.response?.data.message || ''} />
-        </>
-      )}
-      <Space h='xl' />
-      <Title order={2} fz='lg' fw={700}>
-        {t('Node Layout Policy')}
-      </Title>
-      <Space h={20} />
-      <PolicyCards>
-        {data?.policies
-          .filter((policy) => policy.category === 'nodeConfigurationPolicy')
-          .map((policy, index) => (
-            <PolicyCard policy={policy} loading={loading} key={`node_${index}`} functions={functions} />
-          ))}
-      </PolicyCards>
-      <Space h='xl' />
-      <Title order={2} fz='lg' fw={700}>
-        {t('System Operation Policy')}
-      </Title>
-      <Space h={20} />
-      <PolicyCards>
-        {data?.policies
-          .filter((policy) => policy.category === 'systemOperationPolicy')
-          .map((policy, index) => (
-            <PolicyCard policy={policy} loading={loading} key={`sys_${index}`} functions={functions} />
-          ))}
-      </PolicyCards>
+        )}
+        {error && <MessageBox type='error' title={error.message} message={error.response?.data.message || ''} />}
 
-      <Modal
-        opened={modalOpened}
-        onClose={setModalClose}
-        lockScroll={false}
-        title={
-          <>
-            <Group>
-              <Title order={3} fz='lg' fw={700}>
-                {modalTitle}
-              </Title>
-              {selectedPolicyId && (
-                <Group gap={5} fz='sm' c='gray.7'>
-                  <Text>{t('ID')}</Text>
-                  <Text>:</Text>
-                  <Text>{selectedPolicyId}</Text>
-                </Group>
-              )}
-            </Group>
-          </>
-        }
-        size={550}
-      >
-        <ModalComponent modalMode={modalMode} />
-      </Modal>
+        <Stack gap='md'>
+          <Group>
+            <Title order={2} fz='lg' fw={700}>
+              {t('Node Layout Policy')}
+            </Title>
+            <Button
+              size='xs'
+              variant='outline'
+              color='black'
+              disabled={!hasPermission}
+              onClick={() => addPolicy('nodeConfigurationPolicy')}
+              title={`${t('Node Layout Policy')} ${t('Add')}`}
+            >
+              {t('Add')}
+            </Button>
+          </Group>
+          <PolicyCards>
+            {data?.policies
+              .filter((policy) => policy.category === 'nodeConfigurationPolicy')
+              .map((policy, index) => (
+                <PolicyCard policy={policy} loading={loading} key={`node_${index}`} functions={policyCardFunctions} />
+              ))}
+          </PolicyCards>
+        </Stack>
+
+        <Stack gap='md'>
+          <Group>
+            <Title order={2} fz='lg' fw={700}>
+              {t('System Operation Policy')}
+            </Title>
+            <Button
+              size='xs'
+              variant='outline'
+              color='black'
+              disabled={!hasPermission}
+              onClick={() => addPolicy('systemOperationPolicy')}
+              title={`${t('System Operation Policy')} ${t('Add')}`}
+            >
+              {t('Add')}
+            </Button>
+          </Group>
+          <PolicyCards>
+            {data?.policies
+              .filter((policy) => policy.category === 'systemOperationPolicy')
+              .map((policy, index) => (
+                <PolicyCard policy={policy} loading={loading} key={`sys_${index}`} functions={policyCardFunctions} />
+              ))}
+          </PolicyCards>
+        </Stack>
+      </Stack>
+      <PolicyModal {...{ ...policyModalProps[0], setModalClose: policyModalProps[1].setModalClose }} />
     </>
   );
 };

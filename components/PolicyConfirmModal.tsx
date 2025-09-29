@@ -20,7 +20,7 @@ import { useTranslations } from 'next-intl';
 
 import { MessageBox } from '@/shared-modules/components';
 
-import { APIPolicies, APIPolicyError, ModalMode } from '@/types';
+import { APIPolicyError, ModalMode } from '@/types';
 
 /**
  * Component that displays a confirmation for deleting/enabling/disabling a policy condition
@@ -29,13 +29,12 @@ import { APIPolicies, APIPolicyError, ModalMode } from '@/types';
  * @returns The PolicyConfirmModal component.
  */
 export const PolicyConfirmModal = (props: {
-  modalMode: ModalMode;
+  modalMode: Extract<ModalMode, 'delete' | 'enable' | 'disable'>;
   selectedPolicyId?: string;
   policyTitle?: string;
   modalClose: () => void;
-  submit: CallableFunction;
+  submit: CallableFunction | undefined;
   error: AxiosError<APIPolicyError> | undefined;
-  data?: APIPolicies;
 }) => {
   const t = useTranslations();
   const { selectedPolicyId, modalMode, modalClose, policyTitle, submit, error } = props;
@@ -43,8 +42,6 @@ export const PolicyConfirmModal = (props: {
     delete: t('Delete'),
     enable: t('Enable'),
     disable: t('Disable'),
-    edit: t('Edit'),
-    add: t('Add'),
   };
   const confirmMessage = (mode: typeof modalMode) => {
     switch (mode) {
@@ -60,43 +57,41 @@ export const PolicyConfirmModal = (props: {
   const operation = modalMode && policyModalMode[modalMode];
 
   return (
-    <>
-      <Stack>
-        {error && (
-          <>
-            <MessageBox
-              type='error'
-              title={t('Failed to {operation} policy', { operation: operation?.toLowerCase() })}
-              message={
-                <>
-                  <Text>{error.message}</Text>
-                  {error.response && (
-                    <Text>
-                      {error.response.data.message} ({error.response.data.code})
-                    </Text>
-                  )}
-                </>
-              }
-            />
-          </>
-        )}
-        <Text py={5}>{confirmMessage(modalMode)}</Text>
-        <Group gap={10} justify='end'>
-          <Button variant='outline' color='dark' onClick={modalClose}>
-            {t('No')}
-          </Button>
-          <Button
-            color={modalMode === 'delete' ? 'red.6' : undefined}
-            onClick={() => {
-              modalMode === 'delete'
-                ? submit(selectedPolicyId)
-                : submit(selectedPolicyId, modalMode === 'enable' ? true : false);
-            }}
-          >
-            {t('Yes')}
-          </Button>
-        </Group>
-      </Stack>
-    </>
+    <Stack>
+      {error && (
+        <>
+          <MessageBox
+            type='error'
+            title={t('Failed to {operation} policy', { operation: operation?.toLowerCase() })}
+            message={
+              <>
+                <Text>{error.message}</Text>
+                {error.response && (
+                  <Text>
+                    {error.response.data.message} ({error.response.data.code})
+                  </Text>
+                )}
+              </>
+            }
+          />
+        </>
+      )}
+      <Text py={5}>{confirmMessage(modalMode)}</Text>
+      <Group gap={10} justify='end'>
+        <Button variant='outline' color='dark' onClick={modalClose}>
+          {t('No')}
+        </Button>
+        <Button
+          color={modalMode === 'delete' ? 'red.6' : undefined}
+          onClick={() => {
+            modalMode === 'delete'
+              ? submit && submit(selectedPolicyId)
+              : submit && submit(selectedPolicyId, modalMode === 'enable' ? true : false);
+          }}
+        >
+          {t('Yes')}
+        </Button>
+      </Group>
+    </Stack>
   );
 };

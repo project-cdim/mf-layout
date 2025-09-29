@@ -17,27 +17,27 @@
 import { APIDeviceTypeLowerCamel } from '@/types';
 
 /** Type definition of constraints */
-export type APPPolicies =
-  /** Node configuration constraints */
-  | {
-      title: string;
-      category: 'nodeConfigurationPolicy';
-      policies: {
-        [key in APIDeviceTypeLowerCamel]: APPHardwareConnection;
-      };
-      /** Whether at least one checkbox is checked */
-      _checkboxes?: boolean;
-    }
-  /** System operation constraints */
-  | {
-      title: string;
-      category: 'systemOperationPolicy';
-      policies: {
-        [key in APIDeviceTypeLowerCamel]: APPUseThreshold;
-      };
-      /** Whether at least one checkbox is checked */
-      _checkboxes?: boolean;
-    };
+export type APPPolicies = APPNodeConfigurationPolicy | APPSystemOperationPolicy;
+
+export type APPNodeConfigurationPolicy = {
+  title: string;
+  category: 'nodeConfigurationPolicy';
+  policies: {
+    [key in APIDeviceTypeLowerCamel]: APPHardwareConnection;
+  };
+  /** Whether at least one checkbox is checked */
+  _checkboxes?: boolean;
+};
+
+export type APPSystemOperationPolicy = {
+  title: string;
+  category: 'systemOperationPolicy';
+  policies: {
+    [key in APIDeviceTypeLowerCamel]: APPUseThreshold;
+  };
+  /** Whether at least one checkbox is checked */
+  _checkboxes?: boolean;
+};
 
 export type APPHardwareConnection = {
   enabled: boolean;

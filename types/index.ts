@@ -16,13 +16,10 @@
 
 export * from './APIDeviceTypeLowerCamel';
 export * from './APILayoutDesignList';
-export * from './APILayoutDetail';
-export * from './APILayoutListSummary';
 export * from './APIPolicies';
 export * from './APIPostPolicies';
 export * from './APIPutPolicies';
-export * from './APPLayout';
 export * from './APPLayoutApply';
+export * from './APPLayoutDesign';
 export * from './APPLayoutList';
 export * from './APPPolicies';
-export * from './APPProcedure';

@@ -17,7 +17,6 @@
 import { HttpResponse, http } from 'msw';
 
 // import { APIPostPolicy, APIPutPolicy } from '@/types';
-import { LayoutDetail as DummyLayoutDetail } from '@/utils/dummy-data/layoutDetail/LayoutDetail';
 import { dummyAPILayoutDesignList } from '@/utils/dummy-data/layoutList/dummyAPILayoutDesignList';
 import { dummyPolicy } from '@/utils/dummy-data/policy/Policy';
 
@@ -31,18 +30,21 @@ import {
   dummyAPILayoutApplyListBefore,
   dummyAPILayoutApplyListAfter,
 } from '../dummy-data/layoutApplyList/dummyAPILayoutApplyListBA';
+import { dummyAPILayoutDesign } from '../dummy-data/layoutDesignDetail/dummyAPILayoutDesignDetail';
+// import { dummyAPILayoutDesign as dummyAPILayoutDesign2 } from '../dummy-data/layoutDesignDetail/dummyAPILayoutDesignDetail2';
 
 const editPolicy = dummyPolicy;
 let count = 0;
 
 export const handlers = [
-  // GET /layoutlist
+  // GET /layout-designs
   http.get(`${process.env.NEXT_PUBLIC_URL_BE_LAYOUT_DESIGN}/layout-designs?limit=1000`, () => {
     return HttpResponse.json(dummyAPILayoutDesignList);
   }),
-  // GET /layout/{id}
-  http.get(`${process.env.NEXT_PUBLIC_URL_BE_LAYOUT_MANAGER}/layout/:layoutID`, () => {
-    return HttpResponse.json(DummyLayoutDetail);
+  // GET /layout-designs/{designID}
+  http.get(`${process.env.NEXT_PUBLIC_URL_BE_LAYOUT_DESIGN}/layout-designs/:designID`, () => {
+    return HttpResponse.json(dummyAPILayoutDesign);
+    // return HttpResponse.json(dummyAPILayoutDesign2);
   }),
   // GET /policies
   http.get(`${process.env.NEXT_PUBLIC_URL_BE_POLICY_MANAGER}/policies`, () => {

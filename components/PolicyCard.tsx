@@ -20,6 +20,8 @@ import {
   ActionIcon,
   Box,
   Button,
+  Card,
+  Center,
   Divider,
   Group,
   List,
@@ -118,13 +120,11 @@ export const PolicyCard = (props: PolicyCardProps) => {
                   variant='outline'
                   color='dark'
                   onClick={() => {
-                    disablePolicy(policy.policyID);
+                    disablePolicy(policy.policyID, policy.category);
                   }}
                   disabled={!hasPermission}
                 >
-                  <Text size={'sm'} fw={700}>
-                    {t('Disable')}
-                  </Text>
+                  {t('Disable')}
                 </Button>
                 <Divider orientation='vertical' />
                 <ActionIcon disabled={true} size={30} title={t('Edit')}>
@@ -147,13 +147,11 @@ export const PolicyCard = (props: PolicyCardProps) => {
                   variant='outline'
                   color='dark'
                   onClick={() => {
-                    enablePolicy(policy.policyID);
+                    enablePolicy(policy.policyID, policy.category);
                   }}
                   disabled={!hasPermission}
                 >
-                  <Text size={'sm'} fw={700}>
-                    {t('Enable')}
-                  </Text>
+                  {t('Enable')}
                 </Button>
                 <Divider orientation='vertical' />
                 <ActionIcon
@@ -162,7 +160,7 @@ export const PolicyCard = (props: PolicyCardProps) => {
                   size={30}
                   title={t('Edit')}
                   onClick={() => {
-                    editPolicy(policy.policyID);
+                    editPolicy(policy.policyID, policy.category);
                   }}
                   disabled={!hasPermission}
                 >
@@ -174,7 +172,7 @@ export const PolicyCard = (props: PolicyCardProps) => {
                   size={30}
                   title={t('Delete')}
                   onClick={() => {
-                    deletePolicy(policy.policyID);
+                    deletePolicy(policy.policyID, policy.category);
                   }}
                   disabled={!hasPermission}
                 >
@@ -256,13 +254,22 @@ export const PolicyCard = (props: PolicyCardProps) => {
  */
 export const PolicyCards = (props: { children?: ReactNode }) => {
   const { children } = props;
+  const t = useTranslations();
+
   return (
     <SimpleGrid
       cols={{ base: 1, sm: 2, lg: 3 }}
       spacing={{ base: 'sm', sm: 'md', lg: 'lg' }}
       verticalSpacing={{ base: 'sm', sm: 'md', lg: 'lg' }}
     >
-      {children}
+      {children || (
+        <Card withBorder padding={32}>
+          <Center h='100%' mih={150}>
+            {t('No data')}
+          </Center>
+        </Card>
+      )}
+      {/* <NoData isNoData={!children}>{children}</NoData> */}
     </SimpleGrid>
   );
 };

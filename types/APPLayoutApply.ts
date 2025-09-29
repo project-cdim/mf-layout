@@ -52,6 +52,8 @@ export type ProcedureExecution = {
   operation: ProcedureOperation;
   dependencies: number[];
   status?: ApplyProcedureStatus;
+  startedAt?: Date;
+  endedAt?: Date;
   error?: {
     code: string | number;
     message: string;

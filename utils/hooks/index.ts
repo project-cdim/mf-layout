@@ -20,5 +20,7 @@ export * from './useLayoutApplyControlConfirmModal';
 export * from './useLayoutApplyDetail';
 export * from './useLayoutApplyFilter';
 export * from './useLayoutApplyList';
+export * from './useLayoutDesignDetail';
 export * from './useLayoutFilter';
 export * from './useLayoutList';
+export * from './usePolicyModal';

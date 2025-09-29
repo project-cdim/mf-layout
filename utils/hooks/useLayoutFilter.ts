@@ -73,8 +73,7 @@ export const useLayoutFilter: LayoutFilterHook = (records) => {
   const [statusQuery, setStatusQuery] = useState<DesignStatus[]>([]);
   const [startedAtQuery, setStartedAtQuery] = useState<DateRange>([undefined, undefined]);
   const [endedAtQuery, setEndedAtQuery] = useState<DateRange>([undefined, undefined]);
-  const statusInRecords = Array.from(new Set(records.map((record) => record.status)));
-  const statusOptions = DesignStatuses.filter((item: DesignStatus) => statusInRecords.includes(item)).map((status) => {
+  const statusOptions = DesignStatuses.map((status) => {
     return {
       value: status,
       label: t(STATUS_TO_LABEL[status]) as DesignStatusLabelJa | DesignStatusLabelKey,

@@ -32,7 +32,7 @@ import {
   RollbackStatusLabelJa,
   RollbackStatusLabelKey,
 } from '@/shared-modules/types';
-import { useQuery } from '@/shared-modules/utils/hooks';
+import { useQueryArrayObject } from '@/shared-modules/utils/hooks';
 
 import { STATUS_TO_LABEL } from '@/utils/constant';
 import { useLayoutApplyList } from '@/utils/hooks';
@@ -72,37 +72,6 @@ export type LayoutApplyFilter = {
   };
 };
 
-type LayoutApplyListQuery = {
-  status?: ApplyStatus[];
-  startedAt?: DateRange;
-  endedAt?: DateRange;
-  rollbackStatus?: RollbackStatus[];
-};
-
-const useLayoutApplyListQuery = (): Required<LayoutApplyListQuery> => {
-  const query = useQuery();
-
-  const formatToDateRange = (dateQuery: string | string[] | undefined): DateRange => {
-    const returnDateRange: DateRange = [undefined, undefined];
-    const parsedQuerys = dateQuery !== undefined ? [splitAndFlatQueryString(dateQuery)].flat(2) : [];
-    returnDateRange[0] = parsedQuerys[0] ? new Date(parsedQuerys[0]) : undefined;
-    returnDateRange[1] = parsedQuerys[1] ? new Date(parsedQuerys[1]) : undefined;
-    return returnDateRange;
-  };
-  return useMemo(
-    () => ({
-      status: query.status !== undefined ? ([splitAndFlatQueryString(query.status)].flat(2) as ApplyStatus[]) : [],
-      startedAt: formatToDateRange(query.startedAt),
-      endedAt: formatToDateRange(query.endedAt),
-      rollbackStatus:
-        query.rollbackStatus !== undefined
-          ? ([splitAndFlatQueryString(query.rollbackStatus)].flat(2) as RollbackStatus[])
-          : [],
-    }),
-    [query]
-  );
-};
-
 /**
  * Custom hook for layout filter
  *
@@ -119,33 +88,33 @@ export const useLayoutApplyFilter = (): LayoutApplyFilter => {
   const [rollbackStatusQuery, setRollbackStatusQuery] = useState<RollbackStatus[]>([]);
   const [startedAtQuery, setStartedAtQuery] = useState<DateRange>([undefined, undefined]);
   const [endedAtQuery, setEndedAtQuery] = useState<DateRange>([undefined, undefined]);
-  const applyStatusInRecords = Array.from(new Set(records.map((record) => record.status)));
-  const rollbackStatusInRecords = Array.from(new Set(records.map((record) => record.rollbackStatus)));
 
-  const statusOptions = ApplyStatuses.filter((item: ApplyStatus) => applyStatusInRecords.includes(item)).map(
-    (status) => {
-      return {
-        value: status,
-        label: t(STATUS_TO_LABEL[status]) as ApplyStatusLabelJa | ApplyStatusLabelKey,
-      };
-    }
-  );
+  const statusOptions = ApplyStatuses.map((status) => {
+    return {
+      value: status,
+      label: t(STATUS_TO_LABEL[status]) as ApplyStatusLabelJa | ApplyStatusLabelKey,
+    };
+  });
 
-  const rollbackStatusOptions = RollbackStatuses.filter((item: RollbackStatus) =>
-    rollbackStatusInRecords.includes(item)
-  ).map((rollbackStatus) => {
+  const rollbackStatusOptions = RollbackStatuses.map((rollbackStatus) => {
     return {
       value: rollbackStatus,
       label: t(STATUS_TO_LABEL[rollbackStatus]) as RollbackStatusLabelJa | RollbackStatusLabelKey,
     };
   });
 
-  const queryObject = useLayoutApplyListQuery();
+  const queryObject = useQueryArrayObject();
+  const formatToDateRange = (dateQuery: string[]): DateRange => {
+    const returnDateRange: DateRange = [undefined, undefined];
+    returnDateRange[0] = dateQuery[0] ? new Date(dateQuery[0]) : undefined;
+    returnDateRange[1] = dateQuery[1] ? new Date(dateQuery[1]) : undefined;
+    return returnDateRange;
+  };
   useEffect(() => {
-    setStatusQuery(queryObject.status);
-    setRollbackStatusQuery(queryObject.rollbackStatus);
-    setStartedAtQuery(queryObject.startedAt);
-    setEndedAtQuery(queryObject.endedAt);
+    setStatusQuery(queryObject.status as ApplyStatus[]);
+    setRollbackStatusQuery(queryObject.rollbackStatus as RollbackStatus[]);
+    setStartedAtQuery(formatToDateRange(queryObject.startedAt));
+    setEndedAtQuery(formatToDateRange(queryObject.endedAt));
   }, [queryObject]);
 
   const filteredRecords = useMemo(() => {
@@ -177,22 +146,4 @@ export const useLayoutApplyFilter = (): LayoutApplyFilter => {
     },
     selectOptions: { status: statusOptions, rollbackStatus: rollbackStatusOptions },
   };
-};
-
-/**
- * Splits a string or an array of strings with ',', filters empty string and flattens the result.
- *
- * @param q - The string or array of strings to split and flatten.
- * @returns An array of strings after splitting and flattening the input.
- */
-const splitAndFlatQueryString = (q: string | string[]): string[] => {
-  if (Array.isArray(q)) return q.map(splitString).flat();
-
-  return splitString(q);
-};
-
-const splitString = (s: string): string[] => {
-  // regex to split by comma and remove empty strings in longest match
-  const separator = /,\s*/;
-  return s.split(separator).filter((item) => item !== '');
 };

@@ -18,6 +18,7 @@ import { APILayoutDesignList } from '@/types';
 
 export const dummyAPILayoutDesignList: APILayoutDesignList = {
   count: 6,
+  totalCount: 10,
   designs: [
     {
       id: 'afoi8ds0-sfa1-rskg',

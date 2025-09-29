@@ -26,7 +26,7 @@ import { DateRangePicker } from '@/shared-modules/components';
 
 import { APPLayoutList } from '@/types';
 
-import { useColumns } from '@/utils/hooks/layout-list/useColumns';
+import { useColumns } from '@/utils/hooks/design-list/useColumns';
 import { APPLayoutListQuery, LayoutFilter } from '@/utils/hooks/useLayoutFilter';
 
 const dummyAPPLayout: APPLayoutList = {

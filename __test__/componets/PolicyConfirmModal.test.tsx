@@ -22,10 +22,12 @@ import type { AbstractIntlMessages } from 'next-intl';
 import { render } from '@/shared-modules/__test__/test-utils';
 import commonMessages from '@/shared-modules/public/locales/en/common.json';
 import mfLayoutMessages from '@/shared-modules/public/locales/en/mf-layout.json';
+import React, { ComponentProps } from 'react';
 
-import { APIPolicies, ModalMode } from '@/types';
+import { APIPolicyError } from '@/types';
 
 import { PolicyConfirmModal } from '@/components';
+import { AxiosError } from 'axios';
 
 jest.unmock('next-intl');
 jest.mock('next-intl', () => ({
@@ -39,18 +41,9 @@ describe('PolicyConfirmModal', () => {
       return { ...commonMessages, ...mfLayoutMessages } as AbstractIntlMessages;
     });
   });
-  type PropsType = {
-    modalMode: ModalMode;
-    selectedPolicyId?: string;
-    policyTitle?: string;
-    modalClose: () => void;
-    submit: CallableFunction;
 
-    error: any | undefined;
-    data?: APIPolicies;
-  };
   test('Correctly displays "delete" confirmation content', () => {
-    const props: PropsType = {
+    const props = {
       modalMode: 'delete',
       selectedPolicyId: 'selectedPolicyIdxxxxxxxxx',
       policyTitle: 'Dummy Title',
@@ -58,7 +51,7 @@ describe('PolicyConfirmModal', () => {
       submit: jest.fn(),
       error: undefined,
       // data: APIPolicies,
-    };
+    } as const;
     render(
       <NextIntlClientProvider locale='en' messages={useMessages()}>
         <PolicyConfirmModal {...props} />
@@ -68,7 +61,7 @@ describe('PolicyConfirmModal', () => {
   });
 
   test('Correctly displays "enable" confirmation content', () => {
-    const props: PropsType = {
+    const props = {
       modalMode: 'enable',
       selectedPolicyId: 'selectedPolicyIdxxxxxxxxx',
       policyTitle: 'Dummy Title',
@@ -76,7 +69,7 @@ describe('PolicyConfirmModal', () => {
       submit: jest.fn(),
       error: undefined,
       // data: APIPolicies,
-    };
+    } as const satisfies ComponentProps<typeof PolicyConfirmModal>;
     render(
       <NextIntlClientProvider locale='en' messages={useMessages()}>
         <PolicyConfirmModal {...props} />
@@ -86,7 +79,7 @@ describe('PolicyConfirmModal', () => {
   });
 
   test('Correctly displays "disable" confirmation content', () => {
-    const props: PropsType = {
+    const props = {
       modalMode: 'disable',
       selectedPolicyId: 'selectedPolicyIdxxxxxxxxx',
       policyTitle: 'Dummy Title',
@@ -94,7 +87,7 @@ describe('PolicyConfirmModal', () => {
       submit: jest.fn(),
       error: undefined,
       // data: APIPolicies,
-    };
+    } as const satisfies ComponentProps<typeof PolicyConfirmModal>;
     render(
       <NextIntlClientProvider locale='en' messages={useMessages()}>
         <PolicyConfirmModal {...props} />
@@ -105,7 +98,7 @@ describe('PolicyConfirmModal', () => {
 
   test('The cancel button works', async () => {
     /** The callback function passed via props can be executed */
-    const props: PropsType = {
+    const props = {
       modalMode: 'delete',
       selectedPolicyId: 'selectedPolicyIdxxxxxxxxx',
       policyTitle: 'Dummy Title',
@@ -113,7 +106,7 @@ describe('PolicyConfirmModal', () => {
       submit: jest.fn(),
       error: undefined,
       // data: APIPolicies,
-    };
+    } as const satisfies ComponentProps<typeof PolicyConfirmModal>;
 
     const user = userEvent.setup({ delay: null });
     render(
@@ -127,7 +120,7 @@ describe('PolicyConfirmModal', () => {
   });
 
   test('Correctly displays the "OK" execution button', () => {
-    const props: PropsType = {
+    const props = {
       modalMode: 'enable',
       selectedPolicyId: 'selectedPolicyIdxxxxxxxxx',
       policyTitle: 'Dummy Title',
@@ -135,7 +128,7 @@ describe('PolicyConfirmModal', () => {
       submit: jest.fn(),
       error: undefined,
       // data: APIPolicies,
-    };
+    } as const satisfies ComponentProps<typeof PolicyConfirmModal>;
     render(
       <NextIntlClientProvider locale='en' messages={useMessages()}>
         <PolicyConfirmModal {...props} />
@@ -145,7 +138,7 @@ describe('PolicyConfirmModal', () => {
   });
 
   test('Correctly displays the "Delete" execution button', () => {
-    const props: PropsType = {
+    const props = {
       modalMode: 'delete',
       selectedPolicyId: 'selectedPolicyIdxxxxxxxxx',
       policyTitle: 'Dummy Title',
@@ -153,7 +146,7 @@ describe('PolicyConfirmModal', () => {
       submit: jest.fn(),
       error: undefined,
       // data: APIPolicies,
-    };
+    } as const satisfies ComponentProps<typeof PolicyConfirmModal>;
     render(
       <NextIntlClientProvider locale='en' messages={useMessages()}>
         <PolicyConfirmModal {...props} />
@@ -164,7 +157,7 @@ describe('PolicyConfirmModal', () => {
 
   test('The "OK" execution button works correctly (enable)', async () => {
     /** The callback function passed via props can be executed */
-    const props: PropsType = {
+    const props = {
       modalMode: 'enable',
       selectedPolicyId: 'selectedPolicyIdxxxxxxxxx',
       policyTitle: 'Dummy Title',
@@ -172,7 +165,7 @@ describe('PolicyConfirmModal', () => {
       submit: jest.fn(),
       error: undefined,
       // data: APIPolicies,
-    };
+    } as const satisfies ComponentProps<typeof PolicyConfirmModal>;
     const user = userEvent.setup({ delay: null });
     render(
       <NextIntlClientProvider locale='en' messages={useMessages()}>
@@ -187,7 +180,7 @@ describe('PolicyConfirmModal', () => {
   test('The "OK" execution button works correctly (disable)', async () => {
     /** The callback function passed via props can be executed */
     /** A branch exists for enable/disable on click */
-    const props: PropsType = {
+    const props = {
       modalMode: 'disable',
       selectedPolicyId: 'selectedPolicyIdxxxxxxxxx',
       policyTitle: 'Dummy Title',
@@ -195,7 +188,7 @@ describe('PolicyConfirmModal', () => {
       submit: jest.fn(),
       error: undefined,
       // data: APIPolicies,
-    };
+    } as const satisfies ComponentProps<typeof PolicyConfirmModal>;
     const user = userEvent.setup({ delay: null });
     render(
       <NextIntlClientProvider locale='en' messages={useMessages()}>
@@ -209,7 +202,7 @@ describe('PolicyConfirmModal', () => {
 
   test('The "Delete" execution button works correctly', async () => {
     /** The callback function passed via props can be executed */
-    const props: PropsType = {
+    const props = {
       modalMode: 'delete',
       selectedPolicyId: 'selectedPolicyIdxxxxxxxxx',
       policyTitle: 'Dummy Title',
@@ -217,7 +210,7 @@ describe('PolicyConfirmModal', () => {
       submit: jest.fn(),
       error: undefined,
       // data: APIPolicies,
-    };
+    } as const satisfies ComponentProps<typeof PolicyConfirmModal>;
     const user = userEvent.setup({ delay: null });
     render(
       <NextIntlClientProvider locale='en' messages={useMessages()}>
@@ -230,17 +223,15 @@ describe('PolicyConfirmModal', () => {
   });
 
   test('Correctly displays the error message (when error.response is absent)', () => {
-    const props: PropsType = {
+    const props = {
       modalMode: 'delete',
       selectedPolicyId: 'selectedPolicyIdxxxxxxxxx',
       policyTitle: 'Dummy Title',
       modalClose: jest.fn(),
       submit: jest.fn(),
-      error: {
-        message: 'An error occurred',
-      },
+      error: new AxiosError('An error occurred'),
       // data: APIPolicies,
-    };
+    } as const satisfies ComponentProps<typeof PolicyConfirmModal>;
     render(
       <NextIntlClientProvider locale='en' messages={useMessages()}>
         <PolicyConfirmModal {...props} />
@@ -250,7 +241,7 @@ describe('PolicyConfirmModal', () => {
   });
 
   test('Correctly displays the error message from the API', () => {
-    const props: PropsType = {
+    const props = {
       modalMode: 'delete',
       selectedPolicyId: 'selectedPolicyIdxxxxxxxxx',
       policyTitle: 'Dummy Title',
@@ -264,9 +255,9 @@ describe('PolicyConfirmModal', () => {
             message: 'Error Message',
           },
         },
-      },
+      } as AxiosError<APIPolicyError, any>,
       // data: APIPolicies,
-    };
+    } as const satisfies ComponentProps<typeof PolicyConfirmModal>;
     render(
       <NextIntlClientProvider locale='en' messages={useMessages()}>
         <PolicyConfirmModal {...props} />

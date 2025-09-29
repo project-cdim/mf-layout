@@ -8,8 +8,8 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
  * License for the specific language governing permissions and limitations
  * under the License.
  */
@@ -43,6 +43,10 @@ describe('useFilter custom hook', () => {
       rollbackOperation: [],
       rollbackDependencies: [undefined, undefined],
       rollbackStatus: [],
+      startedAt: [undefined, undefined],
+      endedAt: [undefined, undefined],
+      rollbackStartedAt: [undefined, undefined],
+      rollbackEndedAt: [undefined, undefined],
     });
 
     expect(result.current.selectOptions).toEqual({
@@ -78,6 +82,10 @@ describe('useFilter custom hook', () => {
       rollbackOperation: [],
       rollbackDependencies: [undefined, undefined],
       rollbackStatus: [],
+      startedAt: [undefined, undefined],
+      endedAt: [undefined, undefined],
+      rollbackStartedAt: [undefined, undefined],
+      rollbackEndedAt: [undefined, undefined],
     });
 
     expect(result.current.selectOptions).toEqual({
@@ -125,6 +133,10 @@ describe('useFilter custom hook', () => {
       rollbackOperation: [],
       rollbackDependencies: [undefined, undefined],
       rollbackStatus: [],
+      startedAt: [undefined, undefined],
+      endedAt: [undefined, undefined],
+      rollbackStartedAt: [undefined, undefined],
+      rollbackEndedAt: [undefined, undefined],
     });
     expect(result.current.selectOptions).toEqual({
       status: [
@@ -344,6 +356,66 @@ describe('useFilter custom hook', () => {
     });
     expect(result.current.query.rollbackStatus).toEqual(['COMPLETED', 'CANCELED']);
     expect(result.current.filteredRecords).toHaveLength(4);
+    jest.useRealTimers();
+  });
+
+  test('setQuery.startedAt() works correctly', async () => {
+    (useLayoutApplyDetail as jest.Mock).mockReturnValue({ data: dummyUseLayoutApplyDetail.data });
+    const { result } = renderHook(() => useFilter());
+    jest.useFakeTimers();
+    const { startedAt: setStartedAt } = result.current.setQuery;
+    act(() => {
+      setStartedAt([new Date('2023-01-01'), new Date('2023-01-31')]);
+    });
+    act(() => {
+      jest.advanceTimersByTime(300);
+    });
+    expect(result.current.query.startedAt).toEqual([new Date('2023-01-01'), new Date('2023-01-31')]);
+    jest.useRealTimers();
+  });
+
+  test('setQuery.endedAt() works correctly', async () => {
+    (useLayoutApplyDetail as jest.Mock).mockReturnValue({ data: dummyUseLayoutApplyDetail.data });
+    const { result } = renderHook(() => useFilter());
+    jest.useFakeTimers();
+    const { endedAt: setEndedAt } = result.current.setQuery;
+    act(() => {
+      setEndedAt([new Date('2023-01-01'), new Date('2023-01-31')]);
+    });
+    act(() => {
+      jest.advanceTimersByTime(300);
+    });
+    expect(result.current.query.endedAt).toEqual([new Date('2023-01-01'), new Date('2023-01-31')]);
+    jest.useRealTimers();
+  });
+
+  test('setQuery.rollbackStartedAt() works correctly', async () => {
+    (useLayoutApplyDetail as jest.Mock).mockReturnValue({ data: dummyUseLayoutApplyDetail.data });
+    const { result } = renderHook(() => useFilter());
+    jest.useFakeTimers();
+    const { rollbackStartedAt: setRollbackStartedAt } = result.current.setQuery;
+    act(() => {
+      setRollbackStartedAt([new Date('2023-02-01'), new Date('2023-02-28')]);
+    });
+    act(() => {
+      jest.advanceTimersByTime(300);
+    });
+    expect(result.current.query.rollbackStartedAt).toEqual([new Date('2023-02-01'), new Date('2023-02-28')]);
+    jest.useRealTimers();
+  });
+
+  test('setQuery.rollbackEndedAt() works correctly', async () => {
+    (useLayoutApplyDetail as jest.Mock).mockReturnValue({ data: dummyUseLayoutApplyDetail.data });
+    const { result } = renderHook(() => useFilter());
+    jest.useFakeTimers();
+    const { rollbackEndedAt: setRollbackEndedAt } = result.current.setQuery;
+    act(() => {
+      setRollbackEndedAt([new Date('2023-02-01'), new Date('2023-02-28')]);
+    });
+    act(() => {
+      jest.advanceTimersByTime(300);
+    });
+    expect(result.current.query.rollbackEndedAt).toEqual([new Date('2023-02-01'), new Date('2023-02-28')]);
     jest.useRealTimers();
   });
 });
