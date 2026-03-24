@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -207,7 +207,7 @@ describe('useColumns', () => {
   test('That the query is updated with the MultiSelect input for design status', () => {
     const columns = useColumns(mockLayoutFilter);
     const column = columns.find((column) => column.accessor === 'status');
-    if (!column || !column.filter) {
+    if (column === null || column === undefined || column.filter === null || column.filter === undefined) {
       throw new Error('undefined');
     }
     render(column?.filter as ReactElement);

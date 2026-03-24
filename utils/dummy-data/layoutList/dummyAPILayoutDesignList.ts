@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -41,7 +41,7 @@ export const dummyAPILayoutDesignList: APILayoutDesignList = {
       procedures: [],
     },
     {
-      id: 'bifo123s-sfja-2131',
+      id: 'bifo123s-sfja-2133',
       status: 'FAILED',
       requestID: '1-10',
       startedAt: '2024/03/03 12:00:01',
@@ -61,7 +61,7 @@ export const dummyAPILayoutDesignList: APILayoutDesignList = {
       procedures: [],
     },
     {
-      id: 'diso123s-sfja-2131',
+      id: 'diso123s-sfja-2132',
       status: 'CANCELING',
       requestID: '2-2',
       startedAt: '2024/03/03 12:00:01',

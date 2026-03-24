@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -14,7 +14,7 @@
  * under the License.
  */
 
-import { Group } from '@mantine/core';
+import { Box, Group } from '@mantine/core';
 import _ from 'lodash';
 import { DataTableColumn, DataTableColumnGroup } from 'mantine-datatable';
 import { useTranslations } from 'next-intl';
@@ -104,6 +104,7 @@ export const useColumns = (filter: ApplyProcedureFilter, displayColumns: (string
             {
               accessor: 'operation',
               title: t('Operation Type'),
+              noWrap: true,
               render: ({ apply: { operation } }) => <>{t(_.capitalize(operation))}</>,
               filter: (
                 <MultiSelectForTableFilter
@@ -144,6 +145,7 @@ export const useColumns = (filter: ApplyProcedureFilter, displayColumns: (string
             {
               accessor: 'applyStartedAt',
               title: t('Started'),
+              noWrap: true,
               render: ({ apply }) => {
                 const startedAt = apply?.startedAt;
                 return <DatetimeString date={startedAt} />;
@@ -155,6 +157,7 @@ export const useColumns = (filter: ApplyProcedureFilter, displayColumns: (string
             },
             {
               accessor: 'applyEndedAt',
+              noWrap: true,
               title: t('Ended'),
               render: ({ apply }) => {
                 const endedAt = apply?.endedAt;
@@ -176,6 +179,7 @@ export const useColumns = (filter: ApplyProcedureFilter, displayColumns: (string
             {
               accessor: 'rollbackOperation',
               title: t('Operation Type'),
+              noWrap: true,
               render: ({ rollback }) => (rollback?.operation ? <>{t(_.capitalize(rollback.operation))}</> : null),
               filter: (
                 <MultiSelectForTableFilter
@@ -215,6 +219,7 @@ export const useColumns = (filter: ApplyProcedureFilter, displayColumns: (string
             },
             {
               accessor: 'rollbackStartedAt',
+              noWrap: true,
               title: t('Started'),
               render: ({ rollback }) => {
                 const startedAt = rollback?.startedAt;
@@ -231,6 +236,7 @@ export const useColumns = (filter: ApplyProcedureFilter, displayColumns: (string
             },
             {
               accessor: 'rollbackEndedAt',
+              noWrap: true,
               title: t('Ended'),
               render: ({ rollback }) => {
                 const endedAt = rollback?.endedAt;
@@ -256,8 +262,10 @@ export const useColumns = (filter: ApplyProcedureFilter, displayColumns: (string
 const ResultWithIcon = ({ status }: { status: ApplyProcedureStatus }) => {
   const t = useTranslations();
   return (
-    <Group gap={5}>
-      <StatusToIcon status={status} target='Operation' />
+    <Group gap={5} wrap='nowrap' style={{ whiteSpace: 'nowrap' }}>
+      <Box style={{ flex: '0 0 auto', lineHeight: 0 }}>
+        <StatusToIcon status={status} target='Operation' />
+      </Box>
       {t(RESULT_TO_LABEL[status])}
     </Group>
   );

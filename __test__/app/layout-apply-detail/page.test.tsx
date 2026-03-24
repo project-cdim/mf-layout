@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -58,6 +58,13 @@ jest.mock('@/shared-modules/utils/hooks', () => ({
   ...jest.requireActual('@/shared-modules/utils/hooks'),
   useQuery: jest.fn(),
   useMSW: jest.fn(),
+  useUserId: jest.fn(() => 'test-user'),
+  useLocalStorage: jest.fn(() => ({
+    hasItem: jest.fn(() => Promise.resolve(false)),
+    getItem: jest.fn(() => Promise.resolve([])),
+    setItem: jest.fn(() => Promise.resolve()),
+    removeItem: jest.fn(() => Promise.resolve()),
+  })),
 }));
 
 jest.mock('@/shared-modules/components', () => ({
@@ -72,6 +79,8 @@ const setResponse = jest.fn();
 describe('LayoutApplyDetail', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    // Clear localStorage before each test
+    localStorage.clear();
     (useQuery as jest.Mock).mockReturnValue({ id: '41eb9ce148' });
     (useLayoutApplyDetail as jest.Mock).mockReturnValue({
       data: dummyData1.data,
@@ -347,4 +356,8 @@ describe('LayoutApplyDetail', () => {
     const layoutID = screen.getByText('Layout Apply ID').nextSibling;
     expect(layoutID).toHaveTextContent('');
   });
+
+  // Note: Column Settings Integration tests are not included here because
+  // CustomDataTable is mocked in this test suite. Column settings functionality
+  // is thoroughly tested in ApplyProcedureTable.test.tsx instead.
 });

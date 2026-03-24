@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -203,7 +203,12 @@ describe('useColumns', () => {
   test('Query is updated by targetCPUID input', async () => {
     const { defaultCol: columns } = useColumns(filter, ['targetCPUID']);
     const targetCPUIDColumn = columns[0].columns.find((col) => col.accessor === 'targetCPUID');
-    if (!targetCPUIDColumn || !targetCPUIDColumn.filter) {
+    if (
+      targetCPUIDColumn === null ||
+      targetCPUIDColumn === undefined ||
+      targetCPUIDColumn.filter === null ||
+      targetCPUIDColumn.filter === undefined
+    ) {
       throw new Error('undefined');
     }
     render(targetCPUIDColumn.filter as ReactElement);
@@ -247,7 +252,12 @@ describe('useColumns', () => {
   test('Query is updated by targetDevice input', async () => {
     const { defaultCol: columns } = useColumns(filter, ['targetDevice']);
     const targetDeviceColumn = columns[0].columns.find((col) => col.accessor === 'targetDevice');
-    if (!targetDeviceColumn || !targetDeviceColumn.filter) {
+    if (
+      targetDeviceColumn === null ||
+      targetDeviceColumn === undefined ||
+      targetDeviceColumn.filter === null ||
+      targetDeviceColumn.filter === undefined
+    ) {
       throw new Error('undefined');
     }
     render(targetDeviceColumn.filter as ReactElement);
@@ -279,7 +289,12 @@ describe('useColumns', () => {
   test('Query is updated by apply operation input', async () => {
     const { defaultCol: columns } = useColumns(filter, ['apply']);
     const applyOperationColumn = columns[1].columns.find((col) => col.accessor === 'operation');
-    if (!applyOperationColumn || !applyOperationColumn.filter) {
+    if (
+      applyOperationColumn === null ||
+      applyOperationColumn === undefined ||
+      applyOperationColumn.filter === null ||
+      applyOperationColumn.filter === undefined
+    ) {
       throw new Error('undefined');
     }
     render(applyOperationColumn.filter as ReactElement);
@@ -307,7 +322,12 @@ describe('useColumns', () => {
   test('Query is updated by apply dependencies input', async () => {
     const { defaultCol: columns } = useColumns(filter, ['apply']);
     const applyDependenciesColumn = columns[1].columns.find((col) => col.accessor === 'dependencies');
-    if (!applyDependenciesColumn || !applyDependenciesColumn.filter) {
+    if (
+      applyDependenciesColumn === null ||
+      applyDependenciesColumn === undefined ||
+      applyDependenciesColumn.filter === null ||
+      applyDependenciesColumn.filter === undefined
+    ) {
       throw new Error('undefined');
     }
     render(applyDependenciesColumn.filter as ReactElement);
@@ -358,7 +378,12 @@ describe('useColumns', () => {
   test('Query is updated by apply result input', async () => {
     const { defaultCol: columns } = useColumns(filter, ['apply']);
     const applyResultColumn = columns[1].columns.find((col) => col.accessor === 'result');
-    if (!applyResultColumn || !applyResultColumn.filter) {
+    if (
+      applyResultColumn === null ||
+      applyResultColumn === undefined ||
+      applyResultColumn.filter === null ||
+      applyResultColumn.filter === undefined
+    ) {
       throw new Error('undefined');
     }
     render(applyResultColumn.filter as ReactElement);
@@ -408,7 +433,12 @@ describe('useColumns', () => {
   test('Query is updated by rollback operation input', async () => {
     const { defaultCol: columns } = useColumns(filter, ['rollback']);
     const rollbackOperationColumn = columns[2].columns.find((col) => col.accessor === 'rollbackOperation');
-    if (!rollbackOperationColumn || !rollbackOperationColumn.filter) {
+    if (
+      rollbackOperationColumn === null ||
+      rollbackOperationColumn === undefined ||
+      rollbackOperationColumn.filter === null ||
+      rollbackOperationColumn.filter === undefined
+    ) {
       throw new Error('undefined');
     }
     render(rollbackOperationColumn.filter as ReactElement);
@@ -458,7 +488,12 @@ describe('useColumns', () => {
   test('Query is updated by rollback dependencies input', async () => {
     const { defaultCol: columns } = useColumns(filter, ['rollback']);
     const rollbackDependenciesColumn = columns[2].columns.find((col) => col.accessor === 'rollbackDependencies');
-    if (!rollbackDependenciesColumn || !rollbackDependenciesColumn.filter) {
+    if (
+      rollbackDependenciesColumn === null ||
+      rollbackDependenciesColumn === undefined ||
+      rollbackDependenciesColumn.filter === null ||
+      rollbackDependenciesColumn.filter === undefined
+    ) {
       throw new Error('undefined');
     }
     render(rollbackDependenciesColumn.filter as ReactElement);
@@ -514,7 +549,12 @@ describe('useColumns', () => {
   test('Query is updated by rollback result input', async () => {
     const { defaultCol: columns } = useColumns(filter, ['rollback']);
     const rollbackResultColumn = columns[2].columns.find((col) => col.accessor === 'rollbackResult');
-    if (!rollbackResultColumn || !rollbackResultColumn.filter) {
+    if (
+      rollbackResultColumn === null ||
+      rollbackResultColumn === undefined ||
+      rollbackResultColumn.filter === null ||
+      rollbackResultColumn.filter === undefined
+    ) {
       throw new Error('undefined');
     }
     render(rollbackResultColumn.filter as ReactElement);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -25,11 +25,7 @@ import useSWRImmutable from 'swr/immutable';
 import { MessageBox, PageHeader } from '@/shared-modules/components';
 import { MANAGE_LAYOUT } from '@/shared-modules/constant';
 import { fetcher } from '@/shared-modules/utils/fetcher';
-import {
-  useLoading,
-  /* useMSW, */
-  usePermission,
-} from '@/shared-modules/utils/hooks';
+import { useLoading, usePermission } from '@/shared-modules/utils/hooks';
 
 import { APIPolicies } from '@/types';
 
@@ -51,13 +47,11 @@ const Policy = () => {
     undefined
   );
 
-  // const mswInitializing = useMSW();
-  const mswInitializing = false;
   const { data, error, /* isLoading, */ isValidating, mutate } = useSWRImmutable<APIPolicies>(
-    !mswInitializing && `${process.env.NEXT_PUBLIC_URL_BE_POLICY_MANAGER}/policies?sortBy=createdAt&orderBy=desc`,
+    `${process.env.NEXT_PUBLIC_URL_BE_POLICY_MANAGER}/policies?sortBy=createdAt&orderBy=desc`,
     fetcher
   );
-  const loading = useLoading(isValidating || mswInitializing);
+  const loading = useLoading(isValidating);
 
   const policyModalProps = usePolicyModal({ data, setSuccessInfo, mutate });
   const { changeModalMode, setCategory, setSelectedPolicyId, setModalOpen } = policyModalProps[1];

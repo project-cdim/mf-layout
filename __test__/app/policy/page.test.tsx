@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -72,6 +72,32 @@ jest.mock('@mantine/core', () => ({
 }));
 
 jest.setTimeout(60 * 1000);
+
+/**
+ * Helper function to verify alert dialog and close button
+ */
+// eslint-disable-next-line complexity
+const verifyAlertAndClose = async (policyID: string, expectedText: string) => {
+  const alertDialog = screen.queryByRole('alert');
+  const title = alertDialog?.querySelector('span') as HTMLSpanElement;
+  const message = alertDialog?.querySelector('span')?.parentNode?.nextSibling as HTMLDivElement;
+  expect(alertDialog).toBeInTheDocument();
+  expect(title).toHaveTextContent(expectedText);
+  expect(message).toHaveTextContent(`ID : ${policyID}`);
+  const expectTitle = dummyPolicy.policies.find((policy) => policy.policyID === policyID)?.title;
+  expect(message).toHaveTextContent(`Title : ${expectTitle}`);
+  // Verify that the message close button works
+  const closeButton = title.parentNode?.parentNode?.parentNode?.querySelector('button');
+  if (closeButton !== null && closeButton !== undefined) {
+    await userEvent.click(closeButton);
+  }
+  await waitFor(() => {
+    const alertDialog2 = screen.queryByRole('alert');
+    const title2 = alertDialog2?.querySelector('span') as HTMLSpanElement;
+    expect(title2).toBeUndefined();
+  });
+};
+
 describe('Policy', () => {
   beforeEach(() => {
     // Execute before each test
@@ -196,7 +222,7 @@ describe('Policy', () => {
     );
     // Click the add button
     const button = screen.getByTitle('Node Layout Policy Add');
-    if (button) {
+    if (button !== null && button !== undefined) {
       await userEvent.click(button);
     }
     await waitFor(() => {
@@ -212,7 +238,7 @@ describe('Policy', () => {
     );
     // Click the add button
     const button = screen.getByTitle('System Operation Policy Add');
-    if (button) {
+    if (button !== null && button !== undefined) {
       await userEvent.click(button);
     }
     await waitFor(() => {
@@ -228,7 +254,7 @@ describe('Policy', () => {
     );
     // Click the activate button
     const button = screen.getAllByRole('button', { name: 'Enable' })[0];
-    if (button) {
+    if (button !== null && button !== undefined) {
       await userEvent.click(button);
     }
     // Verify that mockPolicyConfirmModal is called
@@ -244,7 +270,7 @@ describe('Policy', () => {
     );
     // Click the deactivate
     const button = screen.getAllByRole('button', { name: 'Disable' })[0];
-    if (button) {
+    if (button !== null && button !== undefined) {
       await userEvent.click(button);
     }
     await waitFor(() => {
@@ -297,7 +323,7 @@ describe('Policy', () => {
     );
     // Click the valid activate button
     const button = screen.getAllByRole('button', { name: 'Enable' })[0];
-    if (button) {
+    if (button !== null && button !== undefined) {
       await userEvent.click(button);
     }
     // Call the submit passed to mockPolicyConfirmModal
@@ -313,24 +339,7 @@ describe('Policy', () => {
     });
 
     // Verify the success message
-    const alertDialog = screen.queryByRole('alert');
-    const title = alertDialog?.querySelector('span') as HTMLSpanElement;
-    const message = alertDialog?.querySelector('span')?.parentNode?.nextSibling as HTMLDivElement;
-    expect(alertDialog).toBeInTheDocument();
-    expect(title).toHaveTextContent('The policy has been successfully enable');
-    expect(message).toHaveTextContent(`ID : ${policyID}`);
-    const expectTitle = dummyPolicy.policies.find((policy) => policy.policyID === policyID)?.title;
-    expect(message).toHaveTextContent(`Title : ${expectTitle}`);
-    // Verify that the message close button works
-    const closeButton = title.parentNode?.parentNode?.parentNode?.querySelector('button');
-    await waitFor(async () => {
-      if (closeButton) {
-        await userEvent.click(closeButton);
-      }
-      const alertDialog2 = screen.queryByRole('alert');
-      const title2 = alertDialog2?.querySelector('span') as HTMLSpanElement;
-      expect(title2).toBeUndefined();
-    });
+    await verifyAlertAndClose(policyID, 'The policy has been successfully enable');
   });
   test('When the submit for activation is called and the server returns an error, a message is displayed', async () => {
     /** Message display is on the modal side */
@@ -349,7 +358,7 @@ describe('Policy', () => {
     });
     // Click the valid activate button
     const button = screen.getAllByRole('button', { name: 'Enable' })[0]; // screen.debug(button);
-    if (button) {
+    if (button !== null && button !== undefined) {
       await userEvent.click(button);
     }
     // Call the submit passed to mockPolicyConfirmModal
@@ -382,7 +391,7 @@ describe('Policy', () => {
     );
     // Click the valid disable button
     const button = screen.getAllByRole('button', { name: 'Disable' })[0];
-    if (button) {
+    if (button !== null && button !== undefined) {
       await userEvent.click(button);
     }
     // Call the submit passed to mockPolicyConfirmModal
@@ -398,24 +407,7 @@ describe('Policy', () => {
     });
 
     // Verify the success message
-    const alertDialog = screen.queryByRole('alert');
-    const title = alertDialog?.querySelector('span') as HTMLSpanElement;
-    const message = alertDialog?.querySelector('span')?.parentNode?.nextSibling as HTMLDivElement;
-    expect(alertDialog).toBeInTheDocument();
-    expect(title).toHaveTextContent('The policy has been successfully disable');
-    expect(message).toHaveTextContent(`ID : ${policyID}`);
-    const expectTitle = dummyPolicy.policies.find((policy) => policy.policyID === policyID)?.title;
-    expect(message).toHaveTextContent(`Title : ${expectTitle}`);
-    // Verify that the message close button works
-    const closeButton = title.parentNode?.parentNode?.parentNode?.querySelector('button');
-    await waitFor(async () => {
-      if (closeButton) {
-        await userEvent.click(closeButton);
-      }
-      const alertDialog2 = screen.queryByRole('alert');
-      const title2 = alertDialog2?.querySelector('span') as HTMLSpanElement;
-      expect(title2).toBeUndefined();
-    });
+    await verifyAlertAndClose(policyID, 'The policy has been successfully disable');
   });
   test('When the submit for deactivation is called and the server returns an error, a message is displayed', async () => {
     render(
@@ -433,7 +425,7 @@ describe('Policy', () => {
     });
     // Click the valid disable button
     const button = screen.getAllByRole('button', { name: 'Disable' })[0]; // screen.debug(button);
-    if (button) {
+    if (button !== null && button !== undefined) {
       await userEvent.click(button);
     }
     // Call the submit passed to mockPolicyConfirmModal
@@ -538,7 +530,7 @@ describe('Policy', () => {
     );
     // Click the add button
     const button = screen.getByTitle('Node Layout Policy Add');
-    if (button) {
+    if (button !== null && button !== undefined) {
       await userEvent.click(button);
     }
     const policies = {
@@ -583,7 +575,7 @@ describe('Policy', () => {
     );
     // Click the add button
     const button = screen.getByTitle('System Operation Policy Add');
-    if (button) {
+    if (button !== null && button !== undefined) {
       await userEvent.click(button);
     }
     const policies = {
@@ -649,7 +641,7 @@ describe('Policy', () => {
     };
     // Click the valid add button
     const button = screen.getByTitle('Node Layout Policy Add');
-    if (button) {
+    if (button !== null && button !== undefined) {
       await userEvent.click(button);
     }
     // Call the submit passed to mockPolicyConfirmModal

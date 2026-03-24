@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -14,7 +14,7 @@
  * under the License.
  */
 
-import { Group } from '@mantine/core';
+import { Box, Group } from '@mantine/core';
 import { DataTableColumn } from 'mantine-datatable';
 import { useTranslations } from 'next-intl';
 
@@ -49,9 +49,7 @@ export const useColumns: DesignColumns = (layoutFilter) => {
       title: t('ID'),
       sortable: true,
       filter: (
-        <>
-          <TextInputForTableFilter label={t('ID')} value={layoutFilter.query.id} setValue={layoutFilter.setQuery.id} />
-        </>
+        <TextInputForTableFilter label={t('ID')} value={layoutFilter.query.id} setValue={layoutFilter.setQuery.id} />
       ),
       filtering: layoutFilter.query.id !== '',
       render: ({ id }) => {
@@ -68,8 +66,10 @@ export const useColumns: DesignColumns = (layoutFilter) => {
       sortable: true,
       render: ({ status }) => {
         return (
-          <Group gap={5}>
-            <StatusToIcon status={status} target='Design' />
+          <Group gap={5} wrap='nowrap' style={{ whiteSpace: 'nowrap' }}>
+            <Box style={{ flex: '0 0 auto', lineHeight: 0 }}>
+              <StatusToIcon status={status} target='Design' />
+            </Box>
             {t(STATUS_TO_LABEL[status])}
           </Group>
         );
@@ -89,6 +89,7 @@ export const useColumns: DesignColumns = (layoutFilter) => {
       title: t('Started'),
       sortable: true,
       render: ({ startedAt }) => <DatetimeString date={startedAt} />,
+      noWrap: true,
       filter: ({ close }) => (
         <DateRangePicker
           value={layoutFilter.query.startedAt}
@@ -103,6 +104,7 @@ export const useColumns: DesignColumns = (layoutFilter) => {
       title: t('Ended'),
       sortable: true,
       render: ({ endedAt }) => <DatetimeString date={endedAt} />,
+      noWrap: true,
       filter: ({ close }) => (
         <DateRangePicker value={layoutFilter.query.endedAt} setValue={layoutFilter.setQuery.endedAt} close={close} />
       ),

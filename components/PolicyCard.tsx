@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -256,13 +256,18 @@ export const PolicyCards = (props: { children?: ReactNode }) => {
   const { children } = props;
   const t = useTranslations();
 
+  // For arrays, also check the length, and display "No data" if it's an empty array
+  const hasContent = children != null && (!Array.isArray(children) || children.length > 0);
+
   return (
     <SimpleGrid
       cols={{ base: 1, sm: 2, lg: 3 }}
       spacing={{ base: 'sm', sm: 'md', lg: 'lg' }}
       verticalSpacing={{ base: 'sm', sm: 'md', lg: 'lg' }}
     >
-      {children || (
+      {hasContent ? (
+        children
+      ) : (
         <Card withBorder padding={32}>
           <Center h='100%' mih={150}>
             {t('No data')}

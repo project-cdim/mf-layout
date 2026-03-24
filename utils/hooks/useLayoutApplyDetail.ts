@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -37,19 +37,17 @@ import { APPLayoutApplyDetail } from '@/types';
  * @returns An object containing the layout apply detail data, error information, validation status, and a mutate function.
  */
 export const useLayoutApplyDetail = () => {
-  // const mswInitializing = useMSW();
-  const mswInitializing = false;
   const { id } = useQuery();
 
   // Fetch apply data
   const layoutSWRResponse = useSWRImmutable<APIApplyIDGetResponse>(
-    !mswInitializing && `${process.env.NEXT_PUBLIC_URL_BE_LAYOUT_APPLY}/layout-apply/${id}`,
+    `${process.env.NEXT_PUBLIC_URL_BE_LAYOUT_APPLY}/layout-apply/${id}`,
     fetcher
   );
 
   // Fetch resource data
   const resourceSWRResponse = useSWRImmutable<APIresourcesSummary>(
-    !mswInitializing && `${process.env.NEXT_PUBLIC_URL_BE_CONFIGURATION_MANAGER}/resources?detail=false`,
+    `${process.env.NEXT_PUBLIC_URL_BE_CONFIGURATION_MANAGER}/resources?detail=false`,
     fetcher
   );
 
@@ -214,8 +212,8 @@ export const useLayoutApplyDetail = () => {
       resource: resourceSWRResponse.error,
     },
     isValidating: {
-      layout: layoutSWRResponse.isValidating || mswInitializing,
-      resource: resourceSWRResponse.isValidating || mswInitializing,
+      layout: layoutSWRResponse.isValidating,
+      resource: resourceSWRResponse.isValidating,
     },
     mutate: () => {
       layoutSWRResponse.mutate();

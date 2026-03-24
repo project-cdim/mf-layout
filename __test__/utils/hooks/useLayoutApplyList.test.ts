@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -17,8 +17,6 @@
 import { renderHook } from '@testing-library/react';
 import useSWRImmutable from 'swr/immutable';
 
-import { useMSW } from '@/shared-modules/utils/hooks';
-
 import { dummyAPILayoutApplyList } from '@/utils/dummy-data/layoutApplyList/dummyAPILayoutApplyList';
 import { dummyAPPLayoutApplyList } from '@/utils/dummy-data/layoutApplyList/dummyAPPLayoutApplyList';
 import { useLayoutApplyList } from '@/utils/hooks';
@@ -31,35 +29,22 @@ jest.mock('swr/immutable', () => ({
   default: jest.fn(),
 }));
 
-jest.mock('@/shared-modules/utils/hooks', () => ({
-  __esModule: true,
-  ...jest.requireActual('@/shared-modules/utils/hooks'),
-  useMSW: jest.fn(),
-}));
-
 describe('useLayoutApplyList', () => {
   beforeEach(() => {
     // Execute before each test
-    // @ts-ignore
     mockMutate.mockReset();
-    // @ts-ignore
-    useSWRImmutable.mockReset();
-    // @ts-ignore
-    useSWRImmutable.mockReturnValue({
+
+    (useSWRImmutable as unknown as jest.Mock).mockReset();
+
+    (useSWRImmutable as unknown as jest.Mock).mockReturnValue({
       data: dummyAPILayoutApplyList,
       isValidating: false,
       error: null,
       mutate: mockMutate,
     });
-    // @ts-ignore
-    useMSW.mockReset();
-    // @ts-ignore
-    useMSW.mockReturnValue(false);
   });
 
   test('Can retrieve the list of parsed layout applies', () => {
-    // @ts-ignore
-    useMSW.mockReturnValue(true);
     const { result } = renderHook(() => useLayoutApplyList());
 
     expect(result.current.data).toEqual(dummyAPPLayoutApplyList);
@@ -71,10 +56,7 @@ describe('useLayoutApplyList', () => {
   });
 
   test('Can retrieve the list of parsed layout applies (when SWR returns the default value)', () => {
-    // @ts-ignore
-    useMSW.mockReturnValue(true);
-    // @ts-ignore
-    useSWRImmutable.mockReturnValue({
+    (useSWRImmutable as unknown as jest.Mock).mockReturnValue({
       data: undefined,
       isValidating: false,
       error: null,
@@ -91,8 +73,7 @@ describe('useLayoutApplyList', () => {
   });
 
   test('That SWR returns error information', () => {
-    // @ts-ignore
-    useSWRImmutable.mockReturnValue({
+    (useSWRImmutable as unknown as jest.Mock).mockReturnValue({
       data: dummyAPILayoutApplyList,
       isValidating: false,
       error: { message: 'error1' },

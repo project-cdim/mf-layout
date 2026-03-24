@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -17,8 +17,8 @@
 import { APILayoutApplyList } from '@/shared-modules/types';
 
 export const dummyAPILayoutApplyListBefore: APILayoutApplyList = {
-  totalCount: 1,
-  count: 1,
+  totalCount: 8,
+  count: 8,
   applyResults: [
     {
       applyID: '2b8c6e4e0a',
@@ -28,12 +28,63 @@ export const dummyAPILayoutApplyListBefore: APILayoutApplyList = {
       executeRollback: true,
       rollbackStartedAt: '2025-02-06T05:43:53Z',
     },
+    {
+      applyID: '9f7d3c2b1e',
+      status: 'COMPLETED',
+      startedAt: '2025-02-05T14:20:10Z',
+      endedAt: '2025-02-05T14:25:45Z',
+      executeRollback: false,
+    },
+    {
+      applyID: '4a5e8d1c3f',
+      status: 'IN_PROGRESS',
+      startedAt: '2025-02-06T08:15:30Z',
+      executeRollback: false,
+    },
+    {
+      applyID: '7b9c2d4e6a',
+      status: 'FAILED',
+      startedAt: '2025-02-04T10:30:15Z',
+      endedAt: '2025-02-04T10:45:20Z',
+      executeRollback: true,
+      rollbackStartedAt: '2025-02-04T10:46:00Z',
+      rollbackEndedAt: '2025-02-04T10:52:30Z',
+    },
+    {
+      applyID: '3e6f9a1b5c',
+      status: 'COMPLETED',
+      startedAt: '2025-02-03T16:45:00Z',
+      endedAt: '2025-02-03T16:58:25Z',
+      executeRollback: false,
+    },
+    {
+      applyID: '8d2c4f7e9b',
+      status: 'CANCELED',
+      startedAt: '2025-02-02T09:10:20Z',
+      canceledAt: '2025-02-02T09:15:45Z',
+      executeRollback: true,
+      rollbackStartedAt: '2025-02-02T09:16:00Z',
+      rollbackEndedAt: '2025-02-02T09:22:15Z',
+    },
+    {
+      applyID: '6c1e5a9d3b',
+      status: 'COMPLETED',
+      startedAt: '2025-02-01T13:25:35Z',
+      endedAt: '2025-02-01T13:40:50Z',
+      executeRollback: false,
+    },
+    {
+      applyID: '1f4b7c2e8a',
+      status: 'SUSPENDED',
+      startedAt: '2025-02-06T09:00:00Z',
+      executeRollback: false,
+    },
   ],
 };
 
 export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
   totalCount: 2523,
-  count: 1000,
+  count: 8,
   applyResults: [
     {
       status: 'CANCELED',
@@ -2872,6 +2923,57 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
       canceledAt: '2025-02-06T05:43:32Z',
       rollbackStartedAt: '2025-02-06T05:43:53Z',
       rollbackEndedAt: '2025-02-06T05:44:08Z',
+    },
+    {
+      applyID: '9f7d3c2b1e',
+      status: 'COMPLETED',
+      startedAt: '2025-02-05T14:20:10Z',
+      endedAt: '2025-02-05T14:25:45Z',
+      executeRollback: false,
+    },
+    {
+      applyID: '4a5e8d1c3f',
+      status: 'IN_PROGRESS',
+      startedAt: '2025-02-06T08:15:30Z',
+      executeRollback: false,
+    },
+    {
+      applyID: '7b9c2d4e6a',
+      status: 'FAILED',
+      startedAt: '2025-02-04T10:30:15Z',
+      endedAt: '2025-02-04T10:45:20Z',
+      executeRollback: true,
+      rollbackStartedAt: '2025-02-04T10:46:00Z',
+      rollbackEndedAt: '2025-02-04T10:52:30Z',
+    },
+    {
+      applyID: '3e6f9a1b5c',
+      status: 'COMPLETED',
+      startedAt: '2025-02-03T16:45:00Z',
+      endedAt: '2025-02-03T16:58:25Z',
+      executeRollback: false,
+    },
+    {
+      applyID: '8d2c4f7e9b',
+      status: 'CANCELED',
+      startedAt: '2025-02-02T09:10:20Z',
+      canceledAt: '2025-02-02T09:15:45Z',
+      executeRollback: true,
+      rollbackStartedAt: '2025-02-02T09:16:00Z',
+      rollbackEndedAt: '2025-02-02T09:22:15Z',
+    },
+    {
+      applyID: '6c1e5a9d3b',
+      status: 'COMPLETED',
+      startedAt: '2025-02-01T13:25:35Z',
+      endedAt: '2025-02-01T13:40:50Z',
+      executeRollback: false,
+    },
+    {
+      applyID: '1f4b7c2e8a',
+      status: 'SUSPENDED',
+      startedAt: '2025-02-06T09:00:00Z',
+      executeRollback: false,
     },
   ],
 };

@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -119,6 +119,7 @@ export const NodeLayout = (props: {
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
 
+  // eslint-disable-next-line complexity
   const parseLayoutData = (
     nodesData: APINode[]
   ): [Node<NodeNodeType['data'] | DeviceNodeType['data'], 'node' | 'device'>[], Edge[]] => {
@@ -132,7 +133,12 @@ export const NodeLayout = (props: {
       const nodeId = `Node ${count++}`;
       nodes.push({ id: nodeId, data: { label: nodeId }, type: 'node', position: position });
       for (const [deviceType, deviceTypeData] of Object.entries(nodeData.device)) {
-        for (const deviceId of deviceTypeData.deviceIDs) {
+        // GPU is in array format [{ deviceID: "...", requests: [...] }], others are in { deviceIDs: [...] } format
+        const deviceIds = Array.isArray(deviceTypeData)
+          ? deviceTypeData.map((gpu) => gpu.deviceID)
+          : deviceTypeData.deviceIDs;
+
+        for (const deviceId of deviceIds) {
           {
             /* Get data and display actual data for each resource */
           }

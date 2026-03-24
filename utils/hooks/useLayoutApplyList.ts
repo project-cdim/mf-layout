@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -18,7 +18,6 @@ import { useMemo } from 'react';
 
 import useSWRImmutable from 'swr/immutable';
 
-// import { useMSW } from '@/shared-modules/utils/hooks';
 import { APIApplyIDGetResponse, APILayoutApplyList, APPLayoutApplyList } from '@/shared-modules/types';
 import { fetcher } from '@/shared-modules/utils/';
 
@@ -30,9 +29,6 @@ import { fetcher } from '@/shared-modules/utils/';
  * @returns Props for DataTable
  */
 export const useLayoutApplyList = () => {
-  // const mswInitializing = useMSW();
-  const mswInitializing = false;
-
   const defaultVal = useMemo<{ applyResults: APIApplyIDGetResponse[] }>(
     () => ({
       applyResults: [] as APIApplyIDGetResponse[],
@@ -45,7 +41,7 @@ export const useLayoutApplyList = () => {
     isValidating,
     mutate,
   } = useSWRImmutable<APILayoutApplyList>(
-    !mswInitializing && `${process.env.NEXT_PUBLIC_URL_BE_LAYOUT_APPLY}/layout-apply?limit=1000`,
+    `${process.env.NEXT_PUBLIC_URL_BE_LAYOUT_APPLY}/layout-apply?limit=1000`,
     fetcher
   );
 
