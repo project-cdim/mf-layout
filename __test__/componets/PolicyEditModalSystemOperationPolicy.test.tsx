@@ -285,6 +285,7 @@ describe('PolicyEditModalSystemOperationPolicy', () => {
       selectedPolicyId: 'abc10dfaa2',
       data: {
         count: 1,
+        totalCount: 1,
         policies: [errorPolicy],
       },
     } as const satisfies ComponentProps<typeof PolicyEditModalSystemOperationPolicy>;
@@ -331,6 +332,7 @@ describe('PolicyEditModalSystemOperationPolicy', () => {
       selectedPolicyId: 'tmp_id_for_test',
       data: {
         count: 1,
+        totalCount: 1,
         policies: [
           {
             policyID: 'tmp_id_for_test',

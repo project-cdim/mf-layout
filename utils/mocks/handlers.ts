@@ -20,11 +20,15 @@ import { HttpResponse, http } from 'msw';
 import { dummyAPILayoutDesignList } from '@/utils/dummy-data/layoutList/dummyAPILayoutDesignList';
 import { dummyPolicy } from '@/utils/dummy-data/policy/Policy';
 
-import { dummyAPIApplyIDGetResponse as dummyAPIApplyIDGetResponse01 } from '../dummy-data/layoutApplyDetail/dummyAPIApplyIDGetResponse01';
-import { dummyAPIApplyIDGetResponse as dummyAPIApplyIDGetResponse04 } from '../dummy-data/layoutApplyDetail/dummyAPIApplyIDGetResponse04';
-import { dummyAPIApplyIDGetResponse as dummyAPIApplyIDGetResponse05 } from '../dummy-data/layoutApplyDetail/dummyAPIApplyIDGetResponse05';
-import { dummyAPIApplyIDGetResponse as dummyAPIApplyIDGetResponse06 } from '../dummy-data/layoutApplyDetail/dummyAPIApplyIDGetResponse06';
-import { dummyAPIApplyIDGetResponse as dummyAPIApplyIDGetResponse07 } from '../dummy-data/layoutApplyDetail/dummyAPIApplyIDGetResponse07';
+// import { dummyAPIApplyIDGetResponse } from '../dummy-data/layoutApplyDetail/dummyAPIApplyIDGetResponse01'; // Apply : CANCLED, Rollback: FAILED
+// import { dummyAPIApplyIDGetResponse } from '../dummy-data/layoutApplyDetail/dummyAPIApplyIDGetResponse04'; // Apply : CANCELING, Rollback: IN_PROGRESS
+// import { dummyAPIApplyIDGetResponse } from '../dummy-data/layoutApplyDetail/dummyAPIApplyIDGetResponse05'; // Apply : CANCELED, Rollback: FAILD (applyResult[0].status:FAILED and rollbackResult[0].status:FAILED)
+// import { dummyAPIApplyIDGetResponse } from '../dummy-data/layoutApplyDetail/dummyAPIApplyIDGetResponse06'; // Apply : COMPLETED, operations: 15
+// import { dummyAPIApplyIDGetResponse } from '../dummy-data/layoutApplyDetail/dummyAPIApplyIDGetResponse07'; // Apply : CANCELED, Rollback: COMPLETED, operations: 15
+// import { dummyAPIApplyIDGetResponse } from '../dummy-data/layoutApplyDetail/dummyAPIApplyIDGetResponse08'; // Apply : FAILED, error single pattern
+// import { dummyAPIApplyIDGetResponse } from '../dummy-data/layoutApplyDetail/dummyAPIApplyIDGetResponse09'; // Apply : FAILED, error multiple pattern
+// import { dummyAPIApplyIDGetResponse } from '../dummy-data/layoutApplyDetail/dummyAPIApplyIDGetResponse10'; // Apply : CANCELED, Rollback: FAILED, error multiple pattern
+import { dummyAPIApplyIDGetResponse } from '../dummy-data/layoutApplyDetail/dummyAPIApplyIDGetResponse11'; // Apply :     , Rollback: FAILED, error multiple pattern
 // import { dummyAPILayoutApplyList } from '../dummy-data/layoutApplyList/dummyAPILayoutApplyList';
 import {
   dummyAPILayoutApplyListBefore,
@@ -213,12 +217,7 @@ const layoutApplyHandlers = [
   }),
 
   http.get(`${layoutApplyUrl}/layout-apply/:layoutApplyID`, () => {
-    let responseData = dummyAPIApplyIDGetResponse01; // Apply : CANCLED, Rollback: FAILED
-    responseData = dummyAPIApplyIDGetResponse04; // Apply : CANCELING, Rollback: IN_PROGRESS
-    responseData = dummyAPIApplyIDGetResponse05; // Apply : CANCELED, Rollback: FAILD (applyResult[0].status:FAILED and rollbackResult[0].status:FAILED)
-    responseData = dummyAPIApplyIDGetResponse06; // Apply : COMPLETED, operations: 15
-    responseData = dummyAPIApplyIDGetResponse07; // Apply : CANCELED, Rollback: COMPLETED, operations: 15
-    return HttpResponse.json(responseData);
+    return HttpResponse.json(dummyAPIApplyIDGetResponse);
   }),
 
   // PUT /layout-apply/:applyID

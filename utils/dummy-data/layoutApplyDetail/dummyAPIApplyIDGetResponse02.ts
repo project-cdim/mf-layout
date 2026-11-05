@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -30,14 +30,14 @@ export const dummyAPIApplyIDGetResponse: APIApplyIDGetResponse = {
     { operation: 'boot', operationID: 2, dependencies: [], targetDeviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2' },
   ],
   applyID: 'a0f84fcba5',
-  applyResult: [
+  result: [
     {
-      uri: 'http://10.26.196.219:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
+      uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
       method: 'PUT',
       status: 'COMPLETED',
       statusCode: 200,
       operationID: 1,
-      requestBody: { action: 'connect', deviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1' },
+      requestBody: { action: 'connect', destinationDeviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1' },
       responseBody: {
         deviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1',
         CPUDeviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
@@ -45,22 +45,12 @@ export const dummyAPIApplyIDGetResponse: APIApplyIDGetResponse = {
       getInformation: { responseBody: { powerState: 'On' } },
     },
     { status: 'SKIPPED', operationID: 2 },
-  ],
-  resumeProcedures: [
     {
-      operation: 'boot',
-      operationID: 2,
-      dependencies: [],
-      targetDeviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
-    },
-  ],
-  resumeResult: [
-    {
-      uri: 'http://10.26.196.219:8000/cdim/api/v1/devices/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/power',
+      uri: 'http://192.0.2.11:8000/cdim/api/v1/devices/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/power',
       method: 'PUT',
       status: 'COMPLETED',
       isOSBoot: {
-        uri: 'http://10.26.196.219:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/is-os-ready',
+        uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/is-os-ready',
         method: 'GET',
         statusCode: 200,
         responseBody: {
@@ -79,6 +69,14 @@ export const dummyAPIApplyIDGetResponse: APIApplyIDGetResponse = {
       responseBody: {
         deviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
       },
+    },
+  ],
+  resumeProcedures: [
+    {
+      operation: 'boot',
+      operationID: 2,
+      dependencies: [],
+      targetDeviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
     },
   ],
   startedAt: '2024-07-17T02:43:51Z',

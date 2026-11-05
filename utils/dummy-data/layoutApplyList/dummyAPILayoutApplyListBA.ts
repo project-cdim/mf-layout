@@ -26,7 +26,9 @@ export const dummyAPILayoutApplyListBefore: APILayoutApplyList = {
       startedAt: '2025-02-06T05:43:25Z',
       canceledAt: '2025-02-06T05:43:32Z',
       executeRollback: true,
-      rollbackStartedAt: '2025-02-06T05:43:53Z',
+      rollback: {
+        startedAt: '2025-02-06T05:43:53Z',
+      },
     },
     {
       applyID: '9f7d3c2b1e',
@@ -47,8 +49,10 @@ export const dummyAPILayoutApplyListBefore: APILayoutApplyList = {
       startedAt: '2025-02-04T10:30:15Z',
       endedAt: '2025-02-04T10:45:20Z',
       executeRollback: true,
-      rollbackStartedAt: '2025-02-04T10:46:00Z',
-      rollbackEndedAt: '2025-02-04T10:52:30Z',
+      rollback: {
+        startedAt: '2025-02-04T10:46:00Z',
+        endedAt: '2025-02-04T10:52:30Z',
+      },
     },
     {
       applyID: '3e6f9a1b5c',
@@ -63,8 +67,10 @@ export const dummyAPILayoutApplyListBefore: APILayoutApplyList = {
       startedAt: '2025-02-02T09:10:20Z',
       canceledAt: '2025-02-02T09:15:45Z',
       executeRollback: true,
-      rollbackStartedAt: '2025-02-02T09:16:00Z',
-      rollbackEndedAt: '2025-02-02T09:22:15Z',
+      rollback: {
+        startedAt: '2025-02-02T09:16:00Z',
+        endedAt: '2025-02-02T09:22:15Z',
+      },
     },
     {
       applyID: '6c1e5a9d3b',
@@ -771,9 +777,9 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
         },
       ],
       applyID: '2b8c6e4e0a',
-      applyResult: [
+      result: [
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/devices/1ad4a5e8-4de5-42f0-8ac7-6723cb028176/power',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/devices/1ad4a5e8-4de5-42f0-8ac7-6723cb028176/power',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:26Z',
@@ -793,7 +799,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/devices/22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e/power',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/devices/22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e/power',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:26Z',
@@ -813,7 +819,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/devices/532f1c5d-9e8b-4d04-b185-2dfde659df3e/power',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/devices/532f1c5d-9e8b-4d04-b185-2dfde659df3e/power',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:27Z',
@@ -833,7 +839,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/devices/57e6b0cc-bb3d-428c-8424-2b30b2e311a1/power',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/devices/57e6b0cc-bb3d-428c-8424-2b30b2e311a1/power',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:27Z',
@@ -853,7 +859,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/devices/62acd2d8-178f-47e0-8a36-c4b13a1c3156/power',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/devices/62acd2d8-178f-47e0-8a36-c4b13a1c3156/power',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:28Z',
@@ -873,7 +879,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/devices/6eeb4309-db51-4a54-b8e8-383ee7f30b07/power',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/devices/6eeb4309-db51-4a54-b8e8-383ee7f30b07/power',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:29Z',
@@ -893,7 +899,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/devices/74ca5f4f-7878-42ac-a64c-ce5f54b570de/power',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/devices/74ca5f4f-7878-42ac-a64c-ce5f54b570de/power',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:30Z',
@@ -913,7 +919,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/devices/b1b962f3-8076-4e96-86ef-5a0114e86072/power',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/devices/b1b962f3-8076-4e96-86ef-5a0114e86072/power',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:30Z',
@@ -933,7 +939,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/devices/b7ff2dc2-a649-4868-8c75-3018b5909d19/power',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/devices/b7ff2dc2-a649-4868-8c75-3018b5909d19/power',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:31Z',
@@ -953,7 +959,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/devices/f3cb8422-df9b-445c-95f3-cf3f7f0645f5/power',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/devices/f3cb8422-df9b-445c-95f3-cf3f7f0645f5/power',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:32Z',
@@ -973,7 +979,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/532f1c5d-9e8b-4d04-b185-2dfde659df3e/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/532f1c5d-9e8b-4d04-b185-2dfde659df3e/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:40Z',
@@ -982,7 +988,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 14,
           requestBody: {
             action: 'disconnect',
-            deviceID: '5dd36684-a2b5-4b1c-977d-985ebcbfdc82',
+            destinationDeviceID: '5dd36684-a2b5-4b1c-977d-985ebcbfdc82',
           },
           responseBody: {
             deviceID: '5dd36684-a2b5-4b1c-977d-985ebcbfdc82',
@@ -1202,7 +1208,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 100,
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/62acd2d8-178f-47e0-8a36-c4b13a1c3156/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/62acd2d8-178f-47e0-8a36-c4b13a1c3156/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:43Z',
@@ -1211,7 +1217,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 25,
           requestBody: {
             action: 'disconnect',
-            deviceID: 'ff775f94-d339-4a37-9001-8b6fe58c27db',
+            destinationDeviceID: 'ff775f94-d339-4a37-9001-8b6fe58c27db',
           },
           responseBody: {
             deviceID: 'ff775f94-d339-4a37-9001-8b6fe58c27db',
@@ -1219,7 +1225,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/62acd2d8-178f-47e0-8a36-c4b13a1c3156/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/62acd2d8-178f-47e0-8a36-c4b13a1c3156/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:45Z',
@@ -1228,7 +1234,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 22,
           requestBody: {
             action: 'disconnect',
-            deviceID: '46d8de34-974e-4672-bcfa-5557bc9e84ac',
+            destinationDeviceID: '46d8de34-974e-4672-bcfa-5557bc9e84ac',
           },
           responseBody: {
             deviceID: '46d8de34-974e-4672-bcfa-5557bc9e84ac',
@@ -1236,7 +1242,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/57e6b0cc-bb3d-428c-8424-2b30b2e311a1/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/57e6b0cc-bb3d-428c-8424-2b30b2e311a1/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:40Z',
@@ -1245,7 +1251,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 18,
           requestBody: {
             action: 'disconnect',
-            deviceID: '630bee63-6d18-4917-a1f7-5f7f15c26f6b',
+            destinationDeviceID: '630bee63-6d18-4917-a1f7-5f7f15c26f6b',
           },
           responseBody: {
             deviceID: '630bee63-6d18-4917-a1f7-5f7f15c26f6b',
@@ -1253,7 +1259,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/74ca5f4f-7878-42ac-a64c-ce5f54b570de/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/74ca5f4f-7878-42ac-a64c-ce5f54b570de/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:48Z',
@@ -1262,7 +1268,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 34,
           requestBody: {
             action: 'disconnect',
-            deviceID: 'ce505605-4bc4-4855-a620-cb55d53f0980',
+            destinationDeviceID: 'ce505605-4bc4-4855-a620-cb55d53f0980',
           },
           responseBody: {
             deviceID: 'ce505605-4bc4-4855-a620-cb55d53f0980',
@@ -1270,7 +1276,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/f3cb8422-df9b-445c-95f3-cf3f7f0645f5/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/f3cb8422-df9b-445c-95f3-cf3f7f0645f5/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:52Z',
@@ -1279,7 +1285,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 48,
           requestBody: {
             action: 'disconnect',
-            deviceID: '7d723948-3e26-4de8-856e-c7e6fe5c1bf6',
+            destinationDeviceID: '7d723948-3e26-4de8-856e-c7e6fe5c1bf6',
           },
           responseBody: {
             deviceID: '7d723948-3e26-4de8-856e-c7e6fe5c1bf6',
@@ -1287,7 +1293,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/1ad4a5e8-4de5-42f0-8ac7-6723cb028176/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/1ad4a5e8-4de5-42f0-8ac7-6723cb028176/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:32Z',
@@ -1296,7 +1302,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 2,
           requestBody: {
             action: 'disconnect',
-            deviceID: '1483aa23-03f9-4912-bee2-3eaf9b06a619',
+            destinationDeviceID: '1483aa23-03f9-4912-bee2-3eaf9b06a619',
           },
           responseBody: {
             deviceID: '1483aa23-03f9-4912-bee2-3eaf9b06a619',
@@ -1304,7 +1310,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/57e6b0cc-bb3d-428c-8424-2b30b2e311a1/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/57e6b0cc-bb3d-428c-8424-2b30b2e311a1/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:42Z',
@@ -1313,7 +1319,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 19,
           requestBody: {
             action: 'disconnect',
-            deviceID: '8f90c398-00d1-4e5f-b4b2-c5123f9e1e99',
+            destinationDeviceID: '8f90c398-00d1-4e5f-b4b2-c5123f9e1e99',
           },
           responseBody: {
             deviceID: '8f90c398-00d1-4e5f-b4b2-c5123f9e1e99',
@@ -1321,7 +1327,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/b1b962f3-8076-4e96-86ef-5a0114e86072/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b1b962f3-8076-4e96-86ef-5a0114e86072/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:48Z',
@@ -1330,7 +1336,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 38,
           requestBody: {
             action: 'disconnect',
-            deviceID: 'c58e0268-1e47-4ba6-8831-5157ddac3fdd',
+            destinationDeviceID: 'c58e0268-1e47-4ba6-8831-5157ddac3fdd',
           },
           responseBody: {
             deviceID: 'c58e0268-1e47-4ba6-8831-5157ddac3fdd',
@@ -1338,7 +1344,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/b1b962f3-8076-4e96-86ef-5a0114e86072/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b1b962f3-8076-4e96-86ef-5a0114e86072/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:50Z',
@@ -1347,7 +1353,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 39,
           requestBody: {
             action: 'disconnect',
-            deviceID: 'd43d79f7-585c-406c-8540-e112024da93b',
+            destinationDeviceID: 'd43d79f7-585c-406c-8540-e112024da93b',
           },
           responseBody: {
             deviceID: 'd43d79f7-585c-406c-8540-e112024da93b',
@@ -1355,7 +1361,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/b1b962f3-8076-4e96-86ef-5a0114e86072/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b1b962f3-8076-4e96-86ef-5a0114e86072/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:51Z',
@@ -1364,7 +1370,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 37,
           requestBody: {
             action: 'disconnect',
-            deviceID: '9f0965d5-96df-480b-8b6e-c9fb39bd3e2a',
+            destinationDeviceID: '9f0965d5-96df-480b-8b6e-c9fb39bd3e2a',
           },
           responseBody: {
             deviceID: '9f0965d5-96df-480b-8b6e-c9fb39bd3e2a',
@@ -1372,7 +1378,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/b7ff2dc2-a649-4868-8c75-3018b5909d19/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b7ff2dc2-a649-4868-8c75-3018b5909d19/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:52Z',
@@ -1381,7 +1387,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 44,
           requestBody: {
             action: 'disconnect',
-            deviceID: '6dac0119-94f0-4ef0-81bb-748eb3c29a96',
+            destinationDeviceID: '6dac0119-94f0-4ef0-81bb-748eb3c29a96',
           },
           responseBody: {
             deviceID: '6dac0119-94f0-4ef0-81bb-748eb3c29a96',
@@ -1389,7 +1395,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:38Z',
@@ -1398,7 +1404,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 10,
           requestBody: {
             action: 'disconnect',
-            deviceID: 'e4563656-54fe-45de-a26b-3b821b6a756a',
+            destinationDeviceID: 'e4563656-54fe-45de-a26b-3b821b6a756a',
           },
           responseBody: {
             deviceID: 'e4563656-54fe-45de-a26b-3b821b6a756a',
@@ -1406,7 +1412,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/f3cb8422-df9b-445c-95f3-cf3f7f0645f5/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/f3cb8422-df9b-445c-95f3-cf3f7f0645f5/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:53Z',
@@ -1415,7 +1421,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 50,
           requestBody: {
             action: 'disconnect',
-            deviceID: '984b7d7e-0ed4-472f-9003-69523dad4a52',
+            destinationDeviceID: '984b7d7e-0ed4-472f-9003-69523dad4a52',
           },
           responseBody: {
             deviceID: '984b7d7e-0ed4-472f-9003-69523dad4a52',
@@ -1423,7 +1429,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/74ca5f4f-7878-42ac-a64c-ce5f54b570de/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/74ca5f4f-7878-42ac-a64c-ce5f54b570de/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:46Z',
@@ -1432,7 +1438,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 33,
           requestBody: {
             action: 'disconnect',
-            deviceID: 'a43f17d9-b038-45b6-8d2b-2cb35fc7c1fd',
+            destinationDeviceID: 'a43f17d9-b038-45b6-8d2b-2cb35fc7c1fd',
           },
           responseBody: {
             deviceID: 'a43f17d9-b038-45b6-8d2b-2cb35fc7c1fd',
@@ -1440,7 +1446,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/b7ff2dc2-a649-4868-8c75-3018b5909d19/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b7ff2dc2-a649-4868-8c75-3018b5909d19/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:51Z',
@@ -1449,7 +1455,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 45,
           requestBody: {
             action: 'disconnect',
-            deviceID: 'cb814087-68ce-4ff1-aadc-2d83cc256d82',
+            destinationDeviceID: 'cb814087-68ce-4ff1-aadc-2d83cc256d82',
           },
           responseBody: {
             deviceID: 'cb814087-68ce-4ff1-aadc-2d83cc256d82',
@@ -1457,7 +1463,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/57e6b0cc-bb3d-428c-8424-2b30b2e311a1/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/57e6b0cc-bb3d-428c-8424-2b30b2e311a1/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:43Z',
@@ -1466,7 +1472,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 17,
           requestBody: {
             action: 'disconnect',
-            deviceID: '542bdd13-4835-421b-b720-514fd7356c40',
+            destinationDeviceID: '542bdd13-4835-421b-b720-514fd7356c40',
           },
           responseBody: {
             deviceID: '542bdd13-4835-421b-b720-514fd7356c40',
@@ -1474,7 +1480,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/6eeb4309-db51-4a54-b8e8-383ee7f30b07/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/6eeb4309-db51-4a54-b8e8-383ee7f30b07/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:46Z',
@@ -1483,7 +1489,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 29,
           requestBody: {
             action: 'disconnect',
-            deviceID: '2d295fb0-e0c5-471c-92f9-8fd1041aed83',
+            destinationDeviceID: '2d295fb0-e0c5-471c-92f9-8fd1041aed83',
           },
           responseBody: {
             deviceID: '2d295fb0-e0c5-471c-92f9-8fd1041aed83',
@@ -1491,7 +1497,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/532f1c5d-9e8b-4d04-b185-2dfde659df3e/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/532f1c5d-9e8b-4d04-b185-2dfde659df3e/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:41Z',
@@ -1500,7 +1506,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 12,
           requestBody: {
             action: 'disconnect',
-            deviceID: '16702bbb-4be0-42cd-9ef3-719dbbea8946',
+            destinationDeviceID: '16702bbb-4be0-42cd-9ef3-719dbbea8946',
           },
           responseBody: {
             deviceID: '16702bbb-4be0-42cd-9ef3-719dbbea8946',
@@ -1508,7 +1514,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/6eeb4309-db51-4a54-b8e8-383ee7f30b07/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/6eeb4309-db51-4a54-b8e8-383ee7f30b07/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:45Z',
@@ -1517,7 +1523,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 30,
           requestBody: {
             action: 'disconnect',
-            deviceID: '66d06b47-8dc1-4651-a307-430af0b788f6',
+            destinationDeviceID: '66d06b47-8dc1-4651-a307-430af0b788f6',
           },
           responseBody: {
             deviceID: '66d06b47-8dc1-4651-a307-430af0b788f6',
@@ -1525,7 +1531,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/62acd2d8-178f-47e0-8a36-c4b13a1c3156/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/62acd2d8-178f-47e0-8a36-c4b13a1c3156/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:44Z',
@@ -1534,7 +1540,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 24,
           requestBody: {
             action: 'disconnect',
-            deviceID: 'a3f7c6e1-7400-4225-95b7-4ac46918d9e9',
+            destinationDeviceID: 'a3f7c6e1-7400-4225-95b7-4ac46918d9e9',
           },
           responseBody: {
             deviceID: 'a3f7c6e1-7400-4225-95b7-4ac46918d9e9',
@@ -1542,7 +1548,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/1ad4a5e8-4de5-42f0-8ac7-6723cb028176/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/1ad4a5e8-4de5-42f0-8ac7-6723cb028176/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:33Z',
@@ -1551,7 +1557,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 4,
           requestBody: {
             action: 'disconnect',
-            deviceID: '9ae96497-6d92-4ce1-9310-2e6166de8678',
+            destinationDeviceID: '9ae96497-6d92-4ce1-9310-2e6166de8678',
           },
           responseBody: {
             deviceID: '9ae96497-6d92-4ce1-9310-2e6166de8678',
@@ -1559,7 +1565,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/62acd2d8-178f-47e0-8a36-c4b13a1c3156/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/62acd2d8-178f-47e0-8a36-c4b13a1c3156/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:42Z',
@@ -1568,7 +1574,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 23,
           requestBody: {
             action: 'disconnect',
-            deviceID: '80040a5a-6178-4936-8007-17315dfff8a3',
+            destinationDeviceID: '80040a5a-6178-4936-8007-17315dfff8a3',
           },
           responseBody: {
             deviceID: '80040a5a-6178-4936-8007-17315dfff8a3',
@@ -1576,7 +1582,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:36Z',
@@ -1585,7 +1591,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 9,
           requestBody: {
             action: 'disconnect',
-            deviceID: '8e577f1e-b508-497d-9501-5fc0bf7a954d',
+            destinationDeviceID: '8e577f1e-b508-497d-9501-5fc0bf7a954d',
           },
           responseBody: {
             deviceID: '8e577f1e-b508-497d-9501-5fc0bf7a954d',
@@ -1593,7 +1599,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/6eeb4309-db51-4a54-b8e8-383ee7f30b07/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/6eeb4309-db51-4a54-b8e8-383ee7f30b07/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:44Z',
@@ -1602,7 +1608,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 28,
           requestBody: {
             action: 'disconnect',
-            deviceID: '0a6ec0fd-f722-4e02-90d4-1ec1cbebd20e',
+            destinationDeviceID: '0a6ec0fd-f722-4e02-90d4-1ec1cbebd20e',
           },
           responseBody: {
             deviceID: '0a6ec0fd-f722-4e02-90d4-1ec1cbebd20e',
@@ -1610,7 +1616,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/74ca5f4f-7878-42ac-a64c-ce5f54b570de/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/74ca5f4f-7878-42ac-a64c-ce5f54b570de/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:47Z',
@@ -1619,7 +1625,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 35,
           requestBody: {
             action: 'disconnect',
-            deviceID: 'f82a9e3d-a892-437f-8945-5ef99f2a83e7',
+            destinationDeviceID: 'f82a9e3d-a892-437f-8945-5ef99f2a83e7',
           },
           responseBody: {
             deviceID: 'f82a9e3d-a892-437f-8945-5ef99f2a83e7',
@@ -1627,7 +1633,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/b7ff2dc2-a649-4868-8c75-3018b5909d19/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b7ff2dc2-a649-4868-8c75-3018b5909d19/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:50Z',
@@ -1636,7 +1642,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 43,
           requestBody: {
             action: 'disconnect',
-            deviceID: '28589bd0-bd01-4a2b-af86-063146f2c50e',
+            destinationDeviceID: '28589bd0-bd01-4a2b-af86-063146f2c50e',
           },
           responseBody: {
             deviceID: '28589bd0-bd01-4a2b-af86-063146f2c50e',
@@ -1644,7 +1650,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/532f1c5d-9e8b-4d04-b185-2dfde659df3e/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/532f1c5d-9e8b-4d04-b185-2dfde659df3e/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:39Z',
@@ -1653,7 +1659,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 15,
           requestBody: {
             action: 'disconnect',
-            deviceID: 'b413bb91-0604-4bb5-befd-caf550f0739e',
+            destinationDeviceID: 'b413bb91-0604-4bb5-befd-caf550f0739e',
           },
           responseBody: {
             deviceID: 'b413bb91-0604-4bb5-befd-caf550f0739e',
@@ -1661,7 +1667,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/57e6b0cc-bb3d-428c-8424-2b30b2e311a1/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/57e6b0cc-bb3d-428c-8424-2b30b2e311a1/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:41Z',
@@ -1670,7 +1676,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 20,
           requestBody: {
             action: 'disconnect',
-            deviceID: 'f46edea7-fe5b-4218-9ef2-309730a3d879',
+            destinationDeviceID: 'f46edea7-fe5b-4218-9ef2-309730a3d879',
           },
           responseBody: {
             deviceID: 'f46edea7-fe5b-4218-9ef2-309730a3d879',
@@ -1678,7 +1684,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/74ca5f4f-7878-42ac-a64c-ce5f54b570de/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/74ca5f4f-7878-42ac-a64c-ce5f54b570de/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:49Z',
@@ -1687,7 +1693,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 32,
           requestBody: {
             action: 'disconnect',
-            deviceID: '1a582672-8e3e-41c2-848d-cab2939f0e94',
+            destinationDeviceID: '1a582672-8e3e-41c2-848d-cab2939f0e94',
           },
           responseBody: {
             deviceID: '1a582672-8e3e-41c2-848d-cab2939f0e94',
@@ -1695,7 +1701,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/b1b962f3-8076-4e96-86ef-5a0114e86072/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b1b962f3-8076-4e96-86ef-5a0114e86072/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:49Z',
@@ -1704,7 +1710,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 40,
           requestBody: {
             action: 'disconnect',
-            deviceID: 'fbd3118e-3393-4dc8-a314-bbfc97111f5d',
+            destinationDeviceID: 'fbd3118e-3393-4dc8-a314-bbfc97111f5d',
           },
           responseBody: {
             deviceID: 'fbd3118e-3393-4dc8-a314-bbfc97111f5d',
@@ -1712,7 +1718,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/532f1c5d-9e8b-4d04-b185-2dfde659df3e/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/532f1c5d-9e8b-4d04-b185-2dfde659df3e/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:38Z',
@@ -1721,7 +1727,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 13,
           requestBody: {
             action: 'disconnect',
-            deviceID: '3c7d594f-1042-46ce-8c09-4c28bc02396e',
+            destinationDeviceID: '3c7d594f-1042-46ce-8c09-4c28bc02396e',
           },
           responseBody: {
             deviceID: '3c7d594f-1042-46ce-8c09-4c28bc02396e',
@@ -1729,7 +1735,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:35Z',
@@ -1738,7 +1744,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 7,
           requestBody: {
             action: 'disconnect',
-            deviceID: '52e73b88-fe01-45a1-9c4f-b4289e435100',
+            destinationDeviceID: '52e73b88-fe01-45a1-9c4f-b4289e435100',
           },
           responseBody: {
             deviceID: '52e73b88-fe01-45a1-9c4f-b4289e435100',
@@ -1746,7 +1752,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/1ad4a5e8-4de5-42f0-8ac7-6723cb028176/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/1ad4a5e8-4de5-42f0-8ac7-6723cb028176/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:34Z',
@@ -1755,7 +1761,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 3,
           requestBody: {
             action: 'disconnect',
-            deviceID: '2f3bed13-8887-4c77-900b-81d78636676d',
+            destinationDeviceID: '2f3bed13-8887-4c77-900b-81d78636676d',
           },
           responseBody: {
             deviceID: '2f3bed13-8887-4c77-900b-81d78636676d',
@@ -1763,7 +1769,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/6eeb4309-db51-4a54-b8e8-383ee7f30b07/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/6eeb4309-db51-4a54-b8e8-383ee7f30b07/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:47Z',
@@ -1772,7 +1778,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 27,
           requestBody: {
             action: 'disconnect',
-            deviceID: '0068714b-3511-4658-aa55-82df265bedbb',
+            destinationDeviceID: '0068714b-3511-4658-aa55-82df265bedbb',
           },
           responseBody: {
             deviceID: '0068714b-3511-4658-aa55-82df265bedbb',
@@ -1780,7 +1786,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/1ad4a5e8-4de5-42f0-8ac7-6723cb028176/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/1ad4a5e8-4de5-42f0-8ac7-6723cb028176/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:37Z',
@@ -1789,7 +1795,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 5,
           requestBody: {
             action: 'disconnect',
-            deviceID: 'f02eabb6-e6df-48f3-b224-c3e5f4544717',
+            destinationDeviceID: 'f02eabb6-e6df-48f3-b224-c3e5f4544717',
           },
           responseBody: {
             deviceID: 'f02eabb6-e6df-48f3-b224-c3e5f4544717',
@@ -1797,7 +1803,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           },
         },
         {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e/aggregations',
+          uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e/aggregations',
           method: 'PUT',
           status: 'COMPLETED',
           endedAt: '2025-02-06T05:43:39Z',
@@ -1806,7 +1812,7 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
           operationID: 8,
           requestBody: {
             action: 'disconnect',
-            deviceID: '8a277893-906b-4f0a-98bb-7b98d4b98d4f',
+            destinationDeviceID: '8a277893-906b-4f0a-98bb-7b98d4b98d4f',
           },
           responseBody: {
             deviceID: '8a277893-906b-4f0a-98bb-7b98d4b98d4f',
@@ -2136,793 +2142,795 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
         },
       ],
       executeRollback: true,
-      rollbackStatus: 'COMPLETED',
-      rollbackResult: [
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/f3cb8422-df9b-445c-95f3-cf3f7f0645f5/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:43:53Z',
-          startedAt: '2025-02-06T05:43:53Z',
-          statusCode: 200,
-          operationID: 50,
-          requestBody: {
-            action: 'connect',
-            deviceID: '984b7d7e-0ed4-472f-9003-69523dad4a52',
-          },
-          responseBody: {
-            deviceID: '984b7d7e-0ed4-472f-9003-69523dad4a52',
-            CPUDeviceID: 'f3cb8422-df9b-445c-95f3-cf3f7f0645f5',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/f3cb8422-df9b-445c-95f3-cf3f7f0645f5/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:43:54Z',
-          startedAt: '2025-02-06T05:43:53Z',
-          statusCode: 200,
-          operationID: 48,
-          requestBody: {
-            action: 'connect',
-            deviceID: '7d723948-3e26-4de8-856e-c7e6fe5c1bf6',
-          },
-          responseBody: {
-            deviceID: '7d723948-3e26-4de8-856e-c7e6fe5c1bf6',
-            CPUDeviceID: 'f3cb8422-df9b-445c-95f3-cf3f7f0645f5',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/b7ff2dc2-a649-4868-8c75-3018b5909d19/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:43:54Z',
-          startedAt: '2025-02-06T05:43:54Z',
-          statusCode: 200,
-          operationID: 45,
-          requestBody: {
-            action: 'connect',
-            deviceID: 'cb814087-68ce-4ff1-aadc-2d83cc256d82',
-          },
-          responseBody: {
-            deviceID: 'cb814087-68ce-4ff1-aadc-2d83cc256d82',
-            CPUDeviceID: 'b7ff2dc2-a649-4868-8c75-3018b5909d19',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/b7ff2dc2-a649-4868-8c75-3018b5909d19/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:43:54Z',
-          startedAt: '2025-02-06T05:43:54Z',
-          statusCode: 200,
-          operationID: 44,
-          requestBody: {
-            action: 'connect',
-            deviceID: '6dac0119-94f0-4ef0-81bb-748eb3c29a96',
-          },
-          responseBody: {
-            deviceID: '6dac0119-94f0-4ef0-81bb-748eb3c29a96',
-            CPUDeviceID: 'b7ff2dc2-a649-4868-8c75-3018b5909d19',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/b7ff2dc2-a649-4868-8c75-3018b5909d19/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:43:55Z',
-          startedAt: '2025-02-06T05:43:54Z',
-          statusCode: 200,
-          operationID: 43,
-          requestBody: {
-            action: 'connect',
-            deviceID: '28589bd0-bd01-4a2b-af86-063146f2c50e',
-          },
-          responseBody: {
-            deviceID: '28589bd0-bd01-4a2b-af86-063146f2c50e',
-            CPUDeviceID: 'b7ff2dc2-a649-4868-8c75-3018b5909d19',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/b1b962f3-8076-4e96-86ef-5a0114e86072/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:43:55Z',
-          startedAt: '2025-02-06T05:43:55Z',
-          statusCode: 200,
-          operationID: 40,
-          requestBody: {
-            action: 'connect',
-            deviceID: 'fbd3118e-3393-4dc8-a314-bbfc97111f5d',
-          },
-          responseBody: {
-            deviceID: 'fbd3118e-3393-4dc8-a314-bbfc97111f5d',
-            CPUDeviceID: 'b1b962f3-8076-4e96-86ef-5a0114e86072',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/b1b962f3-8076-4e96-86ef-5a0114e86072/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:43:56Z',
-          startedAt: '2025-02-06T05:43:55Z',
-          statusCode: 200,
-          operationID: 39,
-          requestBody: {
-            action: 'connect',
-            deviceID: 'd43d79f7-585c-406c-8540-e112024da93b',
-          },
-          responseBody: {
-            deviceID: 'd43d79f7-585c-406c-8540-e112024da93b',
-            CPUDeviceID: 'b1b962f3-8076-4e96-86ef-5a0114e86072',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/b1b962f3-8076-4e96-86ef-5a0114e86072/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:43:56Z',
-          startedAt: '2025-02-06T05:43:56Z',
-          statusCode: 200,
-          operationID: 38,
-          requestBody: {
-            action: 'connect',
-            deviceID: 'c58e0268-1e47-4ba6-8831-5157ddac3fdd',
-          },
-          responseBody: {
-            deviceID: 'c58e0268-1e47-4ba6-8831-5157ddac3fdd',
-            CPUDeviceID: 'b1b962f3-8076-4e96-86ef-5a0114e86072',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/b1b962f3-8076-4e96-86ef-5a0114e86072/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:43:56Z',
-          startedAt: '2025-02-06T05:43:56Z',
-          statusCode: 200,
-          operationID: 37,
-          requestBody: {
-            action: 'connect',
-            deviceID: '9f0965d5-96df-480b-8b6e-c9fb39bd3e2a',
-          },
-          responseBody: {
-            deviceID: '9f0965d5-96df-480b-8b6e-c9fb39bd3e2a',
-            CPUDeviceID: 'b1b962f3-8076-4e96-86ef-5a0114e86072',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/74ca5f4f-7878-42ac-a64c-ce5f54b570de/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:43:57Z',
-          startedAt: '2025-02-06T05:43:56Z',
-          statusCode: 200,
-          operationID: 35,
-          requestBody: {
-            action: 'connect',
-            deviceID: 'f82a9e3d-a892-437f-8945-5ef99f2a83e7',
-          },
-          responseBody: {
-            deviceID: 'f82a9e3d-a892-437f-8945-5ef99f2a83e7',
-            CPUDeviceID: '74ca5f4f-7878-42ac-a64c-ce5f54b570de',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/74ca5f4f-7878-42ac-a64c-ce5f54b570de/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:43:57Z',
-          startedAt: '2025-02-06T05:43:57Z',
-          statusCode: 200,
-          operationID: 34,
-          requestBody: {
-            action: 'connect',
-            deviceID: 'ce505605-4bc4-4855-a620-cb55d53f0980',
-          },
-          responseBody: {
-            deviceID: 'ce505605-4bc4-4855-a620-cb55d53f0980',
-            CPUDeviceID: '74ca5f4f-7878-42ac-a64c-ce5f54b570de',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/74ca5f4f-7878-42ac-a64c-ce5f54b570de/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:43:57Z',
-          startedAt: '2025-02-06T05:43:57Z',
-          statusCode: 200,
-          operationID: 33,
-          requestBody: {
-            action: 'connect',
-            deviceID: 'a43f17d9-b038-45b6-8d2b-2cb35fc7c1fd',
-          },
-          responseBody: {
-            deviceID: 'a43f17d9-b038-45b6-8d2b-2cb35fc7c1fd',
-            CPUDeviceID: '74ca5f4f-7878-42ac-a64c-ce5f54b570de',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/74ca5f4f-7878-42ac-a64c-ce5f54b570de/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:43:58Z',
-          startedAt: '2025-02-06T05:43:57Z',
-          statusCode: 200,
-          operationID: 32,
-          requestBody: {
-            action: 'connect',
-            deviceID: '1a582672-8e3e-41c2-848d-cab2939f0e94',
-          },
-          responseBody: {
-            deviceID: '1a582672-8e3e-41c2-848d-cab2939f0e94',
-            CPUDeviceID: '74ca5f4f-7878-42ac-a64c-ce5f54b570de',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/6eeb4309-db51-4a54-b8e8-383ee7f30b07/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:43:58Z',
-          startedAt: '2025-02-06T05:43:58Z',
-          statusCode: 200,
-          operationID: 30,
-          requestBody: {
-            action: 'connect',
-            deviceID: '66d06b47-8dc1-4651-a307-430af0b788f6',
-          },
-          responseBody: {
-            deviceID: '66d06b47-8dc1-4651-a307-430af0b788f6',
-            CPUDeviceID: '6eeb4309-db51-4a54-b8e8-383ee7f30b07',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/6eeb4309-db51-4a54-b8e8-383ee7f30b07/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:43:59Z',
-          startedAt: '2025-02-06T05:43:58Z',
-          statusCode: 200,
-          operationID: 29,
-          requestBody: {
-            action: 'connect',
-            deviceID: '2d295fb0-e0c5-471c-92f9-8fd1041aed83',
-          },
-          responseBody: {
-            deviceID: '2d295fb0-e0c5-471c-92f9-8fd1041aed83',
-            CPUDeviceID: '6eeb4309-db51-4a54-b8e8-383ee7f30b07',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/6eeb4309-db51-4a54-b8e8-383ee7f30b07/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:43:59Z',
-          startedAt: '2025-02-06T05:43:59Z',
-          statusCode: 200,
-          operationID: 28,
-          requestBody: {
-            action: 'connect',
-            deviceID: '0a6ec0fd-f722-4e02-90d4-1ec1cbebd20e',
-          },
-          responseBody: {
-            deviceID: '0a6ec0fd-f722-4e02-90d4-1ec1cbebd20e',
-            CPUDeviceID: '6eeb4309-db51-4a54-b8e8-383ee7f30b07',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/6eeb4309-db51-4a54-b8e8-383ee7f30b07/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:43:59Z',
-          startedAt: '2025-02-06T05:43:59Z',
-          statusCode: 200,
-          operationID: 27,
-          requestBody: {
-            action: 'connect',
-            deviceID: '0068714b-3511-4658-aa55-82df265bedbb',
-          },
-          responseBody: {
-            deviceID: '0068714b-3511-4658-aa55-82df265bedbb',
-            CPUDeviceID: '6eeb4309-db51-4a54-b8e8-383ee7f30b07',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/62acd2d8-178f-47e0-8a36-c4b13a1c3156/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:00Z',
-          startedAt: '2025-02-06T05:43:59Z',
-          statusCode: 200,
-          operationID: 25,
-          requestBody: {
-            action: 'connect',
-            deviceID: 'ff775f94-d339-4a37-9001-8b6fe58c27db',
-          },
-          responseBody: {
-            deviceID: 'ff775f94-d339-4a37-9001-8b6fe58c27db',
-            CPUDeviceID: '62acd2d8-178f-47e0-8a36-c4b13a1c3156',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/62acd2d8-178f-47e0-8a36-c4b13a1c3156/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:00Z',
-          startedAt: '2025-02-06T05:44:00Z',
-          statusCode: 200,
-          operationID: 24,
-          requestBody: {
-            action: 'connect',
-            deviceID: 'a3f7c6e1-7400-4225-95b7-4ac46918d9e9',
-          },
-          responseBody: {
-            deviceID: 'a3f7c6e1-7400-4225-95b7-4ac46918d9e9',
-            CPUDeviceID: '62acd2d8-178f-47e0-8a36-c4b13a1c3156',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/62acd2d8-178f-47e0-8a36-c4b13a1c3156/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:01Z',
-          startedAt: '2025-02-06T05:44:00Z',
-          statusCode: 200,
-          operationID: 23,
-          requestBody: {
-            action: 'connect',
-            deviceID: '80040a5a-6178-4936-8007-17315dfff8a3',
-          },
-          responseBody: {
-            deviceID: '80040a5a-6178-4936-8007-17315dfff8a3',
-            CPUDeviceID: '62acd2d8-178f-47e0-8a36-c4b13a1c3156',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/62acd2d8-178f-47e0-8a36-c4b13a1c3156/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:01Z',
-          startedAt: '2025-02-06T05:44:01Z',
-          statusCode: 200,
-          operationID: 22,
-          requestBody: {
-            action: 'connect',
-            deviceID: '46d8de34-974e-4672-bcfa-5557bc9e84ac',
-          },
-          responseBody: {
-            deviceID: '46d8de34-974e-4672-bcfa-5557bc9e84ac',
-            CPUDeviceID: '62acd2d8-178f-47e0-8a36-c4b13a1c3156',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/57e6b0cc-bb3d-428c-8424-2b30b2e311a1/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:02Z',
-          startedAt: '2025-02-06T05:44:01Z',
-          statusCode: 200,
-          operationID: 20,
-          requestBody: {
-            action: 'connect',
-            deviceID: 'f46edea7-fe5b-4218-9ef2-309730a3d879',
-          },
-          responseBody: {
-            deviceID: 'f46edea7-fe5b-4218-9ef2-309730a3d879',
-            CPUDeviceID: '57e6b0cc-bb3d-428c-8424-2b30b2e311a1',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/57e6b0cc-bb3d-428c-8424-2b30b2e311a1/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:02Z',
-          startedAt: '2025-02-06T05:44:02Z',
-          statusCode: 200,
-          operationID: 19,
-          requestBody: {
-            action: 'connect',
-            deviceID: '8f90c398-00d1-4e5f-b4b2-c5123f9e1e99',
-          },
-          responseBody: {
-            deviceID: '8f90c398-00d1-4e5f-b4b2-c5123f9e1e99',
-            CPUDeviceID: '57e6b0cc-bb3d-428c-8424-2b30b2e311a1',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/57e6b0cc-bb3d-428c-8424-2b30b2e311a1/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:02Z',
-          startedAt: '2025-02-06T05:44:02Z',
-          statusCode: 200,
-          operationID: 18,
-          requestBody: {
-            action: 'connect',
-            deviceID: '630bee63-6d18-4917-a1f7-5f7f15c26f6b',
-          },
-          responseBody: {
-            deviceID: '630bee63-6d18-4917-a1f7-5f7f15c26f6b',
-            CPUDeviceID: '57e6b0cc-bb3d-428c-8424-2b30b2e311a1',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/57e6b0cc-bb3d-428c-8424-2b30b2e311a1/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:03Z',
-          startedAt: '2025-02-06T05:44:02Z',
-          statusCode: 200,
-          operationID: 17,
-          requestBody: {
-            action: 'connect',
-            deviceID: '542bdd13-4835-421b-b720-514fd7356c40',
-          },
-          responseBody: {
-            deviceID: '542bdd13-4835-421b-b720-514fd7356c40',
-            CPUDeviceID: '57e6b0cc-bb3d-428c-8424-2b30b2e311a1',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/532f1c5d-9e8b-4d04-b185-2dfde659df3e/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:03Z',
-          startedAt: '2025-02-06T05:44:03Z',
-          statusCode: 200,
-          operationID: 15,
-          requestBody: {
-            action: 'connect',
-            deviceID: 'b413bb91-0604-4bb5-befd-caf550f0739e',
-          },
-          responseBody: {
-            deviceID: 'b413bb91-0604-4bb5-befd-caf550f0739e',
-            CPUDeviceID: '532f1c5d-9e8b-4d04-b185-2dfde659df3e',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/532f1c5d-9e8b-4d04-b185-2dfde659df3e/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:03Z',
-          startedAt: '2025-02-06T05:44:03Z',
-          statusCode: 200,
-          operationID: 14,
-          requestBody: {
-            action: 'connect',
-            deviceID: '5dd36684-a2b5-4b1c-977d-985ebcbfdc82',
-          },
-          responseBody: {
-            deviceID: '5dd36684-a2b5-4b1c-977d-985ebcbfdc82',
-            CPUDeviceID: '532f1c5d-9e8b-4d04-b185-2dfde659df3e',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/532f1c5d-9e8b-4d04-b185-2dfde659df3e/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:04Z',
-          startedAt: '2025-02-06T05:44:03Z',
-          statusCode: 200,
-          operationID: 13,
-          requestBody: {
-            action: 'connect',
-            deviceID: '3c7d594f-1042-46ce-8c09-4c28bc02396e',
-          },
-          responseBody: {
-            deviceID: '3c7d594f-1042-46ce-8c09-4c28bc02396e',
-            CPUDeviceID: '532f1c5d-9e8b-4d04-b185-2dfde659df3e',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/532f1c5d-9e8b-4d04-b185-2dfde659df3e/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:04Z',
-          startedAt: '2025-02-06T05:44:04Z',
-          statusCode: 200,
-          operationID: 12,
-          requestBody: {
-            action: 'connect',
-            deviceID: '16702bbb-4be0-42cd-9ef3-719dbbea8946',
-          },
-          responseBody: {
-            deviceID: '16702bbb-4be0-42cd-9ef3-719dbbea8946',
-            CPUDeviceID: '532f1c5d-9e8b-4d04-b185-2dfde659df3e',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:05Z',
-          startedAt: '2025-02-06T05:44:04Z',
-          statusCode: 200,
-          operationID: 10,
-          requestBody: {
-            action: 'connect',
-            deviceID: 'e4563656-54fe-45de-a26b-3b821b6a756a',
-          },
-          responseBody: {
-            deviceID: 'e4563656-54fe-45de-a26b-3b821b6a756a',
-            CPUDeviceID: '22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:05Z',
-          startedAt: '2025-02-06T05:44:05Z',
-          statusCode: 200,
-          operationID: 9,
-          requestBody: {
-            action: 'connect',
-            deviceID: '8e577f1e-b508-497d-9501-5fc0bf7a954d',
-          },
-          responseBody: {
-            deviceID: '8e577f1e-b508-497d-9501-5fc0bf7a954d',
-            CPUDeviceID: '22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:05Z',
-          startedAt: '2025-02-06T05:44:05Z',
-          statusCode: 200,
-          operationID: 8,
-          requestBody: {
-            action: 'connect',
-            deviceID: '8a277893-906b-4f0a-98bb-7b98d4b98d4f',
-          },
-          responseBody: {
-            deviceID: '8a277893-906b-4f0a-98bb-7b98d4b98d4f',
-            CPUDeviceID: '22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:06Z',
-          startedAt: '2025-02-06T05:44:05Z',
-          statusCode: 200,
-          operationID: 7,
-          requestBody: {
-            action: 'connect',
-            deviceID: '52e73b88-fe01-45a1-9c4f-b4289e435100',
-          },
-          responseBody: {
-            deviceID: '52e73b88-fe01-45a1-9c4f-b4289e435100',
-            CPUDeviceID: '22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/1ad4a5e8-4de5-42f0-8ac7-6723cb028176/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:06Z',
-          startedAt: '2025-02-06T05:44:06Z',
-          statusCode: 200,
-          operationID: 5,
-          requestBody: {
-            action: 'connect',
-            deviceID: 'f02eabb6-e6df-48f3-b224-c3e5f4544717',
-          },
-          responseBody: {
-            deviceID: 'f02eabb6-e6df-48f3-b224-c3e5f4544717',
-            CPUDeviceID: '1ad4a5e8-4de5-42f0-8ac7-6723cb028176',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/1ad4a5e8-4de5-42f0-8ac7-6723cb028176/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:07Z',
-          startedAt: '2025-02-06T05:44:06Z',
-          statusCode: 200,
-          operationID: 4,
-          requestBody: {
-            action: 'connect',
-            deviceID: '9ae96497-6d92-4ce1-9310-2e6166de8678',
-          },
-          responseBody: {
-            deviceID: '9ae96497-6d92-4ce1-9310-2e6166de8678',
-            CPUDeviceID: '1ad4a5e8-4de5-42f0-8ac7-6723cb028176',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/1ad4a5e8-4de5-42f0-8ac7-6723cb028176/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:07Z',
-          startedAt: '2025-02-06T05:44:07Z',
-          statusCode: 200,
-          operationID: 3,
-          requestBody: {
-            action: 'connect',
-            deviceID: '2f3bed13-8887-4c77-900b-81d78636676d',
-          },
-          responseBody: {
-            deviceID: '2f3bed13-8887-4c77-900b-81d78636676d',
-            CPUDeviceID: '1ad4a5e8-4de5-42f0-8ac7-6723cb028176',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/cpu/1ad4a5e8-4de5-42f0-8ac7-6723cb028176/aggregations',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:07Z',
-          startedAt: '2025-02-06T05:44:07Z',
-          statusCode: 200,
-          operationID: 2,
-          requestBody: {
-            action: 'connect',
-            deviceID: '1483aa23-03f9-4912-bee2-3eaf9b06a619',
-          },
-          responseBody: {
-            deviceID: '1483aa23-03f9-4912-bee2-3eaf9b06a619',
-            CPUDeviceID: '1ad4a5e8-4de5-42f0-8ac7-6723cb028176',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/devices/f3cb8422-df9b-445c-95f3-cf3f7f0645f5/power',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:07Z',
-          startedAt: '2025-02-06T05:44:07Z',
-          statusCode: 200,
-          operationID: 46,
-          requestBody: {
-            action: 'on',
-          },
-          responseBody: {
-            deviceID: 'f3cb8422-df9b-445c-95f3-cf3f7f0645f5',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/devices/b7ff2dc2-a649-4868-8c75-3018b5909d19/power',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:07Z',
-          startedAt: '2025-02-06T05:44:07Z',
-          statusCode: 200,
-          operationID: 41,
-          requestBody: {
-            action: 'on',
-          },
-          responseBody: {
-            deviceID: 'b7ff2dc2-a649-4868-8c75-3018b5909d19',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/devices/b1b962f3-8076-4e96-86ef-5a0114e86072/power',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:08Z',
-          startedAt: '2025-02-06T05:44:07Z',
-          statusCode: 200,
-          operationID: 36,
-          requestBody: {
-            action: 'on',
-          },
-          responseBody: {
-            deviceID: 'b1b962f3-8076-4e96-86ef-5a0114e86072',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/devices/74ca5f4f-7878-42ac-a64c-ce5f54b570de/power',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:08Z',
-          startedAt: '2025-02-06T05:44:08Z',
-          statusCode: 200,
-          operationID: 31,
-          requestBody: {
-            action: 'on',
-          },
-          responseBody: {
-            deviceID: '74ca5f4f-7878-42ac-a64c-ce5f54b570de',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/devices/6eeb4309-db51-4a54-b8e8-383ee7f30b07/power',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:08Z',
-          startedAt: '2025-02-06T05:44:08Z',
-          statusCode: 200,
-          operationID: 26,
-          requestBody: {
-            action: 'on',
-          },
-          responseBody: {
-            deviceID: '6eeb4309-db51-4a54-b8e8-383ee7f30b07',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/devices/62acd2d8-178f-47e0-8a36-c4b13a1c3156/power',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:08Z',
-          startedAt: '2025-02-06T05:44:08Z',
-          statusCode: 200,
-          operationID: 21,
-          requestBody: {
-            action: 'on',
-          },
-          responseBody: {
-            deviceID: '62acd2d8-178f-47e0-8a36-c4b13a1c3156',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/devices/57e6b0cc-bb3d-428c-8424-2b30b2e311a1/power',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:08Z',
-          startedAt: '2025-02-06T05:44:08Z',
-          statusCode: 200,
-          operationID: 16,
-          requestBody: {
-            action: 'on',
-          },
-          responseBody: {
-            deviceID: '57e6b0cc-bb3d-428c-8424-2b30b2e311a1',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/devices/532f1c5d-9e8b-4d04-b185-2dfde659df3e/power',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:08Z',
-          startedAt: '2025-02-06T05:44:08Z',
-          statusCode: 200,
-          operationID: 11,
-          requestBody: {
-            action: 'on',
-          },
-          responseBody: {
-            deviceID: '532f1c5d-9e8b-4d04-b185-2dfde659df3e',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/devices/22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e/power',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:08Z',
-          startedAt: '2025-02-06T05:44:08Z',
-          statusCode: 200,
-          operationID: 6,
-          requestBody: {
-            action: 'on',
-          },
-          responseBody: {
-            deviceID: '22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e',
-          },
-        },
-        {
-          uri: 'http://172.16.1.28:8000/dagsw/api/v1/devices/1ad4a5e8-4de5-42f0-8ac7-6723cb028176/power',
-          method: 'PUT',
-          status: 'COMPLETED',
-          endedAt: '2025-02-06T05:44:08Z',
-          startedAt: '2025-02-06T05:44:08Z',
-          statusCode: 200,
-          operationID: 1,
-          requestBody: {
-            action: 'on',
-          },
-          responseBody: {
-            deviceID: '1ad4a5e8-4de5-42f0-8ac7-6723cb028176',
-          },
-        },
-      ],
+      rollback: {
+        status: 'COMPLETED',
+        startedAt: '2025-02-06T05:43:53Z',
+        endedAt: '2025-02-06T05:44:08Z',
+        result: [
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/f3cb8422-df9b-445c-95f3-cf3f7f0645f5/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:43:53Z',
+            startedAt: '2025-02-06T05:43:53Z',
+            statusCode: 200,
+            operationID: 50,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '984b7d7e-0ed4-472f-9003-69523dad4a52',
+            },
+            responseBody: {
+              deviceID: '984b7d7e-0ed4-472f-9003-69523dad4a52',
+              CPUDeviceID: 'f3cb8422-df9b-445c-95f3-cf3f7f0645f5',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/f3cb8422-df9b-445c-95f3-cf3f7f0645f5/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:43:54Z',
+            startedAt: '2025-02-06T05:43:53Z',
+            statusCode: 200,
+            operationID: 48,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '7d723948-3e26-4de8-856e-c7e6fe5c1bf6',
+            },
+            responseBody: {
+              deviceID: '7d723948-3e26-4de8-856e-c7e6fe5c1bf6',
+              CPUDeviceID: 'f3cb8422-df9b-445c-95f3-cf3f7f0645f5',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b7ff2dc2-a649-4868-8c75-3018b5909d19/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:43:54Z',
+            startedAt: '2025-02-06T05:43:54Z',
+            statusCode: 200,
+            operationID: 45,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: 'cb814087-68ce-4ff1-aadc-2d83cc256d82',
+            },
+            responseBody: {
+              deviceID: 'cb814087-68ce-4ff1-aadc-2d83cc256d82',
+              CPUDeviceID: 'b7ff2dc2-a649-4868-8c75-3018b5909d19',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b7ff2dc2-a649-4868-8c75-3018b5909d19/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:43:54Z',
+            startedAt: '2025-02-06T05:43:54Z',
+            statusCode: 200,
+            operationID: 44,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '6dac0119-94f0-4ef0-81bb-748eb3c29a96',
+            },
+            responseBody: {
+              deviceID: '6dac0119-94f0-4ef0-81bb-748eb3c29a96',
+              CPUDeviceID: 'b7ff2dc2-a649-4868-8c75-3018b5909d19',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b7ff2dc2-a649-4868-8c75-3018b5909d19/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:43:55Z',
+            startedAt: '2025-02-06T05:43:54Z',
+            statusCode: 200,
+            operationID: 43,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '28589bd0-bd01-4a2b-af86-063146f2c50e',
+            },
+            responseBody: {
+              deviceID: '28589bd0-bd01-4a2b-af86-063146f2c50e',
+              CPUDeviceID: 'b7ff2dc2-a649-4868-8c75-3018b5909d19',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b1b962f3-8076-4e96-86ef-5a0114e86072/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:43:55Z',
+            startedAt: '2025-02-06T05:43:55Z',
+            statusCode: 200,
+            operationID: 40,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: 'fbd3118e-3393-4dc8-a314-bbfc97111f5d',
+            },
+            responseBody: {
+              deviceID: 'fbd3118e-3393-4dc8-a314-bbfc97111f5d',
+              CPUDeviceID: 'b1b962f3-8076-4e96-86ef-5a0114e86072',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b1b962f3-8076-4e96-86ef-5a0114e86072/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:43:56Z',
+            startedAt: '2025-02-06T05:43:55Z',
+            statusCode: 200,
+            operationID: 39,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: 'd43d79f7-585c-406c-8540-e112024da93b',
+            },
+            responseBody: {
+              deviceID: 'd43d79f7-585c-406c-8540-e112024da93b',
+              CPUDeviceID: 'b1b962f3-8076-4e96-86ef-5a0114e86072',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b1b962f3-8076-4e96-86ef-5a0114e86072/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:43:56Z',
+            startedAt: '2025-02-06T05:43:56Z',
+            statusCode: 200,
+            operationID: 38,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: 'c58e0268-1e47-4ba6-8831-5157ddac3fdd',
+            },
+            responseBody: {
+              deviceID: 'c58e0268-1e47-4ba6-8831-5157ddac3fdd',
+              CPUDeviceID: 'b1b962f3-8076-4e96-86ef-5a0114e86072',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b1b962f3-8076-4e96-86ef-5a0114e86072/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:43:56Z',
+            startedAt: '2025-02-06T05:43:56Z',
+            statusCode: 200,
+            operationID: 37,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '9f0965d5-96df-480b-8b6e-c9fb39bd3e2a',
+            },
+            responseBody: {
+              deviceID: '9f0965d5-96df-480b-8b6e-c9fb39bd3e2a',
+              CPUDeviceID: 'b1b962f3-8076-4e96-86ef-5a0114e86072',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/74ca5f4f-7878-42ac-a64c-ce5f54b570de/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:43:57Z',
+            startedAt: '2025-02-06T05:43:56Z',
+            statusCode: 200,
+            operationID: 35,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: 'f82a9e3d-a892-437f-8945-5ef99f2a83e7',
+            },
+            responseBody: {
+              deviceID: 'f82a9e3d-a892-437f-8945-5ef99f2a83e7',
+              CPUDeviceID: '74ca5f4f-7878-42ac-a64c-ce5f54b570de',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/74ca5f4f-7878-42ac-a64c-ce5f54b570de/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:43:57Z',
+            startedAt: '2025-02-06T05:43:57Z',
+            statusCode: 200,
+            operationID: 34,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: 'ce505605-4bc4-4855-a620-cb55d53f0980',
+            },
+            responseBody: {
+              deviceID: 'ce505605-4bc4-4855-a620-cb55d53f0980',
+              CPUDeviceID: '74ca5f4f-7878-42ac-a64c-ce5f54b570de',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/74ca5f4f-7878-42ac-a64c-ce5f54b570de/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:43:57Z',
+            startedAt: '2025-02-06T05:43:57Z',
+            statusCode: 200,
+            operationID: 33,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: 'a43f17d9-b038-45b6-8d2b-2cb35fc7c1fd',
+            },
+            responseBody: {
+              deviceID: 'a43f17d9-b038-45b6-8d2b-2cb35fc7c1fd',
+              CPUDeviceID: '74ca5f4f-7878-42ac-a64c-ce5f54b570de',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/74ca5f4f-7878-42ac-a64c-ce5f54b570de/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:43:58Z',
+            startedAt: '2025-02-06T05:43:57Z',
+            statusCode: 200,
+            operationID: 32,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '1a582672-8e3e-41c2-848d-cab2939f0e94',
+            },
+            responseBody: {
+              deviceID: '1a582672-8e3e-41c2-848d-cab2939f0e94',
+              CPUDeviceID: '74ca5f4f-7878-42ac-a64c-ce5f54b570de',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/6eeb4309-db51-4a54-b8e8-383ee7f30b07/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:43:58Z',
+            startedAt: '2025-02-06T05:43:58Z',
+            statusCode: 200,
+            operationID: 30,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '66d06b47-8dc1-4651-a307-430af0b788f6',
+            },
+            responseBody: {
+              deviceID: '66d06b47-8dc1-4651-a307-430af0b788f6',
+              CPUDeviceID: '6eeb4309-db51-4a54-b8e8-383ee7f30b07',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/6eeb4309-db51-4a54-b8e8-383ee7f30b07/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:43:59Z',
+            startedAt: '2025-02-06T05:43:58Z',
+            statusCode: 200,
+            operationID: 29,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '2d295fb0-e0c5-471c-92f9-8fd1041aed83',
+            },
+            responseBody: {
+              deviceID: '2d295fb0-e0c5-471c-92f9-8fd1041aed83',
+              CPUDeviceID: '6eeb4309-db51-4a54-b8e8-383ee7f30b07',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/6eeb4309-db51-4a54-b8e8-383ee7f30b07/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:43:59Z',
+            startedAt: '2025-02-06T05:43:59Z',
+            statusCode: 200,
+            operationID: 28,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '0a6ec0fd-f722-4e02-90d4-1ec1cbebd20e',
+            },
+            responseBody: {
+              deviceID: '0a6ec0fd-f722-4e02-90d4-1ec1cbebd20e',
+              CPUDeviceID: '6eeb4309-db51-4a54-b8e8-383ee7f30b07',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/6eeb4309-db51-4a54-b8e8-383ee7f30b07/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:43:59Z',
+            startedAt: '2025-02-06T05:43:59Z',
+            statusCode: 200,
+            operationID: 27,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '0068714b-3511-4658-aa55-82df265bedbb',
+            },
+            responseBody: {
+              deviceID: '0068714b-3511-4658-aa55-82df265bedbb',
+              CPUDeviceID: '6eeb4309-db51-4a54-b8e8-383ee7f30b07',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/62acd2d8-178f-47e0-8a36-c4b13a1c3156/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:00Z',
+            startedAt: '2025-02-06T05:43:59Z',
+            statusCode: 200,
+            operationID: 25,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: 'ff775f94-d339-4a37-9001-8b6fe58c27db',
+            },
+            responseBody: {
+              deviceID: 'ff775f94-d339-4a37-9001-8b6fe58c27db',
+              CPUDeviceID: '62acd2d8-178f-47e0-8a36-c4b13a1c3156',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/62acd2d8-178f-47e0-8a36-c4b13a1c3156/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:00Z',
+            startedAt: '2025-02-06T05:44:00Z',
+            statusCode: 200,
+            operationID: 24,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: 'a3f7c6e1-7400-4225-95b7-4ac46918d9e9',
+            },
+            responseBody: {
+              deviceID: 'a3f7c6e1-7400-4225-95b7-4ac46918d9e9',
+              CPUDeviceID: '62acd2d8-178f-47e0-8a36-c4b13a1c3156',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/62acd2d8-178f-47e0-8a36-c4b13a1c3156/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:01Z',
+            startedAt: '2025-02-06T05:44:00Z',
+            statusCode: 200,
+            operationID: 23,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '80040a5a-6178-4936-8007-17315dfff8a3',
+            },
+            responseBody: {
+              deviceID: '80040a5a-6178-4936-8007-17315dfff8a3',
+              CPUDeviceID: '62acd2d8-178f-47e0-8a36-c4b13a1c3156',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/62acd2d8-178f-47e0-8a36-c4b13a1c3156/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:01Z',
+            startedAt: '2025-02-06T05:44:01Z',
+            statusCode: 200,
+            operationID: 22,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '46d8de34-974e-4672-bcfa-5557bc9e84ac',
+            },
+            responseBody: {
+              deviceID: '46d8de34-974e-4672-bcfa-5557bc9e84ac',
+              CPUDeviceID: '62acd2d8-178f-47e0-8a36-c4b13a1c3156',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/57e6b0cc-bb3d-428c-8424-2b30b2e311a1/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:02Z',
+            startedAt: '2025-02-06T05:44:01Z',
+            statusCode: 200,
+            operationID: 20,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: 'f46edea7-fe5b-4218-9ef2-309730a3d879',
+            },
+            responseBody: {
+              deviceID: 'f46edea7-fe5b-4218-9ef2-309730a3d879',
+              CPUDeviceID: '57e6b0cc-bb3d-428c-8424-2b30b2e311a1',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/57e6b0cc-bb3d-428c-8424-2b30b2e311a1/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:02Z',
+            startedAt: '2025-02-06T05:44:02Z',
+            statusCode: 200,
+            operationID: 19,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '8f90c398-00d1-4e5f-b4b2-c5123f9e1e99',
+            },
+            responseBody: {
+              deviceID: '8f90c398-00d1-4e5f-b4b2-c5123f9e1e99',
+              CPUDeviceID: '57e6b0cc-bb3d-428c-8424-2b30b2e311a1',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/57e6b0cc-bb3d-428c-8424-2b30b2e311a1/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:02Z',
+            startedAt: '2025-02-06T05:44:02Z',
+            statusCode: 200,
+            operationID: 18,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '630bee63-6d18-4917-a1f7-5f7f15c26f6b',
+            },
+            responseBody: {
+              deviceID: '630bee63-6d18-4917-a1f7-5f7f15c26f6b',
+              CPUDeviceID: '57e6b0cc-bb3d-428c-8424-2b30b2e311a1',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/57e6b0cc-bb3d-428c-8424-2b30b2e311a1/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:03Z',
+            startedAt: '2025-02-06T05:44:02Z',
+            statusCode: 200,
+            operationID: 17,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '542bdd13-4835-421b-b720-514fd7356c40',
+            },
+            responseBody: {
+              deviceID: '542bdd13-4835-421b-b720-514fd7356c40',
+              CPUDeviceID: '57e6b0cc-bb3d-428c-8424-2b30b2e311a1',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/532f1c5d-9e8b-4d04-b185-2dfde659df3e/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:03Z',
+            startedAt: '2025-02-06T05:44:03Z',
+            statusCode: 200,
+            operationID: 15,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: 'b413bb91-0604-4bb5-befd-caf550f0739e',
+            },
+            responseBody: {
+              deviceID: 'b413bb91-0604-4bb5-befd-caf550f0739e',
+              CPUDeviceID: '532f1c5d-9e8b-4d04-b185-2dfde659df3e',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/532f1c5d-9e8b-4d04-b185-2dfde659df3e/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:03Z',
+            startedAt: '2025-02-06T05:44:03Z',
+            statusCode: 200,
+            operationID: 14,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '5dd36684-a2b5-4b1c-977d-985ebcbfdc82',
+            },
+            responseBody: {
+              deviceID: '5dd36684-a2b5-4b1c-977d-985ebcbfdc82',
+              CPUDeviceID: '532f1c5d-9e8b-4d04-b185-2dfde659df3e',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/532f1c5d-9e8b-4d04-b185-2dfde659df3e/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:04Z',
+            startedAt: '2025-02-06T05:44:03Z',
+            statusCode: 200,
+            operationID: 13,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '3c7d594f-1042-46ce-8c09-4c28bc02396e',
+            },
+            responseBody: {
+              deviceID: '3c7d594f-1042-46ce-8c09-4c28bc02396e',
+              CPUDeviceID: '532f1c5d-9e8b-4d04-b185-2dfde659df3e',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/532f1c5d-9e8b-4d04-b185-2dfde659df3e/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:04Z',
+            startedAt: '2025-02-06T05:44:04Z',
+            statusCode: 200,
+            operationID: 12,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '16702bbb-4be0-42cd-9ef3-719dbbea8946',
+            },
+            responseBody: {
+              deviceID: '16702bbb-4be0-42cd-9ef3-719dbbea8946',
+              CPUDeviceID: '532f1c5d-9e8b-4d04-b185-2dfde659df3e',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:05Z',
+            startedAt: '2025-02-06T05:44:04Z',
+            statusCode: 200,
+            operationID: 10,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: 'e4563656-54fe-45de-a26b-3b821b6a756a',
+            },
+            responseBody: {
+              deviceID: 'e4563656-54fe-45de-a26b-3b821b6a756a',
+              CPUDeviceID: '22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:05Z',
+            startedAt: '2025-02-06T05:44:05Z',
+            statusCode: 200,
+            operationID: 9,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '8e577f1e-b508-497d-9501-5fc0bf7a954d',
+            },
+            responseBody: {
+              deviceID: '8e577f1e-b508-497d-9501-5fc0bf7a954d',
+              CPUDeviceID: '22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:05Z',
+            startedAt: '2025-02-06T05:44:05Z',
+            statusCode: 200,
+            operationID: 8,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '8a277893-906b-4f0a-98bb-7b98d4b98d4f',
+            },
+            responseBody: {
+              deviceID: '8a277893-906b-4f0a-98bb-7b98d4b98d4f',
+              CPUDeviceID: '22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:06Z',
+            startedAt: '2025-02-06T05:44:05Z',
+            statusCode: 200,
+            operationID: 7,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '52e73b88-fe01-45a1-9c4f-b4289e435100',
+            },
+            responseBody: {
+              deviceID: '52e73b88-fe01-45a1-9c4f-b4289e435100',
+              CPUDeviceID: '22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/1ad4a5e8-4de5-42f0-8ac7-6723cb028176/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:06Z',
+            startedAt: '2025-02-06T05:44:06Z',
+            statusCode: 200,
+            operationID: 5,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: 'f02eabb6-e6df-48f3-b224-c3e5f4544717',
+            },
+            responseBody: {
+              deviceID: 'f02eabb6-e6df-48f3-b224-c3e5f4544717',
+              CPUDeviceID: '1ad4a5e8-4de5-42f0-8ac7-6723cb028176',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/1ad4a5e8-4de5-42f0-8ac7-6723cb028176/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:07Z',
+            startedAt: '2025-02-06T05:44:06Z',
+            statusCode: 200,
+            operationID: 4,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '9ae96497-6d92-4ce1-9310-2e6166de8678',
+            },
+            responseBody: {
+              deviceID: '9ae96497-6d92-4ce1-9310-2e6166de8678',
+              CPUDeviceID: '1ad4a5e8-4de5-42f0-8ac7-6723cb028176',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/1ad4a5e8-4de5-42f0-8ac7-6723cb028176/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:07Z',
+            startedAt: '2025-02-06T05:44:07Z',
+            statusCode: 200,
+            operationID: 3,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '2f3bed13-8887-4c77-900b-81d78636676d',
+            },
+            responseBody: {
+              deviceID: '2f3bed13-8887-4c77-900b-81d78636676d',
+              CPUDeviceID: '1ad4a5e8-4de5-42f0-8ac7-6723cb028176',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/1ad4a5e8-4de5-42f0-8ac7-6723cb028176/aggregations',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:07Z',
+            startedAt: '2025-02-06T05:44:07Z',
+            statusCode: 200,
+            operationID: 2,
+            requestBody: {
+              action: 'connect',
+              destinationDeviceID: '1483aa23-03f9-4912-bee2-3eaf9b06a619',
+            },
+            responseBody: {
+              deviceID: '1483aa23-03f9-4912-bee2-3eaf9b06a619',
+              CPUDeviceID: '1ad4a5e8-4de5-42f0-8ac7-6723cb028176',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/devices/f3cb8422-df9b-445c-95f3-cf3f7f0645f5/power',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:07Z',
+            startedAt: '2025-02-06T05:44:07Z',
+            statusCode: 200,
+            operationID: 46,
+            requestBody: {
+              action: 'on',
+            },
+            responseBody: {
+              deviceID: 'f3cb8422-df9b-445c-95f3-cf3f7f0645f5',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/devices/b7ff2dc2-a649-4868-8c75-3018b5909d19/power',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:07Z',
+            startedAt: '2025-02-06T05:44:07Z',
+            statusCode: 200,
+            operationID: 41,
+            requestBody: {
+              action: 'on',
+            },
+            responseBody: {
+              deviceID: 'b7ff2dc2-a649-4868-8c75-3018b5909d19',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/devices/b1b962f3-8076-4e96-86ef-5a0114e86072/power',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:08Z',
+            startedAt: '2025-02-06T05:44:07Z',
+            statusCode: 200,
+            operationID: 36,
+            requestBody: {
+              action: 'on',
+            },
+            responseBody: {
+              deviceID: 'b1b962f3-8076-4e96-86ef-5a0114e86072',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/devices/74ca5f4f-7878-42ac-a64c-ce5f54b570de/power',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:08Z',
+            startedAt: '2025-02-06T05:44:08Z',
+            statusCode: 200,
+            operationID: 31,
+            requestBody: {
+              action: 'on',
+            },
+            responseBody: {
+              deviceID: '74ca5f4f-7878-42ac-a64c-ce5f54b570de',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/devices/6eeb4309-db51-4a54-b8e8-383ee7f30b07/power',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:08Z',
+            startedAt: '2025-02-06T05:44:08Z',
+            statusCode: 200,
+            operationID: 26,
+            requestBody: {
+              action: 'on',
+            },
+            responseBody: {
+              deviceID: '6eeb4309-db51-4a54-b8e8-383ee7f30b07',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/devices/62acd2d8-178f-47e0-8a36-c4b13a1c3156/power',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:08Z',
+            startedAt: '2025-02-06T05:44:08Z',
+            statusCode: 200,
+            operationID: 21,
+            requestBody: {
+              action: 'on',
+            },
+            responseBody: {
+              deviceID: '62acd2d8-178f-47e0-8a36-c4b13a1c3156',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/devices/57e6b0cc-bb3d-428c-8424-2b30b2e311a1/power',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:08Z',
+            startedAt: '2025-02-06T05:44:08Z',
+            statusCode: 200,
+            operationID: 16,
+            requestBody: {
+              action: 'on',
+            },
+            responseBody: {
+              deviceID: '57e6b0cc-bb3d-428c-8424-2b30b2e311a1',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/devices/532f1c5d-9e8b-4d04-b185-2dfde659df3e/power',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:08Z',
+            startedAt: '2025-02-06T05:44:08Z',
+            statusCode: 200,
+            operationID: 11,
+            requestBody: {
+              action: 'on',
+            },
+            responseBody: {
+              deviceID: '532f1c5d-9e8b-4d04-b185-2dfde659df3e',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/devices/22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e/power',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:08Z',
+            startedAt: '2025-02-06T05:44:08Z',
+            statusCode: 200,
+            operationID: 6,
+            requestBody: {
+              action: 'on',
+            },
+            responseBody: {
+              deviceID: '22cdc1a7-bfc7-4c1c-8f8f-69f2a087782e',
+            },
+          },
+          {
+            uri: 'http://192.0.2.11:8000/cdim/api/v1/devices/1ad4a5e8-4de5-42f0-8ac7-6723cb028176/power',
+            method: 'PUT',
+            status: 'COMPLETED',
+            endedAt: '2025-02-06T05:44:08Z',
+            startedAt: '2025-02-06T05:44:08Z',
+            statusCode: 200,
+            operationID: 1,
+            requestBody: {
+              action: 'on',
+            },
+            responseBody: {
+              deviceID: '1ad4a5e8-4de5-42f0-8ac7-6723cb028176',
+            },
+          },
+        ],
+      },
       startedAt: '2025-02-06T05:43:25Z',
       endedAt: '2025-02-06T05:44:08Z',
       canceledAt: '2025-02-06T05:43:32Z',
-      rollbackStartedAt: '2025-02-06T05:43:53Z',
-      rollbackEndedAt: '2025-02-06T05:44:08Z',
     },
     {
       applyID: '9f7d3c2b1e',
@@ -2943,8 +2951,10 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
       startedAt: '2025-02-04T10:30:15Z',
       endedAt: '2025-02-04T10:45:20Z',
       executeRollback: true,
-      rollbackStartedAt: '2025-02-04T10:46:00Z',
-      rollbackEndedAt: '2025-02-04T10:52:30Z',
+      rollback: {
+        startedAt: '2025-02-04T10:46:00Z',
+        endedAt: '2025-02-04T10:52:30Z',
+      },
     },
     {
       applyID: '3e6f9a1b5c',
@@ -2959,8 +2969,10 @@ export const dummyAPILayoutApplyListAfter: APILayoutApplyList = {
       startedAt: '2025-02-02T09:10:20Z',
       canceledAt: '2025-02-02T09:15:45Z',
       executeRollback: true,
-      rollbackStartedAt: '2025-02-02T09:16:00Z',
-      rollbackEndedAt: '2025-02-02T09:22:15Z',
+      rollback: {
+        startedAt: '2025-02-02T09:16:00Z',
+        endedAt: '2025-02-02T09:22:15Z',
+      },
     },
     {
       applyID: '6c1e5a9d3b',

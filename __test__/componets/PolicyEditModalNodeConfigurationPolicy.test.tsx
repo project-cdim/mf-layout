@@ -281,6 +281,7 @@ describe('PolicyEditModalNodeConfigurationPolicy', () => {
       selectedPolicyId: 'd8eceb14da',
       data: {
         count: 1,
+        totalCount: 1,
         policies: [errorPolicy],
       },
     } as const satisfies ComponentProps<typeof PolicyEditModalNodeConfigurationPolicy>;
@@ -322,6 +323,7 @@ describe('PolicyEditModalNodeConfigurationPolicy', () => {
       selectedPolicyId: 'd8eceb14da',
       data: {
         count: 1,
+        totalCount: 1,
         policies: [
           {
             policyID: 'd8eceb14da',

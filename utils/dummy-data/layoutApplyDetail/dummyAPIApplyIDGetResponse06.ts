@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -120,16 +120,16 @@ export const dummyAPIApplyIDGetResponse: APIApplyIDGetResponse = {
     },
   ],
   applyID: 'dummy006',
-  applyResult: [
+  result: [
     {
-      uri: 'http://10.26.196.219:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
+      uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
       method: 'PUT',
       status: 'COMPLETED',
       statusCode: 200,
       operationID: 1,
       requestBody: {
         action: 'connect',
-        deviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1',
+        destinationDeviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1',
       },
       responseBody: {
         deviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1',
@@ -142,12 +142,12 @@ export const dummyAPIApplyIDGetResponse: APIApplyIDGetResponse = {
       },
     },
     {
-      uri: 'http://10.26.196.219:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
+      uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
       method: 'PUT',
       status: 'COMPLETED',
       statusCode: 200,
       operationID: 2,
-      requestBody: { action: 'connect', deviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1' },
+      requestBody: { action: 'connect', destinationDeviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1' },
       responseBody: {
         deviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1',
         CPUDeviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
@@ -155,12 +155,12 @@ export const dummyAPIApplyIDGetResponse: APIApplyIDGetResponse = {
       getInformation: { responseBody: { powerState: 'On' } },
     },
     {
-      uri: 'http://10.26.196.219:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
+      uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
       method: 'PUT',
       status: 'COMPLETED',
       statusCode: 200,
       operationID: 3,
-      requestBody: { action: 'connect', deviceID: '33f19666-68b3-4ed7-a9a8-d046f0879ff2' },
+      requestBody: { action: 'connect', destinationDeviceID: '33f19666-68b3-4ed7-a9a8-d046f0879ff2' },
       responseBody: {
         deviceID: '33f19666-68b3-4ed7-a9a8-d046f0879ff2',
         CPUDeviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
@@ -168,23 +168,23 @@ export const dummyAPIApplyIDGetResponse: APIApplyIDGetResponse = {
       getInformation: { responseBody: { powerState: 'On' } },
     },
     {
-      uri: 'http://10.26.196.219:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
+      uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
       method: 'PUT',
       status: 'COMPLETED',
       statusCode: 200,
       operationID: 4,
-      requestBody: { action: 'connect', deviceID: '8190c071-3f5f-4862-b741-b42591ac51fc' },
+      requestBody: { action: 'connect', destinationDeviceID: '8190c071-3f5f-4862-b741-b42591ac51fc' },
       responseBody: {
         deviceID: '8190c071-3f5f-4862-b741-b42591ac51fc',
         CPUDeviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
       },
     },
     {
-      uri: 'http://10.26.196.219:8000/cdim/api/v1/devices/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/power',
+      uri: 'http://192.0.2.11:8000/cdim/api/v1/devices/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/power',
       method: 'PUT',
       status: 'COMPLETED',
       isOSBoot: {
-        uri: 'http://10.26.196.219:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/is-os-ready',
+        uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/is-os-ready',
         method: 'GET',
         statusCode: 200,
         responseBody: { status: true, IPAddress: '192.168.122.11' },
@@ -196,7 +196,7 @@ export const dummyAPIApplyIDGetResponse: APIApplyIDGetResponse = {
       responseBody: { deviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2' },
     },
     {
-      uri: 'http://10.26.196.219:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/os-shutdown',
+      uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/os-shutdown',
       method: 'PUT',
       status: 'COMPLETED',
       statusCode: 200,
@@ -205,12 +205,12 @@ export const dummyAPIApplyIDGetResponse: APIApplyIDGetResponse = {
       getInformation: { responseBody: { powerState: 'Off' } },
     },
     {
-      uri: 'http://10.26.196.219:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
+      uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
       method: 'PUT',
       status: 'COMPLETED',
       statusCode: 200,
       operationID: 7,
-      requestBody: { action: 'disconnect', deviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1' },
+      requestBody: { action: 'disconnect', destinationDeviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1' },
       responseBody: {
         deviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1',
         CPUDeviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
@@ -218,12 +218,12 @@ export const dummyAPIApplyIDGetResponse: APIApplyIDGetResponse = {
       getInformation: { responseBody: { powerState: 'Off' } },
     },
     {
-      uri: 'http://10.26.196.219:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
+      uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
       method: 'PUT',
       status: 'COMPLETED',
       statusCode: 200,
       operationID: 8,
-      requestBody: { action: 'disconnect', deviceID: '33f19666-68b3-4ed7-a9a8-d046f0879ff2' },
+      requestBody: { action: 'disconnect', destinationDeviceID: '33f19666-68b3-4ed7-a9a8-d046f0879ff2' },
       responseBody: {
         deviceID: '33f19666-68b3-4ed7-a9a8-d046f0879ff2',
         CPUDeviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
@@ -231,84 +231,84 @@ export const dummyAPIApplyIDGetResponse: APIApplyIDGetResponse = {
       getInformation: { responseBody: { powerState: 'Off' } },
     },
     {
-      uri: 'http://10.26.196.219:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
+      uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
       method: 'PUT',
       status: 'COMPLETED',
       statusCode: 200,
       operationID: 9,
-      requestBody: { action: 'disconnect', deviceID: '8190c071-3f5f-4862-b741-b42591ac51fc' },
+      requestBody: { action: 'disconnect', destinationDeviceID: '8190c071-3f5f-4862-b741-b42591ac51fc' },
       responseBody: {
         deviceID: '8190c071-3f5f-4862-b741-b42591ac51fc',
         CPUDeviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
       },
     },
     {
-      uri: 'http://10.26.196.219:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
+      uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
       method: 'PUT',
       status: 'COMPLETED',
       statusCode: 200,
       operationID: 10,
-      requestBody: { action: 'disconnect', deviceID: '8190c071-3f5f-4862-b741-b42591ac5110' },
+      requestBody: { action: 'disconnect', destinationDeviceID: '8190c071-3f5f-4862-b741-b42591ac5110' },
       responseBody: {
         deviceID: '8190c071-3f5f-4862-b741-b42591ac5110',
         CPUDeviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
       },
     },
     {
-      uri: 'http://10.26.196.219:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
+      uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
       method: 'PUT',
       status: 'COMPLETED',
       statusCode: 200,
       operationID: 11,
-      requestBody: { action: 'disconnect', deviceID: '8190c071-3f5f-4862-b741-b42591ac5111' },
+      requestBody: { action: 'disconnect', destinationDeviceID: '8190c071-3f5f-4862-b741-b42591ac5111' },
       responseBody: {
         deviceID: '8190c071-3f5f-4862-b741-b42591ac5111',
         CPUDeviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
       },
     },
     {
-      uri: 'http://10.26.196.219:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
+      uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
       method: 'PUT',
       status: 'COMPLETED',
       statusCode: 200,
       operationID: 12,
-      requestBody: { action: 'disconnect', deviceID: '8190c071-3f5f-4862-b741-b42591ac5112' },
+      requestBody: { action: 'disconnect', destinationDeviceID: '8190c071-3f5f-4862-b741-b42591ac5112' },
       responseBody: {
         deviceID: '8190c071-3f5f-4862-b741-b42591ac5112',
         CPUDeviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
       },
     },
     {
-      uri: 'http://10.26.196.219:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
+      uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
       method: 'PUT',
       status: 'COMPLETED',
       statusCode: 200,
       operationID: 13,
-      requestBody: { action: 'disconnect', deviceID: '8190c071-3f5f-4862-b741-b42591ac5113' },
+      requestBody: { action: 'disconnect', destinationDeviceID: '8190c071-3f5f-4862-b741-b42591ac5113' },
       responseBody: {
         deviceID: '8190c071-3f5f-4862-b741-b42591ac5113',
         CPUDeviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
       },
     },
     {
-      uri: 'http://10.26.196.219:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
+      uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
       method: 'PUT',
       status: 'COMPLETED',
       statusCode: 200,
       operationID: 14,
-      requestBody: { action: 'disconnect', deviceID: '8190c071-3f5f-4862-b741-b42591ac5114' },
+      requestBody: { action: 'disconnect', destinationDeviceID: '8190c071-3f5f-4862-b741-b42591ac5114' },
       responseBody: {
         deviceID: '8190c071-3f5f-4862-b741-b42591ac5114',
         CPUDeviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
       },
     },
     {
-      uri: 'http://10.26.196.219:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
+      uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
       method: 'PUT',
       status: 'COMPLETED',
       statusCode: 200,
       operationID: 15,
-      requestBody: { action: 'disconnect', deviceID: '8190c071-3f5f-4862-b741-b42591ac5115' },
+      requestBody: { action: 'disconnect', destinationDeviceID: '8190c071-3f5f-4862-b741-b42591ac5115' },
       responseBody: {
         deviceID: '8190c071-3f5f-4862-b741-b42591ac5115',
         CPUDeviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',

@@ -20,10 +20,10 @@ import _ from 'lodash';
 import useSWRImmutable from 'swr/immutable';
 
 import { useQuery } from '@/shared-modules/utils/hooks';
-import { APIresource, APIresources } from '@/shared-modules/types';
+import { APIresources } from '@/shared-modules/types';
 import { fetcher } from '@/shared-modules/utils/';
 
-import { APILayoutDesign, APPLayoutDesignDetail } from '@/types';
+import { APILayoutDesign, APPLayoutDesignDetail, APPLayoutDesignDevice } from '@/types';
 import { KIB } from '@/shared-modules/constant';
 
 /**
@@ -46,24 +46,29 @@ export const useLayoutDesignDetail = () => {
     fetcher
   );
 
-  // Map deviceID to device type for quick lookup
+  // Map deviceID to device data (including resource-level detection/maintenance state) for quick lookup
   const deviceObjectMap = useMemo(() => {
     if (!resourceSWRResponse.data) return {};
     return resourceSWRResponse.data.resources.reduce(
       (map, resource) => {
-        map[resource.device.deviceID] = resource.device;
+        map[resource.device.deviceID] = {
+          ...resource.device,
+          detected: resource.detected,
+          available: resource.deviceUnit.annotation.systemItems.available,
+        };
         return map;
       },
-      {} as Record<string, APIresource['device']>
+      {} as Record<string, APPLayoutDesignDevice>
     );
   }, [resourceSWRResponse.data]);
 
-  // Map deviceID to device type for quick lookup
-  const getDeviceByID = (deviceID: string): APIresource['device'] | undefined => {
+  // Map deviceID to device data for quick lookup
+  const getDeviceByID = (deviceID: string): APPLayoutDesignDevice | undefined => {
     return deviceObjectMap[deviceID];
   };
   // Get device with its type
-  const getDeviceWithType = (deviceID: string): string => {
+  const getDeviceWithType = (deviceID: string | undefined): string | undefined => {
+    if (!deviceID) return undefined;
     const type = getDeviceByID(deviceID)?.type;
     return type ? `${_.upperFirst(type)}(${deviceID})` : deviceID;
   };

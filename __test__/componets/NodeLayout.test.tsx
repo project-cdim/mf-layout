@@ -17,8 +17,7 @@
 import React from 'react';
 import { render } from '@/shared-modules/__test__/test-utils';
 import { NodeLayout } from '@/components/NodeLayout';
-import { APIDeviceTypeLowerCamel, APINode } from '@/types';
-import { APIresource } from '@/shared-modules/types';
+import { APIDeviceTypeLowerCamel, APINode, APPLayoutDesignDevice } from '@/types';
 import { CardLoading, PageLink } from '@/shared-modules/components';
 import { NodeProps, ReactFlow, Handle } from 'reactflow';
 import { Card, Title, Text } from '@mantine/core';
@@ -67,11 +66,22 @@ jest.mock('@/shared-modules/components', () => ({
       {children}
     </div>
   )),
+  IconWithInfo: jest.fn(({ type, label, size }) => (
+    <div data-testid='mock-icon-with-info' data-type={type} data-label={label} data-size={size} />
+  )),
 }));
 
 jest.mock('@/shared-modules/utils', () => ({
   formatUnitValue: jest.fn((type, value) => `formatted_${value}`),
   typeToUnit: jest.fn((type) => `${type}_unit`),
+  calculateOverallStatus: jest.fn((health, state) => {
+    if (health === 'Critical') return 'Critical';
+    if (health === 'Warning') return 'Warning';
+    if (state === 'Enabled' || state === 'StandbyOffline') return 'OK';
+    if (state === 'Critical') return 'Critical';
+    if (state === 'Warning') return 'Warning';
+    return 'OK';
+  }),
 }));
 
 jest.mock('@/utils/parse', () => ({
@@ -252,7 +262,7 @@ describe('NodeLayout', () => {
     },
   ];
 
-  const mockGetDeviceByID = jest.fn((deviceID: string): APIresource['device'] | undefined => {
+  const mockGetDeviceByID = jest.fn((deviceID: string): APPLayoutDesignDevice | undefined => {
     if (deviceID.startsWith('cpu')) {
       return {
         deviceID,
@@ -261,6 +271,8 @@ describe('NodeLayout', () => {
         powerState: 'On',
         powerCapability: true,
         totalCores: 8,
+        detected: true,
+        available: true,
       };
     } else if (deviceID.startsWith('mem')) {
       return {
@@ -270,6 +282,8 @@ describe('NodeLayout', () => {
         powerState: 'On',
         powerCapability: true,
         capacityMiB: 16384,
+        detected: true,
+        available: true,
       };
     } else if (deviceID.startsWith('disk')) {
       return {
@@ -279,6 +293,8 @@ describe('NodeLayout', () => {
         powerState: 'On',
         powerCapability: true,
         driveCapacityBytes: 1000000000000,
+        detected: true,
+        available: true,
       };
     } else if (deviceID.startsWith('gpu')) {
       return {
@@ -288,6 +304,8 @@ describe('NodeLayout', () => {
         powerState: 'On',
         powerCapability: true,
         totalCores: 2560,
+        detected: true,
+        available: true,
       };
     }
     return undefined;
@@ -539,8 +557,7 @@ describe('NodeLayout', () => {
     expect(Card).toHaveBeenCalled();
     const cardProps = (Card as unknown as jest.Mock).mock.calls[0][0];
     expect(cardProps.withBorder).toBe(true);
-    expect(cardProps.w).toBe(650);
-    expect(cardProps.h).toBe(80);
+    expect(cardProps.w).toBe(670);
 
     // Check PageLink was called with correct props
     expect(PageLink).toHaveBeenCalled();
@@ -838,5 +855,237 @@ describe('NodeLayout', () => {
     // Check edges - should be 1 edge connecting to mem1
     const edges = (ReactFlow as unknown as jest.Mock).mock.calls[0][0].edges;
     expect(edges.length).toBe(1);
+  });
+
+  // Test device status icon display for maintenance condition
+  test('displays maintenance icon when device available is false', () => {
+    const mockGetDeviceUnderMaintenance = jest.fn((deviceID: string): APPLayoutDesignDevice | undefined => {
+      if (deviceID === 'cpu-maintenance') {
+        return {
+          deviceID,
+          type: 'CPU',
+          status: { state: 'Enabled', health: 'OK' },
+          powerState: 'On',
+          powerCapability: true,
+          totalCores: 8,
+          detected: true,
+          available: false,
+        };
+      }
+      return undefined;
+    });
+
+    const mockNodesForMaintenance: APINode[] = [
+      {
+        services: [{ id: 'service1', requestInstanceID: 'request1' }],
+        device: { cpu: { deviceIDs: ['cpu-maintenance'] } },
+      },
+    ];
+
+    render(
+      <NodeLayout nodes={mockNodesForMaintenance} getDeviceByID={mockGetDeviceUnderMaintenance} loading={false} />
+    );
+
+    const nodes = (ReactFlow as unknown as jest.Mock).mock.calls[0][0].nodes;
+    const maintenanceNode = nodes.find((node: any) => node.id === 'cpu-maintenance');
+
+    expect(maintenanceNode).toBeDefined();
+    expect(maintenanceNode.data.statusIcon).toBeDefined();
+    expect(maintenanceNode.data.statusIcon.type).toBe('ban');
+    expect(maintenanceNode.data.statusIcon.label).toBe('Under Maintenance');
+  });
+
+  // Test device status icon display for not detected condition
+  test('displays not detected icon when device detected is false', () => {
+    const mockGetDeviceNotDetected = jest.fn((deviceID: string): APPLayoutDesignDevice | undefined => {
+      if (deviceID === 'mem-not-detected') {
+        return {
+          deviceID,
+          type: 'memory',
+          status: { state: 'Enabled', health: 'OK' },
+          powerState: 'On',
+          powerCapability: true,
+          capacityMiB: 16384,
+          detected: false,
+          available: true,
+        };
+      }
+      return undefined;
+    });
+
+    const mockNodesForNotDetected: APINode[] = [
+      {
+        services: [{ id: 'service1', requestInstanceID: 'request1' }],
+        device: { memory: { deviceIDs: ['mem-not-detected'] } },
+      },
+    ];
+
+    render(<NodeLayout nodes={mockNodesForNotDetected} getDeviceByID={mockGetDeviceNotDetected} loading={false} />);
+
+    const nodes = (ReactFlow as unknown as jest.Mock).mock.calls[0][0].nodes;
+    const notDetectedNode = nodes.find((node: any) => node.id === 'mem-not-detected');
+
+    expect(notDetectedNode).toBeDefined();
+    expect(notDetectedNode.data.statusIcon).toBeDefined();
+    expect(notDetectedNode.data.statusIcon.type).toBe('critical');
+    expect(notDetectedNode.data.statusIcon.label).toBe('Not Detected');
+  });
+
+  // Test device status icon display for warning status
+  test('displays warning icon when device status is warning', () => {
+    const mockGetDeviceWarning = jest.fn((deviceID: string): APPLayoutDesignDevice | undefined => {
+      if (deviceID === 'storage-warning') {
+        return {
+          deviceID,
+          type: 'storage',
+          status: { state: 'Enabled', health: 'Warning' },
+          powerState: 'On',
+          powerCapability: true,
+          driveCapacityBytes: 1000000000000,
+          detected: true,
+          available: true,
+        };
+      }
+      return undefined;
+    });
+
+    const mockNodesForWarning: APINode[] = [
+      {
+        services: [{ id: 'service1', requestInstanceID: 'request1' }],
+        device: { storage: { deviceIDs: ['storage-warning'] } },
+      },
+    ];
+
+    render(<NodeLayout nodes={mockNodesForWarning} getDeviceByID={mockGetDeviceWarning} loading={false} />);
+
+    const nodes = (ReactFlow as unknown as jest.Mock).mock.calls[0][0].nodes;
+    const warningNode = nodes.find((node: any) => node.id === 'storage-warning');
+
+    expect(warningNode).toBeDefined();
+    expect(warningNode.data.statusIcon).toBeDefined();
+    expect(warningNode.data.statusIcon.type).toBe('warning');
+  });
+
+  // Test device status icon display for critical status
+  test('displays critical icon when device status is critical', () => {
+    const mockGetDeviceCritical = jest.fn((deviceID: string): APPLayoutDesignDevice | undefined => {
+      if (deviceID === 'gpu-critical') {
+        return {
+          deviceID,
+          type: 'GPU',
+          status: { state: 'Enabled', health: 'Critical' },
+          powerState: 'On',
+          powerCapability: true,
+          totalCores: 2560,
+          detected: true,
+          available: true,
+        };
+      }
+      return undefined;
+    });
+
+    const mockNodesForCritical: APINode[] = [
+      {
+        services: [{ id: 'service1', requestInstanceID: 'request1' }],
+        device: { gpu: [{ deviceID: 'gpu-critical', requests: [] }] },
+      },
+    ];
+
+    render(<NodeLayout nodes={mockNodesForCritical} getDeviceByID={mockGetDeviceCritical} loading={false} />);
+
+    const nodes = (ReactFlow as unknown as jest.Mock).mock.calls[0][0].nodes;
+    const criticalNode = nodes.find((node: any) => node.id === 'gpu-critical');
+
+    expect(criticalNode).toBeDefined();
+    expect(criticalNode.data.statusIcon).toBeDefined();
+    expect(criticalNode.data.statusIcon.type).toBe('critical');
+  });
+
+  // Test no icon displayed for OK status
+  test('does not display icon when device status is OK', () => {
+    render(<NodeLayout nodes={mockNodes} getDeviceByID={mockGetDeviceByID} loading={false} />);
+
+    const nodes = (ReactFlow as unknown as jest.Mock).mock.calls[0][0].nodes;
+    const cpuNode = nodes.find((node: any) => node.id === 'cpu1');
+
+    expect(cpuNode).toBeDefined();
+    expect(cpuNode.data.statusIcon).toBeUndefined();
+  });
+
+  // Test status icon priority: maintenance takes precedence over detected/status
+  test('maintenance status takes precedence over not detected status', () => {
+    const mockGetDevicePriority = jest.fn((deviceID: string): APPLayoutDesignDevice | undefined => {
+      if (deviceID === 'cpu-priority') {
+        return {
+          deviceID,
+          type: 'CPU',
+          status: { state: 'Enabled', health: 'Critical' },
+          powerState: 'On',
+          powerCapability: true,
+          totalCores: 8,
+          detected: false,
+          available: false,
+        };
+      }
+      return undefined;
+    });
+
+    const mockNodesForPriority: APINode[] = [
+      {
+        services: [{ id: 'service1', requestInstanceID: 'request1' }],
+        device: { cpu: { deviceIDs: ['cpu-priority'] } },
+      },
+    ];
+
+    render(<NodeLayout nodes={mockNodesForPriority} getDeviceByID={mockGetDevicePriority} loading={false} />);
+
+    const nodes = (ReactFlow as unknown as jest.Mock).mock.calls[0][0].nodes;
+    const priorityNode = nodes.find((node: any) => node.id === 'cpu-priority');
+
+    expect(priorityNode).toBeDefined();
+    expect(priorityNode.data.statusIcon).toBeDefined();
+    // Should show maintenance (ban) icon, not critical (for not detected)
+    expect(priorityNode.data.statusIcon.type).toBe('ban');
+  });
+
+  // Test IconWithInfo component is rendered with correct data
+  test('IconWithInfo component is rendered with status icon data', () => {
+    const mockGetDeviceForIcon = jest.fn((deviceID: string): APPLayoutDesignDevice | undefined => {
+      if (deviceID === 'mem-icon-test') {
+        return {
+          deviceID,
+          type: 'memory',
+          status: { state: 'Enabled', health: 'Warning' },
+          powerState: 'On',
+          powerCapability: true,
+          capacityMiB: 16384,
+          detected: true,
+          available: true,
+        };
+      }
+      return undefined;
+    });
+
+    const mockNodesForIcon: APINode[] = [
+      {
+        services: [{ id: 'service1', requestInstanceID: 'request1' }],
+        device: { memory: { deviceIDs: ['mem-icon-test'] } },
+      },
+    ];
+
+    render(<NodeLayout nodes={mockNodesForIcon} getDeviceByID={mockGetDeviceForIcon} loading={false} />);
+
+    // ReactFlow is mocked so CustomDeviceNode is not actually rendered.
+    // Instead, verify that the nodes passed to ReactFlow contain correct statusIcon data.
+    expect(ReactFlow).toHaveBeenCalled();
+    const reactFlowCalls = (ReactFlow as unknown as jest.Mock).mock.calls;
+    const lastCall = reactFlowCalls[reactFlowCalls.length - 1];
+    const nodesPassedToReactFlow = lastCall[0].nodes;
+
+    const deviceNode = nodesPassedToReactFlow.find((node: any) => node.id === 'mem-icon-test');
+    expect(deviceNode).toBeDefined();
+    expect(deviceNode.data.statusIcon).toBeDefined();
+    expect(deviceNode.data.statusIcon.type).toBe('warning');
+    expect(deviceNode.data.statusIcon.label).toBeDefined();
   });
 });

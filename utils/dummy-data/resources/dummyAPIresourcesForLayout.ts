@@ -36,14 +36,14 @@ export const dummyAPIresourcesForLayout: APIresources = {
         totalCores: 8,
         capacityMiB: undefined,
         driveCapacityBytes: undefined,
-        powerState: 'On',
+        powerState: 'PoweringOn',
         powerCapability: true,
       },
       resourceGroupIDs: [],
       annotation: {
         available: true,
       },
-      detected: true,
+      detected: false,
       nodeIDs: [],
       deviceUnit: {
         id: 'unit001',
@@ -70,19 +70,20 @@ export const dummyAPIresourcesForLayout: APIresources = {
       },
       resourceGroupIDs: [],
       annotation: {
-        available: true,
+        available: false,
       },
-      detected: true,
+      detected: false,
       nodeIDs: [],
       deviceUnit: {
         id: 'unit002',
         annotation: {
           systemItems: {
-            available: true,
+            available: false,
           },
         },
       },
     },
+    /*
     {
       device: {
         deviceID: 'res10302',
@@ -112,6 +113,7 @@ export const dummyAPIresourcesForLayout: APIresources = {
         },
       },
     },
+    */
     {
       device: {
         deviceID: 'res10401',
@@ -123,7 +125,7 @@ export const dummyAPIresourcesForLayout: APIresources = {
         totalCores: undefined,
         capacityMiB: undefined,
         driveCapacityBytes: undefined,
-        powerState: 'On',
+        powerState: 'Paused',
         powerCapability: true,
       },
       resourceGroupIDs: [],
@@ -148,7 +150,7 @@ export const dummyAPIresourcesForLayout: APIresources = {
         type: 'CPU',
         status: {
           state: 'Enabled',
-          health: 'OK',
+          health: 'Warning',
         },
         totalCores: 4,
         capacityMiB: undefined,
@@ -176,8 +178,8 @@ export const dummyAPIresourcesForLayout: APIresources = {
         deviceID: 'res11203',
         type: 'memory',
         status: {
-          state: 'Enabled',
-          health: 'OK',
+          state: 'UnavailableOffline',
+          health: 'Critical',
         },
         totalCores: undefined,
         capacityMiB: 8192,
@@ -200,6 +202,7 @@ export const dummyAPIresourcesForLayout: APIresources = {
         },
       },
     },
+    /*
     {
       device: {
         deviceID: 'res11302',
@@ -211,7 +214,7 @@ export const dummyAPIresourcesForLayout: APIresources = {
         totalCores: undefined,
         capacityMiB: undefined,
         driveCapacityBytes: 2199023255552,
-        powerState: 'On',
+        powerState: 'Off',
         powerCapability: true,
       },
       resourceGroupIDs: [],
@@ -229,25 +232,26 @@ export const dummyAPIresourcesForLayout: APIresources = {
         },
       },
     },
+    */
     {
       device: {
         deviceID: 'res11401',
         type: 'networkInterface',
         status: {
           state: 'Enabled',
-          health: 'OK',
+          health: 'Critical',
         },
         totalCores: undefined,
         capacityMiB: undefined,
         driveCapacityBytes: undefined,
-        powerState: 'On',
+        powerState: 'Off',
         powerCapability: true,
       },
       resourceGroupIDs: [],
       annotation: {
-        available: true,
+        available: false,
       },
-      detected: true,
+      detected: false,
       nodeIDs: [],
       deviceUnit: {
         id: 'unit008',
@@ -869,6 +873,7 @@ export const dummyAPIresourcesForLayout: APIresources = {
         },
       },
     },
+    /*
     {
       annotation: {
         available: true,
@@ -883,7 +888,7 @@ export const dummyAPIresourcesForLayout: APIresources = {
         deviceID: 'res10501',
         devicePortList: [
           {
-            fabricID: 'NEC-QEMU-switch1-GlobalZone',
+            fabricID: 'XXX-QEMU-switch1-GlobalZone',
             switchID: 'SWITCH-400001',
             switchPortType: 'DSP',
           },
@@ -899,7 +904,7 @@ export const dummyAPIresourcesForLayout: APIresources = {
         model: 'gpu_1',
         operatingSpeedMHz: 3200,
         powerCapability: true,
-        powerState: 'On',
+        powerState: 'PoweringOn',
         processorArchitecture: 'x86',
         processorID: {
           effectiveFamily: '0x42',
@@ -941,6 +946,7 @@ export const dummyAPIresourcesForLayout: APIresources = {
       physicalLocation: {},
       resourceGroupIDs: ['00000000-0000-7000-8000-000000000000'],
     },
+    */
   ],
 };
 

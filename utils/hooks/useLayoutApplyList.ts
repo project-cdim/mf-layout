@@ -52,7 +52,7 @@ export const useLayoutApplyList = () => {
         status: applyResult.status,
         startedAt: new Date(applyResult.startedAt),
         endedAt: applyResult.endedAt ? new Date(applyResult.endedAt) : undefined,
-        rollbackStatus: applyResult.rollbackStatus ?? undefined,
+        rollbackStatus: applyResult.rollback?.status ?? undefined,
       })),
     [data]
   );

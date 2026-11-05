@@ -14,8 +14,16 @@
  * under the License.
  */
 
-import { ProcedureOperation } from '@/shared-modules/types';
+import { APIresource, ProcedureOperation } from '@/shared-modules/types';
 import { APINode, DesignStatus } from '.';
+
+/** Device information for the node layout, including resource-level detection and maintenance state */
+export type APPLayoutDesignDevice = APIresource['device'] & {
+  /** Whether the device is detected (from APIresource.detected) */
+  detected: boolean;
+  /** Whether the device is available, i.e. not under maintenance (from APIresource.deviceUnit.annotation.systemItems.available) */
+  available: boolean;
+};
 
 /** Response body for retrieving the layout design status by ID */
 export type APPLayoutDesignDetail = {
@@ -52,7 +60,7 @@ export type APPProcedure = {
   operationID: number;
   operation: ProcedureOperation;
   targetCPUID?: string;
-  targetDevice: string;
+  targetDevice?: string;
   dependencies: number[];
 };
 

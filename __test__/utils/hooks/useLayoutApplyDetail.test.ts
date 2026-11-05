@@ -337,7 +337,7 @@ describe('useLayoutApplyDetail', () => {
       ...mockDataEmptyProcedures,
       status: 'CANCELING',
       canceledAt: '2023-01-01T00:00:00Z',
-      rollbackStartedAt: '2023-01-02T00:00:00Z',
+      rollback: { startedAt: '2023-01-02T00:00:00Z' },
     };
 
     (useSWRImmutable as jest.Mock).mockImplementation((key: string) => {
@@ -368,7 +368,7 @@ describe('useLayoutApplyDetail', () => {
           canceledAt: new Date(mockData.canceledAt),
         }),
         rollback: expect.objectContaining({
-          startedAt: new Date(mockData.rollbackStartedAt),
+          startedAt: new Date(mockData.rollback.startedAt),
         }),
       })
     );
@@ -408,9 +408,9 @@ describe('useLayoutApplyDetail', () => {
           endedAt: new Date(mockData.endedAt ?? ''),
         }),
         rollback: expect.objectContaining({
-          status: mockData.rollbackStatus,
-          startedAt: new Date(mockData.rollbackStartedAt ?? ''),
-          endedAt: new Date(mockData.rollbackEndedAt ?? ''),
+          status: mockData.rollback?.status,
+          startedAt: new Date(mockData.rollback?.startedAt ?? ''),
+          endedAt: new Date(mockData.rollback?.endedAt ?? ''),
         }),
       })
     );
@@ -433,7 +433,7 @@ describe('useLayoutApplyDetail', () => {
       apply: {
         dependencies: mockData.procedures?.[0].dependencies,
         operation: mockData.procedures?.[0].operation,
-        status: mockData.applyResult ? mockData.applyResult[0].status : undefined,
+        status: mockData.result?.[0].status,
       },
     };
 
@@ -443,7 +443,7 @@ describe('useLayoutApplyDetail', () => {
       apply: {
         dependencies: mockData.resumeProcedures?.[0].dependencies,
         operation: mockData.resumeProcedures?.[0].operation,
-        status: mockData.resumeResult ? mockData.resumeResult[0].status : undefined,
+        status: mockData.result?.[2].status,
       },
     };
 
@@ -474,22 +474,22 @@ describe('useLayoutApplyDetail', () => {
 
     const expectedProcedure0 = {
       operationID: mockData.procedures?.[0].operationID,
-      targetCPUID: mockData.resumeProcedures?.[0].targetCPUID ?? '',
-      targetDevice: mockData.resumeProcedures?.[0].targetDeviceID ?? '',
+      targetCPUID: mockData.procedures?.[0].targetCPUID,
+      targetDevice: mockData.procedures?.[0].targetDeviceID,
       apply: {
         operation: mockData.procedures?.[0].operation,
         dependencies: mockData.procedures?.[0].dependencies,
-        status: mockData.applyResult ? mockData.applyResult[0].status : undefined,
-        startedAt: new Date(mockData.applyResult?.[0].startedAt ?? ''),
-        endedAt: new Date(mockData.applyResult?.[0].endedAt ?? ''),
+        status: mockData.result?.[0].status,
+        startedAt: new Date(mockData.result?.[0].startedAt ?? ''),
+        endedAt: new Date(mockData.result?.[0].endedAt ?? ''),
         error: undefined,
       },
       rollback: {
-        operation: mockData.resumeProcedures?.[0].operation,
-        dependencies: mockData.resumeProcedures?.[0].dependencies,
-        status: mockData.resumeResult ? mockData.resumeResult[0].status : undefined,
-        startedAt: new Date(mockData.resumeResult?.[0].startedAt ?? ''),
-        endedAt: new Date(mockData.resumeResult?.[0].endedAt ?? ''),
+        operation: mockData.rollback?.procedures?.[0].operation,
+        dependencies: mockData.rollback?.procedures?.[0].dependencies,
+        status: mockData.rollback?.result?.[1].status,
+        startedAt: new Date(mockData.rollback?.result?.[1].startedAt ?? ''),
+        endedAt: new Date(mockData.rollback?.result?.[1].endedAt ?? ''),
         error: undefined,
       },
     };
@@ -500,7 +500,7 @@ describe('useLayoutApplyDetail', () => {
       apply: expect.objectContaining({
         dependencies: mockData.procedures?.[1].dependencies,
         operation: mockData.procedures?.[1].operation,
-        status: mockData.applyResult ? mockData.applyResult[1].status : undefined,
+        status: mockData.result?.[1].status,
       }),
     };
 
@@ -510,18 +510,17 @@ describe('useLayoutApplyDetail', () => {
         apply: expect.objectContaining({
           status: mockData.status,
           startedAt: new Date(mockData.startedAt),
-          suspendedAt: new Date(mockData.suspendedAt ?? ''),
+          suspendedAt: undefined,
           endedAt: new Date(mockData.endedAt ?? ''),
           canceledAt: undefined,
           resumedAt: undefined,
         }),
         rollback: expect.objectContaining({
-          status: mockData.rollbackStatus,
-          startedAt: new Date(mockData.rollbackStartedAt ?? ''),
-          resumedAt: new Date(mockData.resumedAt ?? ''),
-          endedAt: new Date(mockData.rollbackEndedAt ?? ''),
-          suspendedAt: undefined,
-          canceledAt: undefined,
+          status: mockData.rollback?.status,
+          startedAt: new Date(mockData.rollback?.startedAt ?? ''),
+          resumedAt: new Date(mockData.rollback?.resumedAt ?? ''),
+          endedAt: new Date(mockData.rollback?.endedAt ?? ''),
+          suspendedAt: new Date(mockData.rollback?.suspendedAt ?? ''),
         }),
         procedures: expect.objectContaining([expectedProcedure0, expectedProcedure1]),
       })
@@ -629,7 +628,7 @@ describe('useLayoutApplyDetail', () => {
     const mockData = {
       ...mockDataEmptyProcedures,
       resumedAt: '2023-01-01T00:00:00Z',
-      rollbackStartedAt: '2023-01-02T00:00:00Z',
+      rollback: { startedAt: '2023-01-02T00:00:00Z' },
     };
 
     (useSWRImmutable as jest.Mock).mockImplementation((key: string) => {
@@ -658,7 +657,7 @@ describe('useLayoutApplyDetail', () => {
           resumedAt: new Date(mockData.resumedAt),
         }),
         rollback: expect.objectContaining({
-          startedAt: new Date(mockData.rollbackStartedAt),
+          startedAt: new Date(mockData.rollback.startedAt),
         }),
       })
     );
@@ -669,8 +668,7 @@ describe('useLayoutApplyDetail', () => {
   test('should handle startedAt and rollbackResumedAt with valid data', () => {
     const mockData = {
       ...mockDataEmptyProcedures,
-      resumedAt: '2023-01-03T00:00:00Z',
-      rollbackStartedAt: '2023-01-02T00:00:00Z',
+      rollback: { resumedAt: '2023-01-03T00:00:00Z' },
     };
 
     (useSWRImmutable as jest.Mock).mockImplementation((key: string) => {
@@ -699,11 +697,191 @@ describe('useLayoutApplyDetail', () => {
           startedAt: new Date(mockData.startedAt),
         }),
         rollback: expect.objectContaining({
-          resumedAt: new Date(mockData.resumedAt),
+          resumedAt: new Date(mockData.rollback.resumedAt),
         }),
       })
     );
     expect(result.current.error).toEqual({ layout: undefined, resource: undefined });
     expect(result.current.isValidating).toEqual({ layout: false, resource: false });
+  });
+
+  describe('getErrorByResult: responseBody format variations', () => {
+    const buildMockWithResult = (responseBody: unknown) => ({
+      ...mockDataProvisional,
+      result: [
+        {
+          operationID: 1,
+          status: 'FAILED',
+          startedAt: '2023-01-01T00:00:00Z',
+          endedAt: '2023-01-01T01:00:00Z',
+          responseBody,
+        },
+      ],
+    });
+
+    const renderWithData = (mockData: object) => {
+      (useSWRImmutable as jest.Mock).mockImplementation((key: string) => {
+        if (key.includes('layout-apply')) {
+          return { data: mockData, error: undefined, isValidating: false, mutate: jest.fn() };
+        }
+        return { data: { resources: [] }, error: undefined, isValidating: false, mutate: jest.fn() };
+      });
+      return renderHook(() => useLayoutApplyDetail());
+    };
+
+    test('format1: { code, message: string } - should extract code and message as-is', () => {
+      const mockData = buildMockWithResult({
+        code: 'EF003BAS010',
+        message: 'Your request is not supported for the specified target dee.',
+      });
+      const { result } = renderWithData(mockData);
+      expect(result.current.data?.procedures?.[0].apply.error).toEqual({
+        code: 'EF003BAS010',
+        message: 'Your request is not supported for the specified target dee.',
+      });
+    });
+
+    test('format2: { errorInfo: [{ errorCode, errorMessage }] } - should extract first element', () => {
+      const mockData = buildMockWithResult({
+        deviceID: 'aa58210b-a007-4fc8-9795-1b37907a87b8',
+        errorInfo: [
+          { errorCode: 'EF013BAS005', errorMessage: 'The specified Device ID is not found.' },
+          { errorCode: 'EF013BAS006', errorMessage: 'Another error.' },
+        ],
+        infoTimestamp: '2026-04-07T07:51:02Z',
+      });
+      const { result } = renderWithData(mockData);
+      expect(result.current.data?.procedures?.[0].apply.error).toEqual({
+        code: 'EF013BAS005',
+        message: 'The specified Device ID is not found.',
+      });
+    });
+
+    test('format3: { code, message: Array<{ msg, ... }> } - should extract code and first msg', () => {
+      const mockData = buildMockWithResult({
+        code: 'EF003BAS012',
+        message: [
+          {
+            ctx: { error: 'invalid group length in group 4: expected 12, found 13' },
+            loc: ['path', 'sourceDeviceID'],
+            msg: 'Input should be a valid UUID, invalid group length in group 4: expected 12, found 13',
+            type: 'uuid_parsing',
+            input: '38ac1c7f-7abc-469f-a313-7d2851c80d661',
+          },
+          {
+            msg: 'Another validation error.',
+            type: 'other_error',
+          },
+        ],
+      });
+      const { result } = renderWithData(mockData);
+      expect(result.current.data?.procedures?.[0].apply.error).toEqual({
+        code: 'EF003BAS012',
+        message: 'Input should be a valid UUID, invalid group length in group 4: expected 12, found 13',
+      });
+    });
+
+    test('unmatched responseBody - should return dummy fallback', () => {
+      const mockData = buildMockWithResult({ someOtherField: 'value' });
+      const { result } = renderWithData(mockData);
+      expect(result.current.data?.procedures?.[0].apply.error).toEqual({
+        code: 'Unknown',
+        message: 'If the problem persists, please contact your administrator',
+      });
+    });
+
+    test('null responseBody - should return undefined', () => {
+      const mockData = buildMockWithResult(null);
+      const { result } = renderWithData(mockData);
+      expect(result.current.data?.procedures?.[0].apply.error).toBeUndefined();
+    });
+
+    test('format2: empty errorInfo array - should return dummy fallback', () => {
+      const mockData = buildMockWithResult({ errorInfo: [] });
+      const { result } = renderWithData(mockData);
+      expect(result.current.data?.procedures?.[0].apply.error).toEqual({
+        code: 'Unknown',
+        message: 'If the problem persists, please contact your administrator',
+      });
+    });
+
+    test('format2: errorInfo[0] missing errorCode - should return dummy fallback', () => {
+      const mockData = buildMockWithResult({ errorInfo: [{ errorMessage: 'Some error.' }] });
+      const { result } = renderWithData(mockData);
+      expect(result.current.data?.procedures?.[0].apply.error).toEqual({
+        code: 'Unknown',
+        message: 'If the problem persists, please contact your administrator',
+      });
+    });
+
+    test('format2: errorInfo[0] missing errorMessage - should return dummy fallback', () => {
+      const mockData = buildMockWithResult({ errorInfo: [{ errorCode: 'EF013BAS005' }] });
+      const { result } = renderWithData(mockData);
+      expect(result.current.data?.procedures?.[0].apply.error).toEqual({
+        code: 'Unknown',
+        message: 'If the problem persists, please contact your administrator',
+      });
+    });
+
+    test('format2: errorInfo[0] is null - should return dummy fallback', () => {
+      const mockData = buildMockWithResult({ errorInfo: [null] });
+      const { result } = renderWithData(mockData);
+      expect(result.current.data?.procedures?.[0].apply.error).toEqual({
+        code: 'Unknown',
+        message: 'If the problem persists, please contact your administrator',
+      });
+    });
+
+    test('format3: message array with no msg field - should return dummy fallback', () => {
+      const mockData = buildMockWithResult({ code: 'EF003BAS012', message: [{ type: 'other_error' }] });
+      const { result } = renderWithData(mockData);
+      expect(result.current.data?.procedures?.[0].apply.error).toEqual({
+        code: 'Unknown',
+        message: 'If the problem persists, please contact your administrator',
+      });
+    });
+
+    test('status is not FAILED - should return undefined', () => {
+      const mockData = {
+        ...mockDataProvisional,
+        result: [
+          {
+            operationID: 1,
+            status: 'COMPLETED',
+            startedAt: '2023-01-01T00:00:00Z',
+            endedAt: '2023-01-01T01:00:00Z',
+            responseBody: { code: 'EF003BAS010', message: 'Error message should be ignored.' },
+          },
+        ],
+      };
+      const { result } = renderWithData(mockData);
+      expect(result.current.data?.procedures?.[0].apply.error).toBeUndefined();
+    });
+  });
+
+  test('should handle procedure with undefined targetDeviceID', () => {
+    const mockData = {
+      ...mockDataProvisional,
+      procedures: [
+        {
+          operationID: 1,
+          targetCPUID: 'cpu1',
+          targetDeviceID: undefined,
+          operation: 'operation1',
+          dependencies: [],
+        },
+      ],
+    };
+
+    (useSWRImmutable as jest.Mock).mockImplementation((key: string) => {
+      if (key.includes('layout-apply')) {
+        return { data: mockData, error: undefined, isValidating: false, mutate: jest.fn() };
+      }
+      return { data: { resources: [] }, error: undefined, isValidating: false, mutate: jest.fn() };
+    });
+
+    const { result } = renderHook(() => useLayoutApplyDetail());
+
+    expect(result.current.data?.procedures?.[0].targetDevice).toBe('');
   });
 });

@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -18,7 +18,7 @@ import { APIApplyIDGetResponse } from '@/shared-modules/types';
 
 // Apply : CANCELED, Rollback: COMPLETED, operations: 15
 export const dummyAPIApplyIDGetResponse: APIApplyIDGetResponse = {
-  status: 'COMPLETED',
+  status: 'CANCELED',
   procedures: [
     {
       operation: 'connect',
@@ -120,16 +120,16 @@ export const dummyAPIApplyIDGetResponse: APIApplyIDGetResponse = {
     },
   ],
   applyID: 'dummy006',
-  applyResult: [
+  result: [
     {
-      uri: 'http://10.26.196.219:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
+      uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
       method: 'PUT',
       status: 'COMPLETED',
       statusCode: 200,
       operationID: 1,
       requestBody: {
         action: 'connect',
-        deviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1',
+        destinationDeviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1',
       },
       responseBody: {
         deviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1',
@@ -142,12 +142,12 @@ export const dummyAPIApplyIDGetResponse: APIApplyIDGetResponse = {
       },
     },
     {
-      uri: 'http://10.26.196.219:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
+      uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
       method: 'PUT',
       status: 'COMPLETED',
       statusCode: 200,
       operationID: 2,
-      requestBody: { action: 'connect', deviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1' },
+      requestBody: { action: 'connect', destinationDeviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1' },
       responseBody: {
         deviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1',
         CPUDeviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
@@ -155,12 +155,12 @@ export const dummyAPIApplyIDGetResponse: APIApplyIDGetResponse = {
       getInformation: { responseBody: { powerState: 'On' } },
     },
     {
-      uri: 'http://10.26.196.219:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
+      uri: 'http://192.0.2.11:8000/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
       method: 'PUT',
       status: 'COMPLETED',
       statusCode: 200,
       operationID: 3,
-      requestBody: { action: 'connect', deviceID: '33f19666-68b3-4ed7-a9a8-d046f0879ff2' },
+      requestBody: { action: 'connect', destinationDeviceID: '33f19666-68b3-4ed7-a9a8-d046f0879ff2' },
       responseBody: {
         deviceID: '33f19666-68b3-4ed7-a9a8-d046f0879ff2',
         CPUDeviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
@@ -218,69 +218,71 @@ export const dummyAPIApplyIDGetResponse: APIApplyIDGetResponse = {
   ],
   startedAt: '2024-07-17T02:43:51Z',
   endedAt: '2024-07-17T02:50:45Z',
-  rollbackStartedAt: '2024-07-17T02:44:51Z',
-  rollbackEndedAt: '2024-07-17T02:49:51Z',
   executeRollback: true,
-  rollbackStatus: 'COMPLETED',
-  rollbackProcedures: [
-    {
-      operation: 'disconnect',
-      operationID: 3,
-      targetCPUID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
-      dependencies: [],
-      targetDeviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
-    },
-    {
-      operation: 'disconnect',
-      operationID: 2,
-      targetCPUID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
-      dependencies: [3],
-      targetDeviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c',
-    },
-    {
-      operation: 'disconnect',
-      operationID: 1,
-      targetCPUID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
-      dependencies: [2],
-      targetDeviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c',
-    },
-  ],
-  rollbackResult: [
-    {
-      uri: 'http://192.168.1.11:8007/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
-      method: 'PUT',
-      status: 'COMPLETED',
-      statusCode: 200,
-      operationID: 3,
-      requestBody: {
-        action: 'disconnect',
-        deviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
+  rollback: {
+    status: 'COMPLETED',
+    procedures: [
+      {
+        operation: 'disconnect',
+        operationID: 3,
+        targetCPUID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
+        dependencies: [],
+        targetDeviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
       },
-      responseBody: {},
-    },
-    {
-      uri: 'http://192.168.1.11:8007/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
-      method: 'PUT',
-      status: 'COMPLETED',
-      statusCode: 200,
-      operationID: 2,
-      requestBody: {
-        action: 'disconnect',
-        deviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c',
+      {
+        operation: 'disconnect',
+        operationID: 2,
+        targetCPUID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
+        dependencies: [3],
+        targetDeviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c',
       },
-      responseBody: {},
-    },
-    {
-      uri: 'http://192.168.1.11:8007/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
-      method: 'PUT',
-      status: 'COMPLETED',
-      statusCode: 200,
-      operationID: 1,
-      requestBody: {
-        action: 'disconnect',
-        deviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c',
+      {
+        operation: 'disconnect',
+        operationID: 1,
+        targetCPUID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
+        dependencies: [2],
+        targetDeviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c',
       },
-      responseBody: {},
-    },
-  ],
+    ],
+    result: [
+      {
+        uri: 'http://192.168.1.11:8007/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
+        method: 'PUT',
+        status: 'COMPLETED',
+        statusCode: 200,
+        operationID: 3,
+        requestBody: {
+          action: 'disconnect',
+          destinationDeviceID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
+        },
+        responseBody: {},
+      },
+      {
+        uri: 'http://192.168.1.11:8007/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
+        method: 'PUT',
+        status: 'COMPLETED',
+        statusCode: 200,
+        operationID: 2,
+        requestBody: {
+          action: 'disconnect',
+          destinationDeviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c',
+        },
+        responseBody: {},
+      },
+      {
+        uri: 'http://192.168.1.11:8007/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
+        method: 'PUT',
+        status: 'COMPLETED',
+        statusCode: 200,
+        operationID: 1,
+        requestBody: {
+          action: 'disconnect',
+          destinationDeviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c',
+        },
+        responseBody: {},
+      },
+    ],
+    startedAt: '2024-07-17T02:44:51Z',
+    endedAt: '2024-07-17T02:49:51Z',
+  },
 };
