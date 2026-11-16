@@ -16,16 +16,17 @@
 
 'use client';
 
-import { CardLoading, PageLink } from '@/shared-modules/components';
-import { APIresource } from '@/shared-modules/types';
-import { formatUnitValue, typeToUnit } from '@/shared-modules/utils';
-import { APIDeviceTypeLowerCamel, APINode } from '@/types';
+import { CardLoading, IconWithInfo, PageLink } from '@/shared-modules/components';
+import { calculateOverallStatus, formatUnitValue, typeToUnit } from '@/shared-modules/utils';
+import { APIDeviceTypeLowerCamel, APINode, APPLayoutDesignDevice } from '@/types';
 import { changeToAPPCase, formatLCtype } from '@/utils/parse';
 import dagre from '@dagrejs/dagre';
-import { Card, Center, Stack, Text, Title } from '@mantine/core';
+import { Box, Card, Center, Stack, Text, Title } from '@mantine/core';
 import { useTranslations } from 'next-intl';
 import type { Edge, Node, NodeProps } from 'reactflow';
 import { Handle, Position, ReactFlow } from 'reactflow';
+import { useMemo } from 'react';
+
 import 'reactflow/dist/style.css';
 
 type NodeNodeType = {
@@ -39,11 +40,16 @@ type NodeNodeType = {
     y: number;
   };
 };
+type DeviceStatusIcon = {
+  type: 'ban' | 'critical' | 'warning';
+  label: string;
+};
 type DeviceNodeType = {
   id: string;
   data: {
     deviceType: APIDeviceTypeLowerCamel;
     spec: string | number;
+    statusIcon?: DeviceStatusIcon;
   };
   type: 'device';
   position: {
@@ -71,7 +77,13 @@ const CustomNodeNode = (props: NodeProps<{ label: string }>) => {
   );
 };
 
-const CustomDeviceNode = (props: NodeProps<{ deviceType: APIDeviceTypeLowerCamel; spec: string | number }>) => {
+const CustomDeviceNode = (
+  props: NodeProps<{
+    deviceType: APIDeviceTypeLowerCamel;
+    spec: string | number;
+    statusIcon?: DeviceStatusIcon;
+  }>
+) => {
   const t = useTranslations();
   let spec = '';
   if (typeof props.data.spec === 'number') {
@@ -84,13 +96,23 @@ const CustomDeviceNode = (props: NodeProps<{ deviceType: APIDeviceTypeLowerCamel
   return (
     <>
       <Handle type='target' position={Position.Left} />
-      <Card withBorder w={650} h={80} padding={0}>
-        <Stack h={80} gap={0} align='center' justify='center'>
+      <Card withBorder w={670} padding={0} pos='relative'>
+        <Stack gap={0} align='center' justify='center' pt='10px' pb='10px'>
           <PageLink title={t('Resource Details')} path='/cdim/res-resource-detail' query={{ id: props.id }}>
-            <Text fw='bold' size='xl' ta='center'>{`${changeToAPPCase(props.data.deviceType)} (${props.id})`}</Text>
+            <Text
+              fw='bold'
+              size='xl'
+              ta='center'
+              lh='30px'
+            >{`${changeToAPPCase(props.data.deviceType)} (${props.id})`}</Text>
             <Text size='xl' ta='center'>{`${spec}`}</Text>
           </PageLink>
         </Stack>
+        {props.data.statusIcon && (
+          <Box style={{ position: 'absolute', top: '10px', left: '10px', zIndex: 10 }}>
+            <IconWithInfo type={props.data.statusIcon.type} label={props.data.statusIcon.label} size={30} />
+          </Box>
+        )}
       </Card>
     </>
   );
@@ -112,16 +134,51 @@ const CustomDeviceNode = (props: NodeProps<{ deviceType: APIDeviceTypeLowerCamel
  */
 export const NodeLayout = (props: {
   nodes: APINode[];
-  getDeviceByID: (deviceID: string) => APIresource['device'] | undefined;
+  getDeviceByID: (deviceID: string) => APPLayoutDesignDevice | undefined;
   loading: boolean;
 }) => {
   /** dagreGraph object */
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-  // eslint-disable-next-line complexity
+  const t = useTranslations();
+
+  /** Keep the nodeTypes object identity stable across renders (React Flow warns if it is recreated) */
+  const nodeTypes = useMemo(() => ({ node: CustomNodeNode, device: CustomDeviceNode }), []);
+
+  /**
+   * Get device status icon based on priority: 1. Maintenance (available:false) 2. Not Detected 3. Status (Warning/Critical)
+   * @param device - Device information
+   * @returns Icon configuration or undefined if no status to display
+   */
+  const getDeviceStatusIcon = (device: APPLayoutDesignDevice | undefined): DeviceStatusIcon | undefined => {
+    if (!device) return undefined;
+
+    // Priority 1: Maintenance (Under Maintenance)
+    if (device.available === false) {
+      return { type: 'ban', label: t('Under Maintenance') };
+    }
+
+    // Priority 2: Not Detected
+    if (device.detected === false) {
+      return { type: 'critical', label: t('Not Detected') };
+    }
+
+    // Priority 3: Status (Health/State)
+    const overallStatus = calculateOverallStatus(device.status?.health, device.status?.state);
+    if (overallStatus === 'Warning') {
+      return { type: 'warning', label: `${t('Status')}: ${t('Warning')}` };
+    } else if (overallStatus === 'Critical') {
+      return { type: 'critical', label: `${t('Status')}: ${t('Critical')}` };
+    }
+
+    // OK status: no icon displayed
+    return undefined;
+  };
+
   const parseLayoutData = (
     nodesData: APINode[]
+    // eslint-disable-next-line complexity
   ): [Node<NodeNodeType['data'] | DeviceNodeType['data'], 'node' | 'device'>[], Edge[]] => {
     const position = { x: 0, y: 0 };
     const nodes: Node<NodeNodeType['data'] | DeviceNodeType['data'], 'node' | 'device'>[] = [];
@@ -144,9 +201,10 @@ export const NodeLayout = (props: {
           }
           const device = props.getDeviceByID(deviceId);
           const spec = device?.totalCores ?? device?.capacityMiB ?? device?.driveCapacityBytes ?? '-';
+          const statusIcon = getDeviceStatusIcon(device);
           nodes.push({
             id: deviceId,
-            data: { deviceType: deviceType as APIDeviceTypeLowerCamel, spec: spec },
+            data: { deviceType: deviceType as APIDeviceTypeLowerCamel, spec: spec, statusIcon: statusIcon },
             type: 'device',
             position: position,
           });
@@ -200,28 +258,69 @@ export const NodeLayout = (props: {
   };
   const parsedData = parseLayoutData(props.nodes);
   const { nodes, edges } = getLayoutedElements(parsedData[0], parsedData[1]);
-  const t = useTranslations();
+  // const t = useTranslations();
+
+  // React Flow specific styles
+  const reactFlowStyles = `
+    /* Edge hover highlight */
+    .react-flow__edge-path {
+      stroke: #000000 !important;
+      stroke-width: 1px;
+      transition: stroke 120ms ease, stroke-width 120ms ease;
+    }
+    .react-flow__edge {
+      cursor: pointer;
+    }
+    .react-flow__edge:hover .react-flow__edge-path,
+    .react-flow__edge-path:hover {
+      stroke: #000000 !important;
+      stroke-width: 5px;
+    }
+    .react-flow__edge .react-flow__edge-interaction {
+      stroke-width: 24px;
+    }
+    
+    /* Node hover highlight */
+    .react-flow__node {
+      box-shadow: 0 0 0 1px rgba(124, 124, 124, 0.5), 0 0 1px 1px rgba(124, 124, 124, 0.25);
+      border-color: #000000 !important;
+      transition: box-shadow 120ms ease, border-color 120ms ease, transform 120ms ease;
+    }
+    .react-flow__node:hover {
+      box-shadow: 0 0 0 2px rgba(50, 50, 50, 0.8), 0 0 4px 2px rgba(50, 50, 50, 0.3);
+      border-color: #000000 !important;
+      z-index: 2;
+    }
+    .react-flow__node:focus-visible {
+      outline: 1px solid #000000;
+      outline-offset: 1px;
+    }
+    .react-flow__node .mantine-Card-root {
+      overflow: visible;
+    }
+  `;
 
   return (
     <>
+      <style>{reactFlowStyles}</style>
       <Title order={2} fz='lg'>
         {t('Node Layout')}
       </Title>
       {props.nodes.length !== 0 ? (
         <CardLoading withBorder loading={props.loading}>
           {/* If the card width exceeds the width of the div, nothing will be displayed in that part, so match the display width to the parent element */}
-          <div style={{ width: '100%', height: '600px' }}>
+          <Box style={{ width: '100%', height: '600px' }}>
             <ReactFlow
               nodes={nodes}
               edges={edges}
-              nodeTypes={{ node: CustomNodeNode, device: CustomDeviceNode }}
+              nodeTypes={nodeTypes}
               fitView
               proOptions={{ hideAttribution: true }}
               nodesFocusable={false}
               edgesFocusable={false}
               panActivationKeyCode={null}
             />
-          </div>
+          </Box>
         </CardLoading>
       ) : (
         <Text>{t('No data')}</Text>

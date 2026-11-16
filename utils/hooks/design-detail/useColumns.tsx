@@ -40,11 +40,13 @@ export const useColumns = (filter: DesignProcedureFilter): DataTableColumn<APPPr
       accessor: 'operationID',
       title: t('ID'),
       sortable: true,
+      width: '15%',
       filter: <NumberRangeForTableFilter values={filter.query.ID} setValues={filter.setQuery.ID} />,
       filtering: filter.query.ID.some((val) => val !== undefined),
     },
     {
       accessor: 'targetCPUID',
+      width: '27.5%',
       title: t('Host CPU ID'),
       render: ({ targetCPUID }) => {
         return <ResourceIdWithPageLink id={targetCPUID} />;
@@ -61,6 +63,7 @@ export const useColumns = (filter: DesignProcedureFilter): DataTableColumn<APPPr
     {
       accessor: 'targetDevice',
       title: t('Target Device'),
+      width: '27.5%',
       render: ({ targetDevice }) => {
         return <ResourceIdWithPageLink id={targetDevice} />;
       },
@@ -79,6 +82,7 @@ export const useColumns = (filter: DesignProcedureFilter): DataTableColumn<APPPr
       accessor: 'operation',
       title: t('Operation Type'),
       noWrap: true,
+      width: '15%',
       render: ({ operation }) => <>{t(_.capitalize(operation))}</>,
       filter: (
         <MultiSelectForTableFilter
@@ -93,6 +97,7 @@ export const useColumns = (filter: DesignProcedureFilter): DataTableColumn<APPPr
     {
       accessor: 'dependencies',
       title: t('Dependency ID'),
+      width: '15%',
       render: ({ dependencies }) => <>{dependencies.join(', ')}</>,
       filter: <NumberRangeForTableFilter values={filter.query.dependencies} setValues={filter.setQuery.dependencies} />,
       filtering: filter.query.dependencies.some((val) => val !== undefined),

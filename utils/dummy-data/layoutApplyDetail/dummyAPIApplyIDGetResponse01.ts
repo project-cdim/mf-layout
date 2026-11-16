@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -36,7 +36,7 @@ export const dummyAPIApplyIDGetResponse: APIApplyIDGetResponse = {
     },
   ],
   applyID: '3bcf62e3ab',
-  applyResult: [
+  result: [
     {
       uri: 'http://192.168.1.11:8007/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
       method: 'PUT',
@@ -45,7 +45,7 @@ export const dummyAPIApplyIDGetResponse: APIApplyIDGetResponse = {
       operationID: 1,
       requestBody: {
         action: 'connect',
-        deviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1',
+        destinationDeviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1',
       },
       responseBody: {},
     },
@@ -54,42 +54,44 @@ export const dummyAPIApplyIDGetResponse: APIApplyIDGetResponse = {
       operationID: 2,
     },
   ],
-  rollbackProcedures: [
-    {
-      operation: 'disconnect',
-      operationID: 1,
-      targetCPUID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
-      dependencies: [],
-      targetDeviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1',
-    },
-  ],
   executeRollback: true,
-  rollbackStatus: 'FAILED',
-  rollbackResult: [
-    {
-      uri: 'http://192.168.1.11:8007/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
-      method: 'PUT',
-      status: 'FAILED',
-      statusCode: 200,
-      operationID: 1,
-      requestBody: {
-        action: 'disconnect',
-        deviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1',
+  rollback: {
+    status: 'FAILED',
+    procedures: [
+      {
+        operation: 'disconnect',
+        operationID: 1,
+        targetCPUID: 'b477ea1c-db3d-48b3-9725-b0ce6e25efc2',
+        dependencies: [],
+        targetDeviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1',
       },
-      responseBody: {
-        code: '500',
-        message: 'Internal Server Error',
-      },
-      getInformation: {
+    ],
+    result: [
+      {
+        uri: 'http://192.168.1.11:8007/cdim/api/v1/cpu/b477ea1c-db3d-48b3-9725-b0ce6e25efc2/aggregations',
+        method: 'PUT',
+        status: 'FAILED',
+        statusCode: 200,
+        operationID: 1,
+        requestBody: {
+          action: 'disconnect',
+          destinationDeviceID: '388e64e3-efa7-484c-b63c-28bf1709d6c1',
+        },
         responseBody: {
-          powerState: 'On',
+          code: '500',
+          message: 'Internal Server Error',
+        },
+        getInformation: {
+          responseBody: {
+            powerState: 'On',
+          },
         },
       },
-    },
-  ],
+    ],
+    startedAt: '2024-11-20T01:03:49Z',
+    endedAt: '2024-11-20T01:05:20Z',
+  },
   startedAt: '2024-11-20T01:03:39Z',
   endedAt: '2024-11-20T01:05:20Z',
   canceledAt: '2024-11-20T01:03:47Z',
-  rollbackStartedAt: '2024-11-20T01:03:49Z',
-  rollbackEndedAt: '2024-11-20T01:05:20Z',
 };

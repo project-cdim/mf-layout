@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -91,7 +91,7 @@ describe('LayoutApplyStatusTables', () => {
     expect(rollbackTable).toBeInTheDocument();
     const withinRollbackTable = within(rollbackTable);
     // Status, Started, Ended are displayed
-    expect(withinRollbackTable.getByText('Status')).toBeInTheDocument();
+    expect(withinRollbackTable.getByText('ApplyStatus')).toBeInTheDocument();
     expect(withinRollbackTable.getByText('Started')).toBeInTheDocument();
     expect(withinRollbackTable.getByText('Ended')).toBeInTheDocument();
     // Canceled, Suspended, Resumed are not displayed

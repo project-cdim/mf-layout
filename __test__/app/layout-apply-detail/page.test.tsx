@@ -211,7 +211,7 @@ describe('LayoutApplyDetail', () => {
     expect(rollbackTable).toBeInTheDocument();
     const withinRollbackTable = within(rollbackTable);
     // Status, Started, Ended are displayed
-    expect(withinRollbackTable.getByText('Status')).toBeInTheDocument();
+    expect(withinRollbackTable.getByText('ApplyStatus')).toBeInTheDocument();
     expect(withinRollbackTable.getByText('Started')).toBeInTheDocument();
     expect(withinRollbackTable.getByText('Ended')).toBeInTheDocument();
     // Canceled, Suspended, Resumed are not displayed

@@ -273,8 +273,8 @@ describe('ApplyProcedureTable', () => {
 
     expect(screen.getAllByTestId('icon-alert-circle-filled')).toHaveLength(2);
     expect(screen.getAllByText('{action} Failed')).toHaveLength(2);
-    expect(screen.getAllByText('Error Code : -')).toHaveLength(2);
-    expect(screen.getAllByText('Message : -')).toHaveLength(2);
+    expect(screen.getAllByText('Error Code : Unknown')).toHaveLength(2);
+    expect(screen.getAllByText('Message : If the problem persists, please contact your administrator')).toHaveLength(2);
   });
 
   describe('Column Settings Feature', () => {

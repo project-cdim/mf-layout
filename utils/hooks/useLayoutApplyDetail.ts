@@ -22,12 +22,15 @@ import useSWRImmutable from 'swr/immutable';
 // import { useMSW } from '@/shared-modules/utils/hooks';
 import {
   APIApplyIDGetResponse,
-  APIApplyResult,
+  APIResult,
   APIresourcesSummary,
-  ApplyProcedureStatus,
+  APIResultResponseBody1,
+  APIResultResponseBody2,
+  APIResultResponseBody3,
 } from '@/shared-modules/types';
 import { fetcher } from '@/shared-modules/utils/';
 import { useQuery } from '@/shared-modules/utils/hooks';
+import { useTranslations } from 'next-intl';
 
 import { APPLayoutApplyDetail } from '@/types';
 
@@ -37,6 +40,7 @@ import { APPLayoutApplyDetail } from '@/types';
  * @returns An object containing the layout apply detail data, error information, validation status, and a mutate function.
  */
 export const useLayoutApplyDetail = () => {
+  const t = useTranslations();
   const { id } = useQuery();
 
   // Fetch apply data
@@ -64,94 +68,67 @@ export const useLayoutApplyDetail = () => {
   }, [resourceSWRResponse.data]);
 
   // Get device with its type
-  const getDeviceWithType = (deviceID: string): string => {
+  const getDeviceWithType = (deviceID: string | undefined): string => {
+    if (deviceID === undefined) return '';
     const type = deviceTypeMap[deviceID];
     return type ? `${_.upperFirst(type)}(${deviceID})` : deviceID;
   };
 
-  const getProcedureResult = (
-    data: APIApplyIDGetResponse,
-    operationID: number,
-    type: 'apply' | 'rollback'
-  ): ApplyProcedureStatus | undefined => {
-    const resultList = type === 'apply' ? data.applyResult : data.rollbackResult;
-    if (shouldCheckResumeResult(data, type)) {
-      const resumeStatus = data.resumeResult?.find((item) => item.operationID === operationID)?.status;
-      if (resumeStatus !== undefined) {
-        return resumeStatus;
+  const getLastResult = (resultList: APIResult[] | undefined, operationID: number): APIResult | undefined => {
+    return resultList?.findLast((item) => item.operationID === operationID);
+  };
+
+  const getErrorByResult = (result: APIResult | undefined): { code: string; message: string } | undefined => {
+    if (!result || result.status !== 'FAILED') return undefined;
+
+    // eslint-disable-next-line complexity
+    const extractError = (rb: unknown): { code: string; message: string } | undefined => {
+      if (typeof rb !== 'object' || rb === null) return undefined;
+
+      // pattern1: { code, message: string }
+      if ('code' in rb && 'message' in rb && typeof (rb as { message: unknown }).message === 'string') {
+        const { code, message } = rb as APIResultResponseBody1;
+        return { code: String(code), message };
       }
-    }
-    return resultList?.find((item) => item.operationID === operationID)?.status;
-  };
 
-  const getProcedureError = (
-    data: APIApplyIDGetResponse,
-    operationID: number,
-    type: 'apply' | 'rollback'
-  ):
-    | {
-        code: string;
-        message: string;
+      // pattern2: { errorInfo: [{ errorCode, errorMessage }] }
+      if (
+        'errorInfo' in rb &&
+        Array.isArray((rb as { errorInfo: unknown }).errorInfo) &&
+        (rb as { errorInfo: unknown[] }).errorInfo.length > 0
+      ) {
+        const { errorInfo } = rb as APIResultResponseBody2;
+        const { errorCode, errorMessage } = errorInfo[0] ?? {};
+        if (errorCode !== undefined && errorMessage !== undefined) {
+          return { code: errorCode, message: errorMessage };
+        }
       }
-    | undefined => {
-    const resultList = type === 'apply' ? data.applyResult : data.rollbackResult;
-    if (shouldCheckResumeResult(data, type)) {
-      // If there is no error in resume, it is completed and there is no need to look for apply/rollback errors
-      return getErrorByResult(data.resumeResult?.find((item) => item.operationID === operationID));
-    }
-    return getErrorByResult(resultList?.find((item) => item.operationID === operationID));
-  };
 
-  const getProcedureTimestamp = (
-    data: APIApplyIDGetResponse,
-    operationID: number,
-    type: 'apply' | 'rollback',
-    timestampType: 'startedAt' | 'endedAt'
-  ): Date | undefined => {
-    const resultList = type === 'apply' ? data.applyResult : data.rollbackResult;
-    if (shouldCheckResumeResult(data, type)) {
-      const resumeItem = data.resumeResult?.find((item) => item.operationID === operationID);
-      if (resumeItem?.[timestampType]) {
-        return new Date(resumeItem[timestampType]);
+      // pattern3: { code, message: Array<{ msg, ... }> }
+      if (
+        'code' in rb &&
+        'message' in rb &&
+        Array.isArray((rb as { message: unknown }).message) &&
+        (rb as { message: unknown[] }).message.length > 0
+      ) {
+        const { code, message } = rb as APIResultResponseBody3;
+        const msg = message[0]?.msg;
+        if (msg !== undefined) return { code: String(code), message: msg };
       }
-    }
-    const resultItem = resultList?.find((item) => item.operationID === operationID);
-    return resultItem?.[timestampType] ? new Date(resultItem[timestampType]) : undefined;
-  };
 
-  const shouldCheckResumeResult = (data: APIApplyIDGetResponse, type: 'apply' | 'rollback'): boolean => {
-    if (data.resumedAt === undefined) return false;
-    const isResumeAfterRollback =
-      data.rollbackStartedAt !== undefined && new Date(data.rollbackStartedAt) < new Date(data.resumedAt);
-    return (type === 'apply' && !isResumeAfterRollback) || (type === 'rollback' && isResumeAfterRollback);
-  };
+      return { code: t('Unknown'), message: t('If the problem persists, please contact your administrator') };
+    };
 
-  const getErrorByResult = (result: APIApplyResult | undefined): { code: string; message: string } | undefined => {
-    if (!result) return undefined;
     const responseBodies = [result.responseBody, result.isOSBoot?.responseBody, result.getInformation?.responseBody];
-    return responseBodies.find(
-      (rb): rb is { code: string; message: string } =>
-        typeof rb === 'object' && rb !== null && 'code' in rb && 'message' in rb
-    );
-  };
-
-  const getDate = (
-    dateString: string | undefined,
-    rollbackStartedAt: string | undefined,
-    type: 'apply' | 'rollback'
-  ): Date | undefined => {
-    if (!dateString) return undefined;
-    const date = new Date(dateString);
-    if (type === 'apply' && (!rollbackStartedAt || new Date(rollbackStartedAt) > date)) {
-      return date;
-    }
-    if (type === 'rollback' && rollbackStartedAt && new Date(rollbackStartedAt) <= date) {
-      return date;
+    for (const rb of responseBodies) {
+      const error = extractError(rb);
+      if (error) return error;
     }
     return undefined;
   };
 
   // Convert data to APPLayoutApplyDetail
+  // eslint-disable-next-line complexity
   const layoutApplyDetail: APPLayoutApplyDetail | undefined = useMemo(() => {
     const { data } = layoutSWRResponse;
     if (!data) return undefined;
@@ -161,23 +138,28 @@ export const useLayoutApplyDetail = () => {
       apply: {
         status: data.status,
         startedAt: new Date(data.startedAt),
-        suspendedAt: getDate(data.suspendedAt, data.rollbackStartedAt, 'apply'),
-        resumedAt: getDate(data.resumedAt, data.rollbackStartedAt, 'apply'),
-        canceledAt: getDate(data.canceledAt, data.rollbackStartedAt, 'apply'),
+        suspendedAt: data.suspendedAt ? new Date(data.suspendedAt) : undefined,
+        resumedAt: data.resumedAt ? new Date(data.resumedAt) : undefined,
+        canceledAt: data.canceledAt ? new Date(data.canceledAt) : undefined,
         endedAt: data.endedAt ? new Date(data.endedAt) : undefined,
       },
-      rollback: data.rollbackStartedAt
+      rollback: data.rollback
         ? {
-            status: data.rollbackStatus ?? undefined,
-            startedAt: new Date(data.rollbackStartedAt),
-            suspendedAt: getDate(data.suspendedAt, data.rollbackStartedAt, 'rollback'),
-            resumedAt: getDate(data.resumedAt, data.rollbackStartedAt, 'rollback'),
-            canceledAt: getDate(data.canceledAt, data.rollbackStartedAt, 'rollback'),
-            endedAt: data.rollbackEndedAt ? new Date(data.rollbackEndedAt) : undefined,
+            status: data.rollback.status ?? undefined,
+            startedAt: data.rollback.startedAt ? new Date(data.rollback.startedAt) : undefined,
+            suspendedAt: data.rollback.suspendedAt ? new Date(data.rollback.suspendedAt) : undefined,
+            resumedAt: data.rollback.resumedAt ? new Date(data.rollback.resumedAt) : undefined,
+            endedAt: data.rollback.endedAt ? new Date(data.rollback.endedAt) : undefined,
           }
         : undefined,
+      // eslint-disable-next-line complexity
       procedures: data.procedures?.map((procedure) => {
-        const rollbackProcedure = data.rollbackProcedures?.find((rp) => rp.operationID === procedure.operationID);
+        const rollbackProcedures = data.rollbackProcedures ?? data.rollback?.procedures;
+        const rollbackProcedure = rollbackProcedures?.find((rp) => rp.operationID === procedure.operationID);
+        const applyResult = getLastResult(data.result, procedure.operationID);
+        const rollbackResult = rollbackProcedure
+          ? getLastResult(data.rollback?.result, rollbackProcedure.operationID)
+          : undefined;
         return {
           operationID: procedure.operationID,
           targetCPUID: procedure.targetCPUID,
@@ -185,19 +167,19 @@ export const useLayoutApplyDetail = () => {
           apply: {
             operation: procedure.operation,
             dependencies: procedure.dependencies,
-            status: getProcedureResult(data, procedure.operationID, 'apply'),
-            error: getProcedureError(data, procedure.operationID, 'apply'),
-            startedAt: getProcedureTimestamp(data, procedure.operationID, 'apply', 'startedAt'),
-            endedAt: getProcedureTimestamp(data, procedure.operationID, 'apply', 'endedAt'),
+            status: applyResult?.status,
+            error: getErrorByResult(applyResult),
+            startedAt: applyResult?.startedAt ? new Date(applyResult.startedAt) : undefined,
+            endedAt: applyResult?.endedAt ? new Date(applyResult.endedAt) : undefined,
           },
           rollback: rollbackProcedure
             ? {
                 operation: rollbackProcedure.operation,
                 dependencies: rollbackProcedure.dependencies,
-                status: getProcedureResult(data, rollbackProcedure.operationID, 'rollback'),
-                error: getProcedureError(data, rollbackProcedure.operationID, 'rollback'),
-                startedAt: getProcedureTimestamp(data, rollbackProcedure.operationID, 'rollback', 'startedAt'),
-                endedAt: getProcedureTimestamp(data, rollbackProcedure.operationID, 'rollback', 'endedAt'),
+                status: rollbackResult?.status,
+                error: getErrorByResult(rollbackResult),
+                startedAt: rollbackResult?.startedAt ? new Date(rollbackResult.startedAt) : undefined,
+                endedAt: rollbackResult?.endedAt ? new Date(rollbackResult.endedAt) : undefined,
               }
             : undefined,
         };

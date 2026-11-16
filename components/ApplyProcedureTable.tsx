@@ -84,8 +84,8 @@ export const ApplyProcedureTable = ({ onStorageError }: { onStorageError?: (erro
           <IconAlertCircleFilled size={20} style={{ color: color.red.color }} />
           <Text fz='sm'>{t('{action} Failed', { action: t('Apply') })}</Text>
         </Group>
-        <Text fz='sm'>{`${t('Error Code')} : ${record.apply.error?.code ?? '-'}`}</Text>
-        <Text fz='sm'>{`${t('Message')} : ${record.apply.error?.message ?? '-'}`}</Text>
+        <Text fz='sm'>{`${t('Error Code')} : ${record.apply.error?.code ?? t('Unknown')}`}</Text>
+        <Text fz='sm'>{`${t('Message')} : ${record.apply.error?.message ?? t('If the problem persists, please contact your administrator')}`}</Text>
       </>
     );
   };
@@ -98,8 +98,8 @@ export const ApplyProcedureTable = ({ onStorageError }: { onStorageError?: (erro
           <IconAlertCircleFilled size={20} style={{ color: color.red.color }} />
           <Text fz='sm'>{t('{action} Failed', { action: t('Rollback') })}</Text>
         </Group>
-        <Text fz='sm'>{`${t('Error Code')} : ${record.rollback.error?.code ?? '-'}`}</Text>
-        <Text fz='sm'>{`${t('Message')} : ${record.rollback.error?.message ?? '-'}`}</Text>
+        <Text fz='sm'>{`${t('Error Code')} : ${record.rollback.error?.code ?? t('Unknown')}`}</Text>
+        <Text fz='sm'>{`${t('Message')} : ${record.rollback.error?.message ?? t('If the problem persists, please contact your administrator')}`}</Text>
       </>
     );
   };

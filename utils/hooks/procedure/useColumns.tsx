@@ -52,6 +52,7 @@ export const useColumns = (filter: ApplyProcedureFilter, displayColumns: (string
       sortable: true,
       filter: <NumberRangeForTableFilter values={filter.query.ID} setValues={filter.setQuery.ID} />,
       filtering: filter.query.ID.some((val) => val !== undefined),
+      width: `5%`,
     },
     {
       accessor: 'targetCPUID',
@@ -105,6 +106,7 @@ export const useColumns = (filter: ApplyProcedureFilter, displayColumns: (string
               accessor: 'operation',
               title: t('Operation Type'),
               noWrap: true,
+              width: `7.5%`,
               render: ({ apply: { operation } }) => <>{t(_.capitalize(operation))}</>,
               filter: (
                 <MultiSelectForTableFilter
@@ -119,6 +121,7 @@ export const useColumns = (filter: ApplyProcedureFilter, displayColumns: (string
             {
               accessor: 'dependencies',
               title: t('Dependency ID'),
+              width: `5%`,
               render: ({ apply: { dependencies } }) => <>{dependencies.join(', ')}</>,
               filter: (
                 <NumberRangeForTableFilter
@@ -131,6 +134,7 @@ export const useColumns = (filter: ApplyProcedureFilter, displayColumns: (string
             {
               accessor: 'result',
               title: t('Result.execution'),
+              width: `10%`,
               render: ({ apply: { status } }) => (status ? <ResultWithIcon status={status} /> : null),
               filter: (
                 <MultiSelectForTableFilter
@@ -146,6 +150,7 @@ export const useColumns = (filter: ApplyProcedureFilter, displayColumns: (string
               accessor: 'applyStartedAt',
               title: t('Started'),
               noWrap: true,
+              width: `0%`,
               render: ({ apply }) => {
                 const startedAt = apply?.startedAt;
                 return <DatetimeString date={startedAt} />;
@@ -159,6 +164,7 @@ export const useColumns = (filter: ApplyProcedureFilter, displayColumns: (string
               accessor: 'applyEndedAt',
               noWrap: true,
               title: t('Ended'),
+              width: `0%`,
               render: ({ apply }) => {
                 const endedAt = apply?.endedAt;
                 return <DatetimeString date={endedAt} />;
@@ -180,6 +186,7 @@ export const useColumns = (filter: ApplyProcedureFilter, displayColumns: (string
               accessor: 'rollbackOperation',
               title: t('Operation Type'),
               noWrap: true,
+              width: `7.5%`,
               render: ({ rollback }) => (rollback?.operation ? <>{t(_.capitalize(rollback.operation))}</> : null),
               filter: (
                 <MultiSelectForTableFilter
@@ -194,6 +201,7 @@ export const useColumns = (filter: ApplyProcedureFilter, displayColumns: (string
             {
               accessor: 'rollbackDependencies',
               title: t('Dependency ID'),
+              width: `10%`,
               render: ({ rollback }) => (rollback?.dependencies ? <>{rollback.dependencies.join(', ')}</> : null),
               filter: (
                 <NumberRangeForTableFilter
@@ -206,6 +214,7 @@ export const useColumns = (filter: ApplyProcedureFilter, displayColumns: (string
             {
               accessor: 'rollbackResult',
               title: t('Result.execution'),
+              width: `10%`,
               render: ({ rollback }) => (rollback?.status ? <ResultWithIcon status={rollback.status} /> : null),
               filter: (
                 <MultiSelectForTableFilter
@@ -221,6 +230,7 @@ export const useColumns = (filter: ApplyProcedureFilter, displayColumns: (string
               accessor: 'rollbackStartedAt',
               noWrap: true,
               title: t('Started'),
+              width: `0%`,
               render: ({ rollback }) => {
                 const startedAt = rollback?.startedAt;
                 return <DatetimeString date={startedAt} />;
@@ -238,6 +248,7 @@ export const useColumns = (filter: ApplyProcedureFilter, displayColumns: (string
               accessor: 'rollbackEndedAt',
               noWrap: true,
               title: t('Ended'),
+              width: `0%`,
               render: ({ rollback }) => {
                 const endedAt = rollback?.endedAt;
                 return <DatetimeString date={endedAt} />;

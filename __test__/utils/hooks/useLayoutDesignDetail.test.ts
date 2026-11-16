@@ -725,4 +725,56 @@ describe('useLayoutDesignDetail', () => {
     expect(toleranceCriteria?.cpu).toEqual([]);
     expect(toleranceCriteria?.memory).toEqual([]);
   });
+
+  test('should handle procedures with undefined targetDeviceID', async () => {
+    // Create a modified dummy data where a procedure has no targetDeviceID
+    const designWithUndefinedTargetDeviceID = {
+      ...dummyAPILayoutDesign,
+      procedures: [
+        {
+          operationID: 1,
+          operation: 'shutdown',
+          dependencies: [],
+          targetDeviceID: undefined,
+        },
+      ],
+    };
+
+    const useSWRImmutable = require('swr/immutable').default;
+    useSWRImmutable.mockImplementation((url: string) => {
+      if (url && url.includes('layout-designs')) {
+        return {
+          data: designWithUndefinedTargetDeviceID,
+          error: undefined,
+          isValidating: false,
+          mutate: jest.fn(),
+        };
+      }
+      if (url && url.includes('resources')) {
+        return {
+          data: mockDevices,
+          error: undefined,
+          isValidating: false,
+          mutate: jest.fn(),
+        };
+      }
+      return {
+        data: undefined,
+        error: undefined,
+        isValidating: false,
+        mutate: jest.fn(),
+      };
+    });
+
+    // Render the hook
+    const { result } = renderHook(() => useLayoutDesignDetail());
+
+    // Wait for the hook to resolve
+    await waitFor(() => {
+      expect(result.current.data).toBeDefined();
+    });
+
+    // targetDevice should be undefined when targetDeviceID is undefined
+    expect(result.current.data?.procedures?.[0].targetDevice).toBeUndefined();
+  });
 });

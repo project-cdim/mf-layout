@@ -65,6 +65,7 @@ export const useLayoutApplyColumns: ApplyColumns = (filter) => {
       title: t('Apply Status'),
       sortable: true,
       noWrap: true,
+      width: '15%',
       render: ({ status }) => {
         return (
           <Group gap={5} wrap='nowrap' style={{ whiteSpace: 'nowrap' }}>
@@ -90,6 +91,7 @@ export const useLayoutApplyColumns: ApplyColumns = (filter) => {
       title: t('Started'),
       sortable: true,
       noWrap: true,
+      width: '20%',
       render: ({ startedAt }) => <DatetimeString date={startedAt} />,
       filter: ({ close }) => (
         <DateRangePicker value={filter.query.startedAt} setValue={filter.setQuery.startedAt} close={close} />
@@ -101,6 +103,7 @@ export const useLayoutApplyColumns: ApplyColumns = (filter) => {
       title: t('Ended'),
       sortable: true,
       noWrap: true,
+      width: '20%',
       render: ({ endedAt }) => <DatetimeString date={endedAt} />,
       filter: ({ close }) => (
         <DateRangePicker value={filter.query.endedAt} setValue={filter.setQuery.endedAt} close={close} />
@@ -112,6 +115,7 @@ export const useLayoutApplyColumns: ApplyColumns = (filter) => {
       title: t('Rollback Status'),
       sortable: true,
       noWrap: true,
+      width: '15%',
       render: ({ rollbackStatus }) => {
         return rollbackStatus ? (
           <Group gap={5} wrap='nowrap' style={{ whiteSpace: 'nowrap' }}>

@@ -64,6 +64,7 @@ export const useColumns: DesignColumns = (layoutFilter) => {
       accessor: 'status',
       title: t('Design Status'),
       sortable: true,
+      width: '15%',
       render: ({ status }) => {
         return (
           <Group gap={5} wrap='nowrap' style={{ whiteSpace: 'nowrap' }}>
@@ -88,6 +89,7 @@ export const useColumns: DesignColumns = (layoutFilter) => {
       accessor: 'startedAt',
       title: t('Started'),
       sortable: true,
+      width: '20%',
       render: ({ startedAt }) => <DatetimeString date={startedAt} />,
       noWrap: true,
       filter: ({ close }) => (
@@ -103,6 +105,7 @@ export const useColumns: DesignColumns = (layoutFilter) => {
       accessor: 'endedAt',
       title: t('Ended'),
       sortable: true,
+      width: '20%',
       render: ({ endedAt }) => <DatetimeString date={endedAt} />,
       noWrap: true,
       filter: ({ close }) => (

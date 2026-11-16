@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -19,6 +19,7 @@ import { APIPolicies } from '@/types';
 // dummy data
 export const dummyPolicy: APIPolicies = {
   count: 5,
+  totalCount: 5,
   policies: [
     {
       policyID: 'd8eceb14da',

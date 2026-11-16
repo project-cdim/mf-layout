@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -77,12 +77,13 @@ export const MigrationConditions = () => {
       accessor: 'id',
       title: t('Device ID'),
       sortable: true,
+      width: '40%',
       render: ({ id }) => {
         return <ResourceIdWithPageLink id={id} />;
       },
     },
-    { accessor: 'weights', title: t('Weight for CPU'), sortable: true },
-    { accessor: 'cores', title: t('Cores'), sortable: true },
+    { accessor: 'weights', title: t('Weight for CPU'), sortable: true, width: '30%' },
+    { accessor: 'cores', title: t('Cores'), sortable: true, width: '30%' },
   ];
 
   const memoryColumns: DataTableColumn<APPToleranceCriteriaMemoryList>[] = [
@@ -90,6 +91,7 @@ export const MigrationConditions = () => {
       accessor: 'id',
       title: t('Device ID'),
       sortable: true,
+      width: '50%',
       render: ({ id }) => {
         return <ResourceIdWithPageLink id={id} />;
       },
@@ -98,6 +100,7 @@ export const MigrationConditions = () => {
       accessor: 'capacity',
       title: t('Capacity') + (minMemoryCapacityUnit ? `(${minMemoryCapacityUnit})` : ''),
       sortable: true,
+      width: '50%',
       render: ({ capacity }) =>
         capacity === undefined ? undefined : formatBytes(capacity, minMemoryCapacityUnit || ''),
     },

@@ -65,7 +65,7 @@ export const StatusTables = () => {
 
   const tableData = [
     {
-      columnName: t('Status'),
+      columnName: t('ApplyStatus'),
       value: <StatusWithIcon status={status} type='Apply' />,
     },
     { columnName: t('Started'), value: <DatetimeString date={startedAt} /> },
@@ -84,7 +84,7 @@ export const StatusTables = () => {
 
   const rollbackTableData = [
     {
-      columnName: t('Status'),
+      columnName: t('ApplyStatus'),
       value: <StatusWithIcon status={rollbackStatus} type='Rollback' />,
     },
     { columnName: t('Started'), value: <DatetimeString date={rollbackStartedAt} /> },

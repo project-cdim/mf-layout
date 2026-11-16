@@ -72,12 +72,16 @@ export const dummyAPILayoutDesign: APILayoutDesign = {
             deviceIDs: ['res11203'],
           },
           storage: {
-            deviceIDs: ['res11302'],
+            deviceIDs: [
+              'res10302',
+              // 'res11302',
+            ],
           },
           networkInterface: {
             deviceIDs: ['res11401'],
           },
           gpu: [
+            /*
             {
               deviceID: 'res11501',
               requests: [
@@ -96,6 +100,7 @@ export const dummyAPILayoutDesign: APILayoutDesign = {
                 },
               ],
             },
+            */
           ],
         },
       },
