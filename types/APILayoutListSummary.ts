@@ -1,0 +1,81 @@
+/*
+ * Copyright 2025 NEC Corporation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+
+export type APILayoutListSummary = APILayoutSummary[];
+
+export type APILayoutSummary = {
+  designID: string;
+  status: APILayoutStatus;
+};
+
+export type APILayoutStatus = {
+  currentStep: 'design' | 'apply' | 'active' | 'end';
+  // Design
+  design:
+    | {
+        status: 'IN_PROGRESS' | 'CANCELING';
+        startDate: string;
+        durationSec: number;
+      }
+    | {
+        status: 'FAILED';
+        code: string;
+        message: string;
+        startDate: string;
+        endDate: string;
+        durationSec: number;
+      }
+    | {
+        status: 'CANCELED' | 'COMPLETED';
+        startDate: string;
+        endDate: string;
+        durationSec: number;
+      };
+  // Apply
+  apply?:
+    | {
+        status: 'IN_PROGRESS' | 'CANCELING';
+        startDate: string;
+        durationSec: number;
+      }
+    | {
+        status: 'FAILED';
+        code: string;
+        message: string;
+        startDate: string;
+        endDate: string;
+        durationSec: number;
+      }
+    | {
+        status: 'CANCELED' | 'COMPLETED';
+        startDate: string;
+        endDate: string;
+        durationSec: number;
+      };
+  // Active
+  active?:
+    | {
+        status: 'ACTIVE';
+        startDate: string;
+        durationSec: number;
+      }
+    | {
+        status: 'INACTIVE';
+        startDate: string;
+        endDate: string;
+        durationSec: number;
+      };
+};
