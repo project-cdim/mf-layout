@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -57,9 +57,17 @@ export const dummyAPILayoutDesign: APILayoutDesign = {
           cpu: {
             deviceIDs: ['0011'],
           },
-          gpu: {
-            deviceIDs: ['0005'],
-          },
+          gpu: [
+            {
+              deviceID: '0005',
+              requests: [
+                {
+                  requestInstanceID: 'request_instance_1',
+                  index: 0,
+                },
+              ],
+            },
+          ],
           virtualMedia: {
             deviceIDs: ['res10602'],
           },

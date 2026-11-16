@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -126,26 +126,32 @@ export const useFilter = (): ApplyProcedureFilter => {
   const [rollbackStartedAtQuery, setRollbackStartedAtQuery] = useState<DateRange>([undefined, undefined]);
   const [rollbackEndedAtQuery, setRollbackEndedAtQuery] = useState<DateRange>([undefined, undefined]);
 
+  // Helper function to check common filters
+  const matchesCommonFilters = (record: APPProcedureWithResult) =>
+    isNumberInRange(record.operationID, idQuery) &&
+    isAllStringIncluded(record.targetCPUID, debouncedTargetCPUIDQuery) &&
+    isAllStringIncluded(record.targetDevice, debouncedtargetDeviceIDQuery);
+
+  // Helper function to check apply filters
+  const matchesApplyFilters = (record: APPProcedureWithResult) =>
+    isSelected(record.apply.operation, operationQuery) &&
+    isNumbersInRange(record.apply.dependencies, dependenciesQuery) &&
+    isSelected(record.apply.status, statusQuery) &&
+    isDateInRange(record.apply.startedAt, startedAtQuery) &&
+    isDateInRange(record.apply.endedAt, endedAtQuery);
+
+  // Helper function to check rollback filters
+  const matchesRollbackFilters = (record: APPProcedureWithResult) =>
+    isSelected(record.rollback?.operation, rollbackOperationQuery) &&
+    isNumbersInRange(record.rollback?.dependencies, rollbackDependenciesQuery) &&
+    isSelected(record.rollback?.status, rollbackStatusQuery) &&
+    isDateInRange(record.rollback?.startedAt, rollbackStartedAtQuery) &&
+    isDateInRange(record.rollback?.endedAt, rollbackEndedAtQuery);
+
   const filteredRecords = useMemo(() => {
     return data?.procedures
       ? data.procedures.filter(
-          (record) =>
-            // common column group
-            isNumberInRange(record.operationID, idQuery) &&
-            isAllStringIncluded(record.targetCPUID, debouncedTargetCPUIDQuery) &&
-            isAllStringIncluded(record.targetDevice, debouncedtargetDeviceIDQuery) &&
-            // apply column group
-            isSelected(record.apply.operation, operationQuery) &&
-            isNumbersInRange(record.apply.dependencies, dependenciesQuery) &&
-            isSelected(record.apply.status, statusQuery) &&
-            isDateInRange(record.apply.startedAt, startedAtQuery) &&
-            isDateInRange(record.apply.endedAt, endedAtQuery) &&
-            // rollback column group
-            isSelected(record.rollback?.operation, rollbackOperationQuery) &&
-            isNumbersInRange(record.rollback?.dependencies, rollbackDependenciesQuery) &&
-            isSelected(record.rollback?.status, rollbackStatusQuery) &&
-            isDateInRange(record.rollback?.startedAt, rollbackStartedAtQuery) &&
-            isDateInRange(record.rollback?.endedAt, rollbackEndedAtQuery)
+          (record) => matchesCommonFilters(record) && matchesApplyFilters(record) && matchesRollbackFilters(record)
         )
       : [];
   }, [

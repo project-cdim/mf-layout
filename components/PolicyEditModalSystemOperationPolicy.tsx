@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -36,6 +36,7 @@ import {
 import { deviceTypes } from '@/utils/define';
 import { initialValues } from '@/utils/policy';
 import { changeToAPPCase } from '@/utils/parse';
+import { SYSTEM_OPERATION_POLICY } from '@/utils/constant';
 
 /**
  * Component that displays a form for adding/editing policy conditions
@@ -55,10 +56,10 @@ export const PolicyEditModalSystemOperationPolicy = (props: {
 }) => {
   const t = useTranslations();
   const { selectedPolicyId, modalMode, modalClose, submit, inputStatus, error, data } = props;
-  const MIN_TITLE_LENGTH = 1;
-  const MAX_TITLE_LENGTH = 100;
-  const MIN_USAGE_THRESHOLD = 0;
-  const MAX_USAGE_THRESHOLD = 100;
+  const MIN_TITLE_LENGTH = SYSTEM_OPERATION_POLICY.TITLE_MIN_LENGTH;
+  const MAX_TITLE_LENGTH = SYSTEM_OPERATION_POLICY.TITLE_MAX_LENGTH;
+  const MIN_USAGE_THRESHOLD = SYSTEM_OPERATION_POLICY.USAGE_THRESHOLD_MIN_PERCENTAGE;
+  const MAX_USAGE_THRESHOLD = SYSTEM_OPERATION_POLICY.USAGE_THRESHOLD_MAX_PERCENTAGE;
   const createValidationRules = (deviceType: APIDeviceTypeLowerCamel) => ({
     value: (value: number | '', values: APPSystemOperationPolicy) =>
       values.policies[deviceType].enabled &&
@@ -208,11 +209,14 @@ export const PolicyEditModalSystemOperationPolicy = (props: {
                     ></Select>
                     <NumberInput
                       defaultValue={100}
-                      min={0}
-                      max={100}
+                      min={MIN_USAGE_THRESHOLD}
+                      max={MAX_USAGE_THRESHOLD}
                       w={100}
                       size='xs'
                       {...form.getInputProps(`policies.${item}.value`)}
+                      allowDecimal={false}
+                      allowNegative={false}
+                      isAllowed={({ value: val }) => Number(val) <= MAX_USAGE_THRESHOLD || val === ''}
                       onChange={(e) => {
                         form.getInputProps(`policies.${item}.value`).onChange(e);
                         form.clearFieldError(`policies.${item}.comparison`);

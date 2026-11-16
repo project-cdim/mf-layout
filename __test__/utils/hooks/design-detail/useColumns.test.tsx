@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -298,9 +298,9 @@ describe('useColumns', () => {
 
     cleanup();
 
-    // 空の配列の場合、JSXの返り値を直接検証する
+    // For an empty array, directly check the JSX return value
     const emptyResult = column.render(dummyProcedure2, 0) as ReactElement;
-    expect(emptyResult.props.children).toBe('');
+    expect((emptyResult as any).props.children).toBe('');
 
     cleanup();
 

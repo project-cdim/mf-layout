@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -127,7 +127,12 @@ describe('NodeLayout', () => {
   // Sample data for tests
   const mockNodes: APINode[] = [
     {
-      nodeID: 'node1',
+      services: [
+        {
+          id: 'service1',
+          requestInstanceID: 'request1',
+        },
+      ],
       device: {
         cpu: {
           deviceIDs: ['cpu1', 'cpu2'],
@@ -138,9 +143,14 @@ describe('NodeLayout', () => {
       },
     },
     {
-      nodeID: 'node2',
+      services: [
+        {
+          id: 'service2',
+          requestInstanceID: 'request2',
+        },
+      ],
       device: {
-        disk: {
+        storage: {
           deviceIDs: ['disk1'],
         },
       },
@@ -150,7 +160,12 @@ describe('NodeLayout', () => {
   // Node with empty devices
   const mockEmptyDeviceNode: APINode[] = [
     {
-      nodeID: 'emptyNode',
+      services: [
+        {
+          id: 'emptyService',
+          requestInstanceID: 'emptyRequest',
+        },
+      ],
       device: {},
     },
   ];
@@ -158,7 +173,12 @@ describe('NodeLayout', () => {
   // Node with empty device IDs
   const mockEmptyDeviceIDsNode: APINode[] = [
     {
-      nodeID: 'emptyIDsNode',
+      services: [
+        {
+          id: 'emptyIDsService',
+          requestInstanceID: 'emptyIDsRequest',
+        },
+      ],
       device: {
         cpu: {
           deviceIDs: [],
@@ -167,13 +187,108 @@ describe('NodeLayout', () => {
     },
   ];
 
+  // Node with single GPU (array format)
+  const mockNodesWithGPU: APINode[] = [
+    {
+      services: [
+        {
+          id: 'service_with_gpu',
+          requestInstanceID: 'request_gpu',
+        },
+      ],
+      device: {
+        cpu: {
+          deviceIDs: ['cpu1'],
+        },
+        gpu: [
+          {
+            deviceID: 'gpu1',
+            requests: [
+              {
+                requestInstanceID: 'request_gpu',
+                index: 0,
+              },
+            ],
+          },
+        ],
+      },
+    },
+  ];
+
+  // Node with multiple GPUs (array format)
+  const mockNodesWithMultipleGPU: APINode[] = [
+    {
+      services: [
+        {
+          id: 'service_with_multi_gpu',
+          requestInstanceID: 'request_multi_gpu',
+        },
+      ],
+      device: {
+        cpu: {
+          deviceIDs: ['cpu1'],
+        },
+        gpu: [
+          {
+            deviceID: 'gpu1',
+            requests: [
+              {
+                requestInstanceID: 'request_multi_gpu',
+                index: 0,
+              },
+            ],
+          },
+          {
+            deviceID: 'gpu2',
+            requests: [
+              {
+                requestInstanceID: 'request_multi_gpu',
+                index: 1,
+              },
+            ],
+          },
+        ],
+      },
+    },
+  ];
+
   const mockGetDeviceByID = jest.fn((deviceID: string): APIresource['device'] | undefined => {
     if (deviceID.startsWith('cpu')) {
-      return { totalCores: 8 };
+      return {
+        deviceID,
+        type: 'CPU',
+        status: { state: 'Enabled', health: 'OK' },
+        powerState: 'On',
+        powerCapability: true,
+        totalCores: 8,
+      };
     } else if (deviceID.startsWith('mem')) {
-      return { capacityMiB: 16384 };
+      return {
+        deviceID,
+        type: 'memory',
+        status: { state: 'Enabled', health: 'OK' },
+        powerState: 'On',
+        powerCapability: true,
+        capacityMiB: 16384,
+      };
     } else if (deviceID.startsWith('disk')) {
-      return { driveCapacityBytes: 1000000000000 };
+      return {
+        deviceID,
+        type: 'storage',
+        status: { state: 'Enabled', health: 'OK' },
+        powerState: 'On',
+        powerCapability: true,
+        driveCapacityBytes: 1000000000000,
+      };
+    } else if (deviceID.startsWith('gpu')) {
+      return {
+        deviceID,
+        type: 'GPU',
+        status: { state: 'Enabled', health: 'OK' },
+        powerState: 'On',
+        powerCapability: true,
+        totalCores: 2560,
+      };
     }
     return undefined;
   });
@@ -238,11 +353,11 @@ describe('NodeLayout', () => {
     expect(memNode.data.deviceType).toBe('memory');
     expect(memNode.data.spec).toBe(16384);
 
-    // Find disk node and check its data
-    const diskNode = nodes.find((node: any) => node.id === 'disk1');
-    expect(diskNode).toBeDefined();
-    expect(diskNode.data.deviceType).toBe('disk');
-    expect(diskNode.data.spec).toBe(1000000000000);
+    // Find storage node and check its data
+    const storageNode = nodes.find((node: any) => node.id === 'disk1');
+    expect(storageNode).toBeDefined();
+    expect(storageNode.data.deviceType).toBe('storage');
+    expect(storageNode.data.spec).toBe(1000000000000);
   });
 
   test('handles undefined device data gracefully', () => {
@@ -298,6 +413,64 @@ describe('NodeLayout', () => {
     // Should have just 1 node (the parent node) and no edges
     expect(nodes.length).toBe(1);
     expect(edges.length).toBe(0);
+  });
+
+  test('handles gpu devices with array format correctly', () => {
+    render(<NodeLayout nodes={mockNodesWithGPU} getDeviceByID={mockGetDeviceByID} loading={false} />);
+
+    const nodes = (ReactFlow as unknown as jest.Mock).mock.calls[0][0].nodes;
+    const edges = (ReactFlow as unknown as jest.Mock).mock.calls[0][0].edges;
+
+    // Should have 1 node + 1 cpu device + 1 gpu device = 3 nodes
+    expect(nodes.length).toBe(3);
+
+    // Find GPU node and check its data
+    const gpuNode = nodes.find((node: any) => node.id === 'gpu1');
+    expect(gpuNode).toBeDefined();
+    expect(gpuNode.data.deviceType).toBe('gpu');
+    expect(gpuNode.data.spec).toBe(2560);
+
+    // Should have 2 edges (node->cpu, node->gpu)
+    expect(edges.length).toBe(2);
+
+    // Check GPU edge
+    const gpuEdge = edges.find((edge: any) => edge.target === 'gpu1');
+    expect(gpuEdge).toBeDefined();
+    expect(gpuEdge.source).toBe('Node 1');
+    expect(gpuEdge.type).toBe('simplebezier');
+  });
+
+  test('handles multiple gpu devices with array format correctly', () => {
+    render(<NodeLayout nodes={mockNodesWithMultipleGPU} getDeviceByID={mockGetDeviceByID} loading={false} />);
+
+    const nodes = (ReactFlow as unknown as jest.Mock).mock.calls[0][0].nodes;
+    const edges = (ReactFlow as unknown as jest.Mock).mock.calls[0][0].edges;
+
+    // Should have 1 node + 1 cpu device + 2 gpu devices = 4 nodes
+    expect(nodes.length).toBe(4);
+
+    // Find GPU nodes and check their data
+    const gpu1Node = nodes.find((node: any) => node.id === 'gpu1');
+    expect(gpu1Node).toBeDefined();
+    expect(gpu1Node.data.deviceType).toBe('gpu');
+    expect(gpu1Node.data.spec).toBe(2560);
+
+    const gpu2Node = nodes.find((node: any) => node.id === 'gpu2');
+    expect(gpu2Node).toBeDefined();
+    expect(gpu2Node.data.deviceType).toBe('gpu');
+    expect(gpu2Node.data.spec).toBe(2560);
+
+    // Should have 3 edges (node->cpu, node->gpu1, node->gpu2)
+    expect(edges.length).toBe(3);
+
+    // Check GPU edges
+    const gpu1Edge = edges.find((edge: any) => edge.target === 'gpu1');
+    expect(gpu1Edge).toBeDefined();
+    expect(gpu1Edge.source).toBe('Node 1');
+
+    const gpu2Edge = edges.find((edge: any) => edge.target === 'gpu2');
+    expect(gpu2Edge).toBeDefined();
+    expect(gpu2Edge.source).toBe('Node 1');
   });
 
   // Extracting and testing the CustomNodeNode component
@@ -487,7 +660,9 @@ describe('NodeLayout', () => {
     expect(resultEmptyArray[0].length).toBeGreaterThan(0);
 
     // Test with valid data - should NOT trigger early return
-    const resultValid = simulatedParseLayoutData([{ nodeID: 'node', device: {} }]);
+    const resultValid = simulatedParseLayoutData([
+      { services: [{ id: 'service', requestInstanceID: 'request' }], device: {} },
+    ]);
     expect(resultValid).not.toEqual([[], []]);
     expect(resultValid[0].length).toBeGreaterThan(0);
   });
@@ -603,11 +778,21 @@ describe('NodeLayout', () => {
     // Create nodes with various edge cases for device data
     const mockNodesWithEdgeCases: APINode[] = [
       {
-        nodeID: 'node-null-device',
+        services: [
+          {
+            id: 'service-null-device',
+            requestInstanceID: 'request-null-device',
+          },
+        ],
         device: {}, // Test with empty device object (valid case)
       },
       {
-        nodeID: 'node-empty-device-type',
+        services: [
+          {
+            id: 'service-empty-device-type',
+            requestInstanceID: 'request-empty-device-type',
+          },
+        ],
         device: {
           cpu: {
             deviceIDs: [], // Test with empty deviceIDs array (valid case)
@@ -615,7 +800,12 @@ describe('NodeLayout', () => {
         },
       },
       {
-        nodeID: 'node-valid-device',
+        services: [
+          {
+            id: 'service-valid-device',
+            requestInstanceID: 'request-valid-device',
+          },
+        ],
         device: {
           memory: {
             deviceIDs: ['mem1'], // Test with valid device (control case)

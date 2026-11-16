@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -26,10 +26,30 @@ import { useLayoutApplyDetail } from '@/utils/hooks';
 import { StatusToIcon } from '@/components/StatusToIcon';
 
 /**
+ * Component that displays status icon with label.
+ */
+const StatusWithIcon = ({
+  status,
+  type,
+}: {
+  status: ApplyStatus | RollbackStatus | undefined;
+  type: 'Apply' | 'Rollback';
+}) => {
+  const t = useTranslations();
+  return (
+    <Group gap={5}>
+      <StatusToIcon status={status} target={type} />
+      {status ? t(STATUS_TO_LABEL[status]) : ''}
+    </Group>
+  );
+};
+
+/**
  * Component that displays the status tables for both "Apply" and "Rollback" processes.
  *
  * @returns The rendered table components.
  */
+// eslint-disable-next-line complexity
 export const StatusTables = () => {
   const t = useTranslations();
   const { data, isValidating } = useLayoutApplyDetail();
@@ -90,21 +110,5 @@ export const StatusTables = () => {
         <HorizontalTable title={t('Rollback Status')} tableData={rollbackTableData} loading={loading} />
       </Grid.Col>
     </Grid>
-  );
-};
-
-const StatusWithIcon = ({
-  status,
-  type,
-}: {
-  status: ApplyStatus | RollbackStatus | undefined;
-  type: 'Apply' | 'Rollback';
-}) => {
-  const t = useTranslations();
-  return (
-    <Group gap={5}>
-      <StatusToIcon status={status} target={type} />
-      {status ? t(STATUS_TO_LABEL[status]) : ''}
-    </Group>
   );
 };

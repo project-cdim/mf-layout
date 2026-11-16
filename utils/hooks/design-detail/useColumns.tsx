@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -50,13 +50,11 @@ export const useColumns = (filter: DesignProcedureFilter): DataTableColumn<APPPr
         return <ResourceIdWithPageLink id={targetCPUID} />;
       },
       filter: (
-        <>
-          <TextInputForTableFilter
-            label={t('Host CPU ID')}
-            value={filter.query.targetCPUID}
-            setValue={filter.setQuery.targetCPUID}
-          />
-        </>
+        <TextInputForTableFilter
+          label={t('Host CPU ID')}
+          value={filter.query.targetCPUID}
+          setValue={filter.setQuery.targetCPUID}
+        />
       ),
       filtering: filter.query.targetCPUID !== '',
     },
@@ -80,6 +78,7 @@ export const useColumns = (filter: DesignProcedureFilter): DataTableColumn<APPPr
     {
       accessor: 'operation',
       title: t('Operation Type'),
+      noWrap: true,
       render: ({ operation }) => <>{t(_.capitalize(operation))}</>,
       filter: (
         <MultiSelectForTableFilter

@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -33,7 +33,6 @@ import { APPLayoutList } from '@/types';
  */
 const LayouDesignList = () => {
   const t = useTranslations();
-  // const mswInitializing = false;
   const breadcrumbs = [{ title: t('Layout Management') }, { title: t('Layout Designs') }];
 
   // Get the layout list

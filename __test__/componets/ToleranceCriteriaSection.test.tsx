@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -73,7 +73,7 @@ describe('ToleranceCriteriaSection', () => {
       infoLabel: 'Test Info Label',
     },
     valueExtractor: (limit: { averageUseRate?: number; averageUseBytes?: number }) =>
-      `${limit.averageUseRate ? limit.averageUseRate + '%' : ''} ${limit.averageUseBytes ? limit.averageUseBytes + ' bytes' : ''}`.trim(),
+      `${limit.averageUseRate !== null && limit.averageUseRate !== undefined ? limit.averageUseRate + '%' : ''} ${limit.averageUseBytes !== null && limit.averageUseBytes !== undefined ? limit.averageUseBytes + ' bytes' : ''}`.trim(),
     loading: false,
   };
 

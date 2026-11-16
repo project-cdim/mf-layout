@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -134,14 +134,14 @@ describe('PolicyCard', () => {
     );
     expect(screen.getAllByRole('listitem')[0]).toHaveTextContent(
       makeHardwareConnectionsLimitValue(
-        tmpPolicy.policy.hardwareConnectionsLimit.cpu?.minNum || 0,
-        tmpPolicy.policy.hardwareConnectionsLimit.cpu?.maxNum || 0
+        tmpPolicy.policy.hardwareConnectionsLimit.cpu?.minNum ?? 0,
+        tmpPolicy.policy.hardwareConnectionsLimit.cpu?.maxNum ?? 0
       )
     );
     expect(screen.getAllByRole('listitem')[1]).toHaveTextContent(
       makeHardwareConnectionsLimitValue(
-        tmpPolicy.policy.hardwareConnectionsLimit.networkInterface?.minNum || 0,
-        tmpPolicy.policy.hardwareConnectionsLimit.networkInterface?.maxNum || 0
+        tmpPolicy.policy.hardwareConnectionsLimit.networkInterface?.minNum ?? 0,
+        tmpPolicy.policy.hardwareConnectionsLimit.networkInterface?.maxNum ?? 0
       )
     );
   });
@@ -449,6 +449,39 @@ describe('PolicyCards', () => {
     render(
       <NextIntlClientProvider locale='en' messages={useMessages()}>
         <PolicyCards></PolicyCards>
+      </NextIntlClientProvider>
+    );
+    // Assert
+    expect(screen.getByText('No data')).toBeInTheDocument();
+  });
+  test('Display no data when children is null', () => {
+    // Arrange
+    // Act
+    render(
+      <NextIntlClientProvider locale='en' messages={useMessages()}>
+        <PolicyCards>{null}</PolicyCards>
+      </NextIntlClientProvider>
+    );
+    // Assert
+    expect(screen.getByText('No data')).toBeInTheDocument();
+  });
+  test('Display no data when children is undefined', () => {
+    // Arrange
+    // Act
+    render(
+      <NextIntlClientProvider locale='en' messages={useMessages()}>
+        <PolicyCards>{undefined}</PolicyCards>
+      </NextIntlClientProvider>
+    );
+    // Assert
+    expect(screen.getByText('No data')).toBeInTheDocument();
+  });
+  test('Display no data when children is empty array', () => {
+    // Arrange
+    // Act
+    render(
+      <NextIntlClientProvider locale='en' messages={useMessages()}>
+        <PolicyCards>{[]}</PolicyCards>
       </NextIntlClientProvider>
     );
     // Assert

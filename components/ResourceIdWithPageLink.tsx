@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -16,7 +16,8 @@
 
 'use client';
 
-import { PageLink } from '@/shared-modules/components';
+import { LongSentences, PageLink } from '@/shared-modules/components';
+import { Stack } from '@mantine/core';
 import { useTranslations } from 'next-intl';
 
 /**
@@ -39,8 +40,10 @@ export const ResourceIdWithPageLink = ({ id }: { id: string | undefined }) => {
   const match = id.match(/\((.*)\)/)?.[1] ?? id;
 
   return (
-    <PageLink title={t('Resource Details')} path='/cdim/res-resource-detail' query={{ id: match }}>
-      {id}
-    </PageLink>
+    <Stack gap={0}>
+      <PageLink title={t('Resource Details')} path='/cdim/res-resource-detail' query={{ id: match }}>
+        <LongSentences text={id} />
+      </PageLink>
+    </Stack>
   );
 };

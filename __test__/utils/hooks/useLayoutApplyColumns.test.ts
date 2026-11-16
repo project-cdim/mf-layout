@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -245,7 +245,7 @@ describe('useLayoutApplyColumns', () => {
   test('That the query is updated with the MultiSelect input for apply status', () => {
     const columns = useLayoutApplyColumns(mockLayoutApplyFilter);
     const column = columns.find((column: { accessor: string }) => column.accessor === 'status');
-    if (!column || !column.filter) {
+    if (column === null || column === undefined || column.filter === null || column.filter === undefined) {
       throw new Error('undefined');
     }
     render(column?.filter as ReactElement);
@@ -302,7 +302,7 @@ describe('useLayoutApplyColumns', () => {
   test('That the query is updated with the MultiSelect input for rollback status', () => {
     const columns = useLayoutApplyColumns(mockLayoutApplyFilter);
     const column = columns.find((column: { accessor: string }) => column.accessor === 'rollbackStatus');
-    if (!column || !column.filter) {
+    if (column === null || column === undefined || column.filter === null || column.filter === undefined) {
       throw new Error('undefined');
     }
     render(column?.filter as ReactElement);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -80,17 +80,20 @@ const ModalTitle = ({ id, title }: { id: string; title: string }) => {
   const t = useTranslations();
 
   return (
-    <Group>
-      <Title order={3} fz='lg' fw={700}>
-        {title}
-      </Title>
-      {id && (
-        <Group gap={5} fz='sm' c='gray.7'>
-          <Text>{t('ID')}</Text>
-          <Text>:</Text>
-          <Text>{id}</Text>
-        </Group>
-      )}
-    </Group>
+    <Stack gap={0}>
+      <Text size='xs'>{t('Layout Apply')}</Text>
+      <Group>
+        <Title order={3} fz='lg' fw={700}>
+          {title}
+        </Title>
+        {id && (
+          <Group gap={5} fz='sm' c='gray.7'>
+            <Text>{t('ID')}</Text>
+            <Text>:</Text>
+            <Text>{id}</Text>
+          </Group>
+        )}
+      </Group>
+    </Stack>
   );
 };

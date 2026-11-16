@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -40,6 +40,26 @@ jest.mock('@/shared-modules/utils/hooks', () => ({
   ...jest.requireActual('@/shared-modules/utils/hooks'),
   useQuery: jest.fn().mockReturnValue({ status: undefined }),
 }));
+
+/**
+ * Helper function to create mock implementation for useSWRImmutable
+ */
+const createMockImplementation = (mockData: any) => (key: string) => {
+  if (key.includes('layout-apply')) {
+    return {
+      data: mockData,
+      error: undefined,
+      isValidating: false,
+      mutate: jest.fn(),
+    };
+  }
+  return {
+    data: { resources: [] },
+    error: undefined,
+    isValidating: false,
+    mutate: jest.fn(),
+  };
+};
 
 const mockDataProvisional = {
   applyID: '123',
@@ -398,27 +418,34 @@ describe('useLayoutApplyDetail', () => {
     expect(result.current.isValidating).toEqual({ layout: false, resource: false });
   });
 
+  // eslint-disable-next-line complexity
   test('should handle COMPLETED, resumed', () => {
     const mockData = dummydata02;
 
-    (useSWRImmutable as jest.Mock).mockImplementation((key: string) => {
-      if (key.includes('layout-apply')) {
-        return {
-          data: mockData,
-          error: undefined,
-          isValidating: false,
-          mutate: jest.fn(),
-        };
-      }
-      return {
-        data: { resources: [] },
-        error: undefined,
-        isValidating: false,
-        mutate: jest.fn(),
-      };
-    });
+    (useSWRImmutable as jest.Mock).mockImplementation(createMockImplementation(mockData));
 
     const { result } = renderHook(() => useLayoutApplyDetail());
+
+    const expectedProcedure0 = {
+      operationID: mockData.procedures?.[0].operationID,
+      targetCPUID: mockData.procedures?.[0].targetCPUID,
+      targetDevice: mockData.procedures?.[0].targetDeviceID,
+      apply: {
+        dependencies: mockData.procedures?.[0].dependencies,
+        operation: mockData.procedures?.[0].operation,
+        status: mockData.applyResult ? mockData.applyResult[0].status : undefined,
+      },
+    };
+
+    const expectedProcedure1 = {
+      operationID: mockData.procedures?.[1].operationID,
+      targetDevice: mockData.resumeProcedures?.[0]?.targetDeviceID ?? '',
+      apply: {
+        dependencies: mockData.resumeProcedures?.[0].dependencies,
+        operation: mockData.resumeProcedures?.[0].operation,
+        status: mockData.resumeResult ? mockData.resumeResult[0].status : undefined,
+      },
+    };
 
     expect(result.current.data).toEqual(
       expect.objectContaining({
@@ -430,54 +457,52 @@ describe('useLayoutApplyDetail', () => {
           resumedAt: new Date(mockData.resumedAt ?? ''),
           endedAt: new Date(mockData.endedAt ?? ''),
         }),
-        procedures: expect.objectContaining([
-          {
-            operationID: mockData.procedures[0].operationID,
-            targetCPUID: mockData.procedures[0].targetCPUID,
-            targetDevice: mockData.procedures[0].targetDeviceID,
-            apply: {
-              dependencies: mockData.procedures[0].dependencies,
-              operation: mockData.procedures[0].operation,
-              status: mockData.applyResult ? mockData.applyResult[0].status : undefined,
-            },
-          },
-          {
-            operationID: mockData.procedures[1].operationID,
-            targetDevice: mockData.resumeProcedures?.[0]?.targetDeviceID ?? '',
-            apply: {
-              dependencies: mockData.resumeProcedures?.[0].dependencies,
-              operation: mockData.resumeProcedures?.[0].operation,
-              status: mockData.resumeResult ? mockData.resumeResult[0].status : undefined,
-            },
-          },
-        ]),
+        procedures: expect.objectContaining([expectedProcedure0, expectedProcedure1]),
       })
     );
     expect(result.current.error).toEqual({ layout: undefined, resource: undefined });
     expect(result.current.isValidating).toEqual({ layout: false, resource: false });
   });
 
+  // eslint-disable-next-line complexity
   test('should handle CANCELD, rollback and rollbackResumed', () => {
     const mockData = dummydata03;
 
-    (useSWRImmutable as jest.Mock).mockImplementation((key: string) => {
-      if (key.includes('layout-apply')) {
-        return {
-          data: mockData,
-          error: undefined,
-          isValidating: false,
-          mutate: jest.fn(),
-        };
-      }
-      return {
-        data: { resources: [] },
-        error: undefined,
-        isValidating: false,
-        mutate: jest.fn(),
-      };
-    });
+    (useSWRImmutable as jest.Mock).mockImplementation(createMockImplementation(mockData));
 
     const { result } = renderHook(() => useLayoutApplyDetail());
+
+    const expectedProcedure0 = {
+      operationID: mockData.procedures?.[0].operationID,
+      targetCPUID: mockData.resumeProcedures?.[0].targetCPUID ?? '',
+      targetDevice: mockData.resumeProcedures?.[0].targetDeviceID ?? '',
+      apply: {
+        operation: mockData.procedures?.[0].operation,
+        dependencies: mockData.procedures?.[0].dependencies,
+        status: mockData.applyResult ? mockData.applyResult[0].status : undefined,
+        startedAt: new Date(mockData.applyResult?.[0].startedAt ?? ''),
+        endedAt: new Date(mockData.applyResult?.[0].endedAt ?? ''),
+        error: undefined,
+      },
+      rollback: {
+        operation: mockData.resumeProcedures?.[0].operation,
+        dependencies: mockData.resumeProcedures?.[0].dependencies,
+        status: mockData.resumeResult ? mockData.resumeResult[0].status : undefined,
+        startedAt: new Date(mockData.resumeResult?.[0].startedAt ?? ''),
+        endedAt: new Date(mockData.resumeResult?.[0].endedAt ?? ''),
+        error: undefined,
+      },
+    };
+
+    const expectedProcedure1 = {
+      operationID: mockData.procedures?.[1].operationID,
+      targetDevice: mockData.procedures?.[1].targetDeviceID,
+      apply: expect.objectContaining({
+        dependencies: mockData.procedures?.[1].dependencies,
+        operation: mockData.procedures?.[1].operation,
+        status: mockData.applyResult ? mockData.applyResult[1].status : undefined,
+      }),
+    };
 
     expect(result.current.data).toEqual(
       expect.objectContaining({
@@ -498,38 +523,7 @@ describe('useLayoutApplyDetail', () => {
           suspendedAt: undefined,
           canceledAt: undefined,
         }),
-        procedures: expect.objectContaining([
-          {
-            operationID: mockData.procedures[0].operationID,
-            targetCPUID: mockData.resumeProcedures?.[0].targetCPUID ?? '',
-            targetDevice: mockData.resumeProcedures?.[0].targetDeviceID ?? '',
-            apply: {
-              operation: mockData.procedures[0].operation,
-              dependencies: mockData.procedures[0].dependencies,
-              status: mockData.applyResult ? mockData.applyResult[0].status : undefined,
-              startedAt: new Date(mockData.applyResult[0].startedAt),
-              endedAt: new Date(mockData.applyResult[0].endedAt),
-              error: undefined,
-            },
-            rollback: {
-              operation: mockData.resumeProcedures?.[0].operation,
-              dependencies: mockData.resumeProcedures?.[0].dependencies,
-              status: mockData.resumeResult ? mockData.resumeResult[0].status : undefined,
-              startedAt: new Date(mockData.resumeResult?.[0].startedAt),
-              endedAt: new Date(mockData.resumeResult?.[0].endedAt),
-              error: undefined,
-            },
-          },
-          {
-            operationID: mockData.procedures[1].operationID,
-            targetDevice: mockData.procedures[1].targetDeviceID,
-            apply: expect.objectContaining({
-              dependencies: mockData.procedures[1].dependencies,
-              operation: mockData.procedures[1].operation,
-              status: mockData.applyResult ? mockData.applyResult[1].status : undefined,
-            }),
-          },
-        ]),
+        procedures: expect.objectContaining([expectedProcedure0, expectedProcedure1]),
       })
     );
     expect(result.current.error).toEqual({ layout: undefined, resource: undefined });

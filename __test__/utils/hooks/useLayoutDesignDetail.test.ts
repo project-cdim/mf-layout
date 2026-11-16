@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -40,37 +40,85 @@ jest.mock('@/shared-modules/utils/', () => ({
 
 // Sample device data for testing
 const mockDevices: APIresources = {
+  count: 4,
   resources: [
     {
       device: {
         deviceID: 'res10102',
         type: 'CPU',
+        status: { state: 'Enabled', health: 'OK' },
+        powerState: 'On',
+        powerCapability: true,
         totalCores: 8,
-        capacityMiB: 0,
+      },
+      resourceGroupIDs: [],
+      annotation: { available: true },
+      detected: true,
+      nodeIDs: [],
+      deviceUnit: {
+        id: 'unit1',
+        annotation: {
+          systemItems: { available: true },
+        },
       },
     },
     {
       device: {
         deviceID: 'res10203',
         type: 'memory',
-        totalCores: 0,
+        status: { state: 'Enabled', health: 'OK' },
+        powerState: 'On',
+        powerCapability: true,
         capacityMiB: 16384, // 16GB
+      },
+      resourceGroupIDs: [],
+      annotation: { available: true },
+      detected: true,
+      nodeIDs: [],
+      deviceUnit: {
+        id: 'unit2',
+        annotation: {
+          systemItems: { available: true },
+        },
       },
     },
     {
       device: {
         deviceID: 'res10302',
         type: 'storage',
-        totalCores: 0,
-        capacityMiB: 1048576, // 1TB
+        status: { state: 'Enabled', health: 'OK' },
+        powerState: 'On',
+        powerCapability: true,
+        driveCapacityBytes: 1099511627776, // 1TB
+      },
+      resourceGroupIDs: [],
+      annotation: { available: true },
+      detected: true,
+      nodeIDs: [],
+      deviceUnit: {
+        id: 'unit3',
+        annotation: {
+          systemItems: { available: true },
+        },
       },
     },
     {
       device: {
         deviceID: 'res10401',
         type: 'networkInterface',
-        totalCores: 0,
-        capacityMiB: 0,
+        status: { state: 'Enabled', health: 'OK' },
+        powerState: 'On',
+        powerCapability: true,
+      },
+      resourceGroupIDs: [],
+      annotation: { available: true },
+      detected: true,
+      nodeIDs: [],
+      deviceUnit: {
+        id: 'unit4',
+        annotation: {
+          systemItems: { available: true },
+        },
       },
     },
   ],

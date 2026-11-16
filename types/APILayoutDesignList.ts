@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -56,7 +56,7 @@ export type APINode = {
     cpu?: APIDeviceIDs;
     memory?: APIDeviceIDs;
     storage?: APIDeviceIDs;
-    gpu?: APIDeviceIDs;
+    gpu?: APIGPUDevice[];
     fpga?: APIDeviceIDs;
     networkInterface?: APIDeviceIDs;
     virtualMedia?: APIDeviceIDs;
@@ -68,6 +68,14 @@ export type APINode = {
 
 type APIDeviceIDs = {
   deviceIDs: string[];
+};
+
+type APIGPUDevice = {
+  deviceID: string;
+  requests: {
+    requestInstanceID: string;
+    index: number;
+  }[];
 };
 
 type APIConditions = {

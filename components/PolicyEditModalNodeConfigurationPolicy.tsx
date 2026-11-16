@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -36,6 +36,7 @@ import {
 import { deviceTypes } from '@/utils/define';
 import { initialValues } from '@/utils/policy';
 import { changeToAPPCase } from '@/utils/parse';
+import { NODE_CONFIGURATION_POLICY } from '@/utils/constant';
 
 /**
  * Component that displays a form for adding/editing policy conditions
@@ -55,8 +56,10 @@ export const PolicyEditModalNodeConfigurationPolicy = (props: {
 }) => {
   const t = useTranslations();
   const { selectedPolicyId, modalMode, modalClose, submit, inputStatus, error, data } = props;
-  const MIN_TITLE_LENGTH = 1;
-  const MAX_TITLE_LENGTH = 100;
+  const MIN_TITLE_LENGTH = NODE_CONFIGURATION_POLICY.TITLE_MIN_LENGTH;
+  const MAX_TITLE_LENGTH = NODE_CONFIGURATION_POLICY.TITLE_MAX_LENGTH;
+  const MIN_HARDWARE_CONNECTION_LIMIT = NODE_CONFIGURATION_POLICY.HARDWARE_CONNECTION_MIN_LIMIT;
+  const MAX_HARDWARE_CONNECTION_LIMIT = NODE_CONFIGURATION_POLICY.HARDWARE_CONNECTION_MAX_LIMIT;
   const createValidationRules = (deviceType: APIDeviceTypeLowerCamel) => ({
     minNum: (value: number | '', values: APPNodeConfigurationPolicy) =>
       values.policies[deviceType].enabled && (value === '' || value > values.policies[deviceType].maxNum)
@@ -179,11 +182,14 @@ export const PolicyEditModalNodeConfigurationPolicy = (props: {
                 {form.values.policies[item].enabled && (
                   <Group gap={5} wrap='nowrap' align='flex-start'>
                     <NumberInput
-                      min={1}
-                      max={1000}
+                      min={MIN_HARDWARE_CONNECTION_LIMIT}
+                      max={MAX_HARDWARE_CONNECTION_LIMIT}
                       w={130}
                       size='xs'
                       {...form.getInputProps(`policies.${item}.minNum`)}
+                      allowDecimal={false}
+                      allowNegative={false}
+                      isAllowed={({ value: val }) => Number(val) <= MAX_HARDWARE_CONNECTION_LIMIT || val === ''}
                       onChange={(e) => {
                         form.getInputProps(`policies.${item}.minNum`).onChange(e);
                         form.clearFieldError(`policies.${item}.maxNum`);
@@ -191,11 +197,14 @@ export const PolicyEditModalNodeConfigurationPolicy = (props: {
                     />
                     <Text>-</Text>
                     <NumberInput
-                      min={1}
-                      max={1000}
+                      min={MIN_HARDWARE_CONNECTION_LIMIT}
+                      max={MAX_HARDWARE_CONNECTION_LIMIT}
                       w={130}
                       size='xs'
                       {...form.getInputProps(`policies.${item}.maxNum`)}
+                      allowDecimal={false}
+                      allowNegative={false}
+                      isAllowed={({ value: val }) => Number(val) <= MAX_HARDWARE_CONNECTION_LIMIT || val === ''}
                       onChange={(e) => {
                         form.getInputProps(`policies.${item}.maxNum`).onChange(e);
                         form.clearFieldError(`policies.${item}.minNum`);

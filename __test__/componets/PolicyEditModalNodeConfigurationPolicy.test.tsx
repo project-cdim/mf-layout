@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -103,7 +103,12 @@ describe('PolicyEditModalNodeConfigurationPolicy', () => {
      */
     function getDummyValue(deviceType: APIDeviceTypeLowerCamel, minOrMax: 'minNum' | 'maxNum'): number | undefined {
       const hardwareConnectionsLimit = (policyForEditing?.policy as APINodePolicy).hardwareConnectionsLimit;
-      if (hardwareConnectionsLimit && hardwareConnectionsLimit[deviceType]) {
+      if (
+        hardwareConnectionsLimit !== null &&
+        hardwareConnectionsLimit !== undefined &&
+        hardwareConnectionsLimit[deviceType] !== null &&
+        hardwareConnectionsLimit[deviceType] !== undefined
+      ) {
         return hardwareConnectionsLimit[deviceType][minOrMax];
       }
       return undefined;
@@ -394,5 +399,141 @@ describe('PolicyEditModalNodeConfigurationPolicy', () => {
     // Assert
     expect(screen.getByText('E0000', { exact: false })).toBeInTheDocument();
     expect(screen.getByText('Error Message', { exact: false })).toBeInTheDocument();
+  });
+
+  describe('NumberInput validation and input restrictions', () => {
+    test('should prevent decimal input in minNum and maxNum fields', async () => {
+      // Arrange
+      const { container } = render(<PolicyEditModalNodeConfigurationPolicy {...addProps} />);
+      await userEvent.click(screen.getByRole('checkbox', { name: 'CPU' }));
+
+      const cpuMinInput = container.querySelector<HTMLInputElement>(
+        'input[type="text"][data-path="policies.cpu.minNum"]'
+      );
+      const cpuMaxInput = container.querySelector<HTMLInputElement>(
+        'input[type="text"][data-path="policies.cpu.maxNum"]'
+      );
+
+      // Act & Assert - Try to input decimal values
+      await userEvent.clear(cpuMinInput!);
+      await userEvent.type(cpuMinInput!, '5');
+      await userEvent.type(cpuMinInput!, '.');
+      await userEvent.type(cpuMinInput!, '5');
+      expect(cpuMinInput!).toHaveValue('55'); // '5' + '.' (ignored) + '5' = '55'
+
+      await userEvent.clear(cpuMaxInput!);
+      await userEvent.type(cpuMaxInput!, '10.7');
+      expect(cpuMaxInput!).toHaveValue('107'); // Decimal should be rejected
+    });
+    test('should prevent negative input in minNum and maxNum fields', async () => {
+      // Arrange
+      const { container } = render(<PolicyEditModalNodeConfigurationPolicy {...addProps} />);
+      await userEvent.click(screen.getByRole('checkbox', { name: 'CPU' }));
+
+      const cpuMinInput = container.querySelector<HTMLInputElement>(
+        'input[type="text"][data-path="policies.cpu.minNum"]'
+      );
+      const cpuMaxInput = container.querySelector<HTMLInputElement>(
+        'input[type="text"][data-path="policies.cpu.maxNum"]'
+      );
+
+      // Act & Assert - Try to input negative values
+      await userEvent.clear(cpuMinInput!);
+      await userEvent.type(cpuMinInput!, '-');
+      expect(cpuMinInput!).toHaveValue(''); // Negative should be rejected
+
+      await userEvent.clear(cpuMaxInput!);
+      await userEvent.type(cpuMaxInput!, '10');
+      cpuMaxInput!.setSelectionRange(0, 0);
+      await userEvent.type(cpuMaxInput!, '-');
+      expect(cpuMaxInput!).toHaveValue('10'); // Negative should be rejected
+    });
+
+    test('should prevent input exceeding maximum value (1000) using isAllowed', async () => {
+      // Arrange
+      const { container } = render(<PolicyEditModalNodeConfigurationPolicy {...addProps} />);
+      await userEvent.click(screen.getByRole('checkbox', { name: 'CPU' }));
+
+      const cpuMinInput = container.querySelector<HTMLInputElement>(
+        'input[type="text"][data-path="policies.cpu.minNum"]'
+      );
+      const cpuMaxInput = container.querySelector<HTMLInputElement>(
+        'input[type="text"][data-path="policies.cpu.maxNum"]'
+      );
+
+      // Act & Assert - Try to input values exceeding 1000
+      await userEvent.clear(cpuMinInput!);
+      await userEvent.type(cpuMinInput!, '1000');
+      expect(cpuMinInput!).toHaveValue('1000');
+
+      await userEvent.clear(cpuMinInput!);
+      await userEvent.type(cpuMinInput!, '1001');
+      expect(cpuMinInput!).toHaveValue('100'); // Should stop at valid characters
+
+      await userEvent.clear(cpuMaxInput!);
+      await userEvent.type(cpuMaxInput!, '1000');
+      expect(cpuMaxInput!).toHaveValue('1000');
+
+      await userEvent.clear(cpuMaxInput!);
+      await userEvent.type(cpuMaxInput!, '1500');
+      expect(cpuMaxInput!).toHaveValue('150'); // Should stop at valid characters
+    });
+    test('should allow empty string input for clearing fields', async () => {
+      // Arrange
+      const { container } = render(<PolicyEditModalNodeConfigurationPolicy {...addProps} />);
+      await userEvent.click(screen.getByRole('checkbox', { name: 'CPU' }));
+
+      const cpuMinInput = container.querySelector<HTMLInputElement>(
+        'input[type="text"][data-path="policies.cpu.minNum"]'
+      );
+      const cpuMaxInput = container.querySelector<HTMLInputElement>(
+        'input[type="text"][data-path="policies.cpu.maxNum"]'
+      );
+
+      // Act - Input some values first, then clear
+      await userEvent.type(cpuMinInput!, '10');
+      await userEvent.type(cpuMaxInput!, '20');
+
+      await userEvent.clear(cpuMinInput!);
+      await userEvent.clear(cpuMaxInput!);
+
+      // Assert - Fields should accept empty values
+      expect(cpuMinInput!).toHaveValue('');
+      expect(cpuMaxInput!).toHaveValue('');
+    });
+    test('should apply input restrictions to all device types', async () => {
+      // Arrange
+      const { container } = render(<PolicyEditModalNodeConfigurationPolicy {...addProps} />);
+
+      // Test different device types
+      const deviceTypes = ['CPU', 'Memory', 'Storage', 'GPU'];
+      const devicePaths = ['cpu', 'memory', 'storage', 'gpu'];
+
+      for (let i = 0; i < deviceTypes.length; i++) {
+        // Act - Enable device type
+        await userEvent.click(screen.getByRole('checkbox', { name: deviceTypes[i] }));
+
+        const minInput = container.querySelector<HTMLInputElement>(
+          `input[type="text"][data-path="policies.${devicePaths[i]}.minNum"]`
+        );
+        const maxInput = container.querySelector<HTMLInputElement>(
+          `input[type="text"][data-path="policies.${devicePaths[i]}.maxNum"]`
+        );
+
+        // Assert - Try to input invalid values
+        await userEvent.clear(minInput!);
+        await userEvent.type(minInput!, '1001');
+        expect(minInput!).toHaveValue('100'); // Should be limited
+
+        await userEvent.clear(maxInput!);
+        await userEvent.type(maxInput!, '10');
+        maxInput!.setSelectionRange(0, 0);
+        await userEvent.type(maxInput!, '-');
+        expect(maxInput!).toHaveValue('10'); // Negative should be rejected
+
+        // Disable for next iteration
+        await userEvent.click(screen.getByRole('checkbox', { name: deviceTypes[i] }));
+      }
+    });
   });
 });

@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -24,12 +24,12 @@ export type APPLayoutDesignDetail = {
   cause?: string;
   startedAt: Date;
   endedAt?: Date;
-  /** ノード構成 */
+  // Node configuration
   // nodedata: // { nodes, edges }
   nodes?: APINode[];
-  /** 移行ステップ */
+  /** Migration procedure */
   procedures?: APPProcedure[];
-  /** 移行条件 */
+  /** Migration conditions */
   conditions?: APPConditions;
 };
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -14,13 +14,14 @@
  * under the License.
  */
 
-import { Group } from '@mantine/core';
+import { Box, Group, Stack } from '@mantine/core';
 import { DataTableColumn } from 'mantine-datatable';
 import { useTranslations } from 'next-intl';
 
 import {
   DateRangePicker,
   DatetimeString,
+  LongSentences,
   MultiSelectForTableFilter,
   PageLink,
   TextInputForTableFilter,
@@ -51,9 +52,11 @@ export const useLayoutApplyColumns: ApplyColumns = (filter) => {
       filtering: filter.query.id !== '',
       render: ({ id }) => {
         return (
-          <PageLink title={t('Layout Apply Details')} path='/cdim/lay-layout-apply-detail' query={{ id: id }}>
-            <>{id}</>
-          </PageLink>
+          <Stack gap={0}>
+            <PageLink title={t('Layout Apply Details')} path='/cdim/lay-layout-apply-detail' query={{ id: id }}>
+              <LongSentences text={id} />
+            </PageLink>
+          </Stack>
         );
       },
     },
@@ -61,10 +64,13 @@ export const useLayoutApplyColumns: ApplyColumns = (filter) => {
       accessor: 'status',
       title: t('Apply Status'),
       sortable: true,
+      noWrap: true,
       render: ({ status }) => {
         return (
-          <Group gap={5}>
-            <StatusToIcon status={status} target='Apply' />
+          <Group gap={5} wrap='nowrap' style={{ whiteSpace: 'nowrap' }}>
+            <Box style={{ flex: '0 0 auto', lineHeight: 0 }}>
+              <StatusToIcon status={status} target='Apply' />
+            </Box>
             {t(STATUS_TO_LABEL[status])}
           </Group>
         );
@@ -83,6 +89,7 @@ export const useLayoutApplyColumns: ApplyColumns = (filter) => {
       accessor: 'startedAt',
       title: t('Started'),
       sortable: true,
+      noWrap: true,
       render: ({ startedAt }) => <DatetimeString date={startedAt} />,
       filter: ({ close }) => (
         <DateRangePicker value={filter.query.startedAt} setValue={filter.setQuery.startedAt} close={close} />
@@ -93,6 +100,7 @@ export const useLayoutApplyColumns: ApplyColumns = (filter) => {
       accessor: 'endedAt',
       title: t('Ended'),
       sortable: true,
+      noWrap: true,
       render: ({ endedAt }) => <DatetimeString date={endedAt} />,
       filter: ({ close }) => (
         <DateRangePicker value={filter.query.endedAt} setValue={filter.setQuery.endedAt} close={close} />
@@ -103,10 +111,13 @@ export const useLayoutApplyColumns: ApplyColumns = (filter) => {
       accessor: 'rollbackStatus',
       title: t('Rollback Status'),
       sortable: true,
+      noWrap: true,
       render: ({ rollbackStatus }) => {
         return rollbackStatus ? (
-          <Group gap={5}>
-            <StatusToIcon status={rollbackStatus} target='Rollback' />
+          <Group gap={5} wrap='nowrap' style={{ whiteSpace: 'nowrap' }}>
+            <Box style={{ flex: '0 0 auto', lineHeight: 0 }}>
+              <StatusToIcon status={rollbackStatus} target='Rollback' />
+            </Box>
             {t(STATUS_TO_LABEL[rollbackStatus])}
           </Group>
         ) : (

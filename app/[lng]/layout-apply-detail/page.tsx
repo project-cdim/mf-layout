@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -32,12 +32,14 @@ import {
 import { useLayoutApplyControlButtons, useLayoutApplyDetail } from '@/utils/hooks';
 import { useLayoutApplyControlConfirmModal } from '@/utils/hooks/useLayoutApplyControlConfirmModal';
 import { AxiosResponse } from 'axios';
+import { useState } from 'react';
 
 /**
  * Layout Applies Page.
  *
  * @returns Page content
  */
+// eslint-disable-next-line complexity
 const LayoutApplyDetail = () => {
   const t = useTranslations();
   const { id } = useQuery();
@@ -73,15 +75,18 @@ const LayoutApplyDetail = () => {
     setResponse,
     setError,
   });
+  const [storageError, setStorageError] = useState<Error | undefined>();
+
   const reload = () => {
     mutate();
     setResponse(undefined);
   };
   return (
     <>
-      <Stack>
+      <Stack gap='xl'>
         <PageHeader pageTitle={t('Layout Apply Details')} items={breadcrumbs} mutate={reload} loading={loading} />
         <Message error={error} response={response} successMessage={successMessage} setResponse={setResponse} />
+        {storageError && <MessageBox type='error' title={storageError.message} message='' />}
         <CardLoading withBorder w='fit-content' loading={loadingLayout}>
           <Group gap={30}>
             <Box>
@@ -95,7 +100,7 @@ const LayoutApplyDetail = () => {
           </Group>
         </CardLoading>
         <StatusTables />
-        <ApplyProcedureTable />
+        <ApplyProcedureTable onStorageError={setStorageError} />
       </Stack>
       <LayoutApplyControlConfirmModal modalProps={modalProps} />
     </>

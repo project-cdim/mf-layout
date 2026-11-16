@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -16,3 +16,4 @@
 
 export * from './statusToLabel';
 export * from './resultToLabel';
+export * from './policyLimits';

@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -96,38 +96,32 @@ describe('PolicyEditModalSystemOperationPolicy', () => {
      * - cpu: < 80%
      * - memory: < 60%
      */
+    const conversionMap: Record<string, string> = {
+      percent: '%',
+      gt: '>',
+      lt: '<',
+      ge: '≥',
+      le: '≤',
+    };
+
     function getDummyValue(
       deviceType: APIDeviceTypeLowerCamel,
       key: 'value' | 'unit' | 'comparison'
     ): number | string | undefined {
-      let returnValue = undefined;
       const useThreshold = (policyForEditing?.policy as APISystemPolicy).useThreshold;
-      if (useThreshold && useThreshold[deviceType]) {
-        returnValue = useThreshold[deviceType][key];
+      if (
+        useThreshold !== null &&
+        useThreshold !== undefined &&
+        useThreshold[deviceType] !== null &&
+        useThreshold[deviceType] !== undefined
+      ) {
+        const returnValue = useThreshold[deviceType][key];
+        if (returnValue !== undefined && typeof returnValue === 'string' && returnValue in conversionMap) {
+          return conversionMap[returnValue];
+        }
+        return returnValue !== undefined ? String(returnValue) : undefined;
       }
-      switch (returnValue) {
-        case undefined:
-          break;
-        case 'percent':
-          returnValue = '%';
-          break;
-        case 'gt':
-          returnValue = '>';
-          break;
-        case 'lt':
-          returnValue = '<';
-          break;
-        case 'ge':
-          returnValue = '≥';
-          break;
-        case 'le':
-          returnValue = '≤';
-          break;
-        default:
-          returnValue = String(returnValue);
-          break;
-      }
-      return returnValue;
+      return undefined;
     }
     const { container } = render(<PolicyEditModalSystemOperationPolicy {...editProps} />);
     // Act
@@ -416,5 +410,143 @@ describe('PolicyEditModalSystemOperationPolicy', () => {
     // Assert
     expect(screen.getByText('E0000', { exact: false })).toBeInTheDocument();
     expect(screen.getByText('Error Message', { exact: false })).toBeInTheDocument();
+  });
+
+  describe('NumberInput validation and input restrictions', () => {
+    test('should prevent decimal input in value fields', async () => {
+      // Arrange
+      const { container } = render(<PolicyEditModalSystemOperationPolicy {...addProps} />);
+      await userEvent.click(screen.getByRole('checkbox', { name: 'CPU' }));
+
+      const cpuValueInput = container.querySelector<HTMLInputElement>(
+        'input[type="text"][data-path="policies.cpu.value"]'
+      );
+
+      // Act & Assert - Try to input decimal values
+      await userEvent.clear(cpuValueInput!);
+      await userEvent.type(cpuValueInput!, '50.5');
+      expect(cpuValueInput!).toHaveValue('50'); // Decimal should be rejected
+    });
+
+    test('should prevent negative input in value fields', async () => {
+      // Arrange
+      const { container } = render(<PolicyEditModalSystemOperationPolicy {...addProps} />);
+      await userEvent.click(screen.getByRole('checkbox', { name: 'CPU' }));
+
+      const cpuValueInput = container.querySelector<HTMLInputElement>(
+        'input[type="text"][data-path="policies.cpu.value"]'
+      );
+
+      // Act & Assert - Input starting with a negative sign
+      await userEvent.clear(cpuValueInput!);
+      await userEvent.type(cpuValueInput!, '-');
+      expect(cpuValueInput!).toHaveValue(''); // Rejects a single negative sign
+
+      // A test that attempts to enter a positive value and then add a negative sign
+      await userEvent.clear(cpuValueInput!);
+      await userEvent.type(cpuValueInput!, '50');
+      expect(cpuValueInput!).toHaveValue('50');
+      // Move cursor to beginning and try to add negative sign
+      cpuValueInput!.setSelectionRange(0, 0);
+      await userEvent.type(cpuValueInput!, '-');
+      expect(cpuValueInput!).toHaveValue('50'); // No negative sign is added
+    });
+
+    test('should prevent input exceeding maximum value (100) using isAllowed', async () => {
+      // Arrange
+      const { container } = render(<PolicyEditModalSystemOperationPolicy {...addProps} />);
+      await userEvent.click(screen.getByRole('checkbox', { name: 'CPU' }));
+
+      const cpuValueInput = container.querySelector<HTMLInputElement>(
+        'input[type="text"][data-path="policies.cpu.value"]'
+      );
+
+      // Act & Assert - Try to input values exceeding 100
+      await userEvent.clear(cpuValueInput!);
+      await userEvent.type(cpuValueInput!, '100');
+      expect(cpuValueInput!).toHaveValue('100');
+
+      await userEvent.clear(cpuValueInput!);
+      await userEvent.type(cpuValueInput!, '101');
+      expect(cpuValueInput!).toHaveValue('10'); // Should stop at valid characters
+
+      await userEvent.clear(cpuValueInput!);
+      await userEvent.type(cpuValueInput!, '150');
+      expect(cpuValueInput!).toHaveValue('15'); // Should stop at valid characters
+    });
+
+    test('should allow valid integer values within range (0-100)', async () => {
+      // Arrange
+      const { container } = render(<PolicyEditModalSystemOperationPolicy {...addProps} />);
+      await userEvent.click(screen.getByRole('checkbox', { name: 'CPU' }));
+
+      const cpuValueInput = container.querySelector<HTMLInputElement>(
+        'input[type="text"][data-path="policies.cpu.value"]'
+      );
+
+      // Act & Assert - Input valid values
+      await userEvent.clear(cpuValueInput!);
+      await userEvent.type(cpuValueInput!, '0');
+      expect(cpuValueInput!).toHaveValue('0');
+
+      await userEvent.clear(cpuValueInput!);
+      await userEvent.type(cpuValueInput!, '100');
+      expect(cpuValueInput!).toHaveValue('100');
+
+      await userEvent.clear(cpuValueInput!);
+      await userEvent.type(cpuValueInput!, '50');
+      expect(cpuValueInput!).toHaveValue('50');
+    });
+
+    test('should allow empty string input for clearing fields', async () => {
+      // Arrange
+      const { container } = render(<PolicyEditModalSystemOperationPolicy {...addProps} />);
+      await userEvent.click(screen.getByRole('checkbox', { name: 'CPU' }));
+
+      const cpuValueInput = container.querySelector<HTMLInputElement>(
+        'input[type="text"][data-path="policies.cpu.value"]'
+      );
+
+      // Act - Input some value first, then clear
+      await userEvent.type(cpuValueInput!, '75');
+      await userEvent.clear(cpuValueInput!);
+
+      // Assert - Field should accept empty value
+      expect(cpuValueInput!).toHaveValue('');
+    });
+
+    test('should apply input restrictions to all device types', async () => {
+      // Arrange
+      const { container } = render(<PolicyEditModalSystemOperationPolicy {...addProps} />);
+
+      // Test different device types
+      const deviceTypes = ['CPU', 'Memory', 'Storage', 'GPU'];
+      const devicePaths = ['cpu', 'memory', 'storage', 'gpu'];
+
+      for (let i = 0; i < deviceTypes.length; i++) {
+        // Act - Enable device type
+        await userEvent.click(screen.getByRole('checkbox', { name: deviceTypes[i] }));
+
+        const valueInput = container.querySelector<HTMLInputElement>(
+          `input[type="text"][data-path="policies.${devicePaths[i]}.value"]`
+        );
+
+        // Assert - Try to input invalid values
+        await userEvent.clear(valueInput!);
+        await userEvent.type(valueInput!, '101');
+        expect(valueInput!).toHaveValue('10'); // Value should not exceed 100
+
+        await userEvent.clear(valueInput!);
+        await userEvent.type(valueInput!, '-5');
+        expect(valueInput!).toHaveValue('5'); // Negative should be rejected
+
+        await userEvent.clear(valueInput!);
+        await userEvent.type(valueInput!, '50.7');
+        expect(valueInput!).toHaveValue('50'); // Decimal should be rejected
+
+        // Disable for next iteration
+        await userEvent.click(screen.getByRole('checkbox', { name: deviceTypes[i] }));
+      }
+    });
   });
 });

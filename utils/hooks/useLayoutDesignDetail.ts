@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NEC Corporation.
+ * Copyright 2025-2026 NEC Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -32,19 +32,17 @@ import { KIB } from '@/shared-modules/constant';
  * @returns An object containing the layout design detail data, error information, validation status, and a mutate function.
  */
 export const useLayoutDesignDetail = () => {
-  // const mswInitializing = useMSW();
-  const mswInitializing = false;
   const { id } = useQuery();
 
   // Fetch design data
   const layoutSWRResponse = useSWRImmutable<APILayoutDesign>(
-    !mswInitializing && `${process.env.NEXT_PUBLIC_URL_BE_LAYOUT_DESIGN}/layout-designs/${id}`,
+    `${process.env.NEXT_PUBLIC_URL_BE_LAYOUT_DESIGN}/layout-designs/${id}`,
     fetcher
   );
 
   // Fetch resource data
   const resourceSWRResponse = useSWRImmutable<APIresources>(
-    !mswInitializing && `${process.env.NEXT_PUBLIC_URL_BE_CONFIGURATION_MANAGER}/resources?detail=true`, // Get all resource list (when search conditions are implemented, get by deviceID)
+    `${process.env.NEXT_PUBLIC_URL_BE_CONFIGURATION_MANAGER}/resources?detail=true`, // Get all resource list (when search conditions are implemented, get by deviceID)
     fetcher
   );
 
@@ -133,8 +131,8 @@ export const useLayoutDesignDetail = () => {
       resource: resourceSWRResponse.error,
     },
     isValidating: {
-      layout: layoutSWRResponse.isValidating || mswInitializing,
-      resource: resourceSWRResponse.isValidating || mswInitializing,
+      layout: layoutSWRResponse.isValidating,
+      resource: resourceSWRResponse.isValidating,
     },
     mutate: () => {
       layoutSWRResponse.mutate();
