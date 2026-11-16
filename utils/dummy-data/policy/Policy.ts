@@ -67,7 +67,7 @@ export const dummyPolicy: APIPolicies = {
     {
       policyID: 'abc10dfaa9',
       category: 'systemOperationPolicy',
-      title: 'Constraints on threshold values of resource usage rates calculated at the time of configuration design',
+      title: 'Resource usage rate threshold constraints for configuration design',
       policy: {
         useThreshold: {
           cpu: {
@@ -82,14 +82,15 @@ export const dummyPolicy: APIPolicies = {
           },
         },
       },
-      enabled: true,
+      enabled: false,
       createdAt: '2023-05-10T00:00:00Z',
       updatedAt: '2023-05-10T00:00:00Z',
     },
     {
       policyID: 'abc10dfaa2',
       category: 'systemOperationPolicy',
-      title: 'Constraints on threshold values of resource usage rates calculated at the time of configuration design 2',
+      title:
+        'Constraints on threshold values of resource usage rates calculated at the time of configuration design 2 (over 100 characters)',
       policy: {
         useThreshold: {
           storage: {
@@ -106,7 +107,8 @@ export const dummyPolicy: APIPolicies = {
     {
       policyID: 'abc10dfaa3',
       category: 'systemOperationPolicy',
-      title: 'Constraints on threshold values of resource usage rates calculated at the time of configuration design 3',
+      title:
+        'Constraints on threshold values of resource usage rates calculated at the time of configuration design 3 (over 100 charactors)',
       policy: {
         useThreshold: {
           gpu: {

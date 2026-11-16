@@ -421,13 +421,37 @@ describe('PolicyCard', () => {
 });
 
 describe('PolicyCards', () => {
-  test('Displays child elements correctly', () => {
+  // SetUp
+  beforeEach(() => {
+    // Execute before each test
+    jest.clearAllMocks();
+    (useMessages as unknown as jest.Mock).mockImplementation(() => {
+      return { ...commonMessages, ...mfLayoutMessages } as AbstractIntlMessages;
+    });
+  });
+  test('Display child elements correctly', () => {
+    // Arrange
     const DummyTextComponent = () => <p>child element</p>;
+    // Act
     render(
-      <PolicyCards>
-        <DummyTextComponent />
-      </PolicyCards>
+      <NextIntlClientProvider locale='en' messages={useMessages()}>
+        <PolicyCards>
+          <DummyTextComponent />
+        </PolicyCards>
+      </NextIntlClientProvider>
     );
+    // Assert
     expect(screen.getByText('child element')).toBeInTheDocument();
+  });
+  test('Display no data', () => {
+    // Arrange
+    // Act
+    render(
+      <NextIntlClientProvider locale='en' messages={useMessages()}>
+        <PolicyCards></PolicyCards>
+      </NextIntlClientProvider>
+    );
+    // Assert
+    expect(screen.getByText('No data')).toBeInTheDocument();
   });
 });

@@ -457,7 +457,6 @@ describe('useLayoutApplyDetail', () => {
     expect(result.current.isValidating).toEqual({ layout: false, resource: false });
   });
 
-  // eslint-disable-next-line complexity
   test('should handle CANCELD, rollback and rollbackResumed', () => {
     const mockData = dummydata03;
 
@@ -488,12 +487,16 @@ describe('useLayoutApplyDetail', () => {
           startedAt: new Date(mockData.startedAt),
           suspendedAt: new Date(mockData.suspendedAt ?? ''),
           endedAt: new Date(mockData.endedAt ?? ''),
+          canceledAt: undefined,
+          resumedAt: undefined,
         }),
         rollback: expect.objectContaining({
           status: mockData.rollbackStatus,
           startedAt: new Date(mockData.rollbackStartedAt ?? ''),
           resumedAt: new Date(mockData.resumedAt ?? ''),
           endedAt: new Date(mockData.rollbackEndedAt ?? ''),
+          suspendedAt: undefined,
+          canceledAt: undefined,
         }),
         procedures: expect.objectContaining([
           {
@@ -504,11 +507,17 @@ describe('useLayoutApplyDetail', () => {
               operation: mockData.procedures[0].operation,
               dependencies: mockData.procedures[0].dependencies,
               status: mockData.applyResult ? mockData.applyResult[0].status : undefined,
+              startedAt: new Date(mockData.applyResult[0].startedAt),
+              endedAt: new Date(mockData.applyResult[0].endedAt),
+              error: undefined,
             },
             rollback: {
               operation: mockData.resumeProcedures?.[0].operation,
               dependencies: mockData.resumeProcedures?.[0].dependencies,
               status: mockData.resumeResult ? mockData.resumeResult[0].status : undefined,
+              startedAt: new Date(mockData.resumeResult?.[0].startedAt),
+              endedAt: new Date(mockData.resumeResult?.[0].endedAt),
+              error: undefined,
             },
           },
           {
@@ -616,6 +625,88 @@ describe('useLayoutApplyDetail', () => {
         applyID: undefined,
         procedures: undefined,
         rollback: undefined,
+      })
+    );
+    expect(result.current.error).toEqual({ layout: undefined, resource: undefined });
+    expect(result.current.isValidating).toEqual({ layout: false, resource: false });
+  });
+
+  test('should handle resumedAt and rollbackStartedAt with valid data', () => {
+    const mockData = {
+      ...mockDataEmptyProcedures,
+      resumedAt: '2023-01-01T00:00:00Z',
+      rollbackStartedAt: '2023-01-02T00:00:00Z',
+    };
+
+    (useSWRImmutable as jest.Mock).mockImplementation((key: string) => {
+      if (key.includes('layout-apply')) {
+        return {
+          data: mockData,
+          error: undefined,
+          isValidating: false,
+          mutate: jest.fn(),
+        };
+      }
+      return {
+        data: { resources: [] },
+        error: undefined,
+        isValidating: false,
+        mutate: jest.fn(),
+      };
+    });
+
+    const { result } = renderHook(() => useLayoutApplyDetail());
+
+    expect(result.current.data).toEqual(
+      expect.objectContaining({
+        applyID: mockData.applyID,
+        apply: expect.objectContaining({
+          resumedAt: new Date(mockData.resumedAt),
+        }),
+        rollback: expect.objectContaining({
+          startedAt: new Date(mockData.rollbackStartedAt),
+        }),
+      })
+    );
+    expect(result.current.error).toEqual({ layout: undefined, resource: undefined });
+    expect(result.current.isValidating).toEqual({ layout: false, resource: false });
+  });
+
+  test('should handle startedAt and rollbackResumedAt with valid data', () => {
+    const mockData = {
+      ...mockDataEmptyProcedures,
+      resumedAt: '2023-01-03T00:00:00Z',
+      rollbackStartedAt: '2023-01-02T00:00:00Z',
+    };
+
+    (useSWRImmutable as jest.Mock).mockImplementation((key: string) => {
+      if (key.includes('layout-apply')) {
+        return {
+          data: mockData,
+          error: undefined,
+          isValidating: false,
+          mutate: jest.fn(),
+        };
+      }
+      return {
+        data: { resources: [] },
+        error: undefined,
+        isValidating: false,
+        mutate: jest.fn(),
+      };
+    });
+
+    const { result } = renderHook(() => useLayoutApplyDetail());
+
+    expect(result.current.data).toEqual(
+      expect.objectContaining({
+        applyID: mockData.applyID,
+        apply: expect.objectContaining({
+          startedAt: new Date(mockData.startedAt),
+        }),
+        rollback: expect.objectContaining({
+          resumedAt: new Date(mockData.resumedAt),
+        }),
       })
     );
     expect(result.current.error).toEqual({ layout: undefined, resource: undefined });

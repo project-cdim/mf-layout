@@ -8,30 +8,32 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
  * License for the specific language governing permissions and limitations
  * under the License.
  */
 
 import { Group } from '@mantine/core';
 import _ from 'lodash';
-import { DataTableColumnGroup, DataTableColumn } from 'mantine-datatable';
+import { DataTableColumn, DataTableColumnGroup } from 'mantine-datatable';
 import { useTranslations } from 'next-intl';
 
 import {
+  DateRangePicker,
+  DatetimeString,
   MultiSelectForTableFilter,
   NumberRangeForTableFilter,
-  PageLink,
   TextInputForTableFilter,
 } from '@/shared-modules/components';
 import { ApplyProcedureStatus } from '@/shared-modules/types';
 
 import { APPProcedureWithResult } from '@/types';
 
-import { RESULT_TO_LABEL } from '@/utils/constant';
 import { StatusToIcon } from '@/components/StatusToIcon';
+import { RESULT_TO_LABEL } from '@/utils/constant';
 
+import { ResourceIdWithPageLink } from '@/components';
 import { ApplyProcedureFilter } from './useFilter';
 
 /**
@@ -125,7 +127,6 @@ export const useColumns = (filter: ApplyProcedureFilter, displayColumns: (string
               ),
               filtering: filter.query.dependencies.some((val) => val !== undefined),
             },
-
             {
               accessor: 'result',
               title: t('Result.execution'),
@@ -139,6 +140,30 @@ export const useColumns = (filter: ApplyProcedureFilter, displayColumns: (string
                 />
               ),
               filtering: filter.query.status.length > 0,
+            },
+            {
+              accessor: 'applyStartedAt',
+              title: t('Started'),
+              render: ({ apply }) => {
+                const startedAt = apply?.startedAt;
+                return <DatetimeString date={startedAt} />;
+              },
+              filter: ({ close }) => (
+                <DateRangePicker value={filter.query.startedAt} setValue={filter.setQuery.startedAt} close={close} />
+              ),
+              filtering: filter.query.startedAt.some((date) => Boolean(date)),
+            },
+            {
+              accessor: 'applyEndedAt',
+              title: t('Ended'),
+              render: ({ apply }) => {
+                const endedAt = apply?.endedAt;
+                return <DatetimeString date={endedAt} />;
+              },
+              filter: ({ close }) => (
+                <DateRangePicker value={filter.query.endedAt} setValue={filter.setQuery.endedAt} close={close} />
+              ),
+              filtering: filter.query.endedAt.some((date) => Boolean(date)),
             },
           ]
         : [],
@@ -186,7 +211,39 @@ export const useColumns = (filter: ApplyProcedureFilter, displayColumns: (string
                   setValue={filter.setQuery.rollbackStatus as (p: string[]) => void}
                 />
               ),
-              filtering: filter.query.rollbackStatus.length > 0,
+              filtering: Array.isArray(filter.query.rollbackStatus) && filter.query.rollbackStatus.length > 0,
+            },
+            {
+              accessor: 'rollbackStartedAt',
+              title: t('Started'),
+              render: ({ rollback }) => {
+                const startedAt = rollback?.startedAt;
+                return <DatetimeString date={startedAt} />;
+              },
+              filter: ({ close }) => (
+                <DateRangePicker
+                  value={filter.query.rollbackStartedAt}
+                  setValue={filter.setQuery.rollbackStartedAt}
+                  close={close}
+                />
+              ),
+              filtering: filter.query.rollbackStartedAt.some((date) => Boolean(date)),
+            },
+            {
+              accessor: 'rollbackEndedAt',
+              title: t('Ended'),
+              render: ({ rollback }) => {
+                const endedAt = rollback?.endedAt;
+                return <DatetimeString date={endedAt} />;
+              },
+              filter: ({ close }) => (
+                <DateRangePicker
+                  value={filter.query.rollbackEndedAt}
+                  setValue={filter.setQuery.rollbackEndedAt}
+                  close={close}
+                />
+              ),
+              filtering: filter.query.rollbackEndedAt.some((date) => Boolean(date)),
             },
           ]
         : [],
@@ -194,20 +251,6 @@ export const useColumns = (filter: ApplyProcedureFilter, displayColumns: (string
   ];
 
   return { isGroupNecessary, defaultCol, commonColumns };
-};
-
-const ResourceIdWithPageLink = ({ id }: { id: string | undefined }) => {
-  const t = useTranslations();
-
-  if (!id) return null;
-  // id format is 'DeviceType(id)' or 'id'. Extract the ID part.
-  const match = id.match(/\((.*)\)/)?.[1] ?? id;
-
-  return (
-    <PageLink title={t('Resource Details')} path='/cdim/res-resource-detail' query={{ id: match }}>
-      {id}
-    </PageLink>
-  );
 };
 
 const ResultWithIcon = ({ status }: { status: ApplyProcedureStatus }) => {

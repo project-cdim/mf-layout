@@ -83,7 +83,7 @@ export const useLayoutApplyColumns: ApplyColumns = (filter) => {
       accessor: 'startedAt',
       title: t('Started'),
       sortable: true,
-      render: ({ startedAt }) => DatetimeString(startedAt),
+      render: ({ startedAt }) => <DatetimeString date={startedAt} />,
       filter: ({ close }) => (
         <DateRangePicker value={filter.query.startedAt} setValue={filter.setQuery.startedAt} close={close} />
       ),
@@ -93,7 +93,7 @@ export const useLayoutApplyColumns: ApplyColumns = (filter) => {
       accessor: 'endedAt',
       title: t('Ended'),
       sortable: true,
-      render: ({ endedAt }) => DatetimeString(endedAt),
+      render: ({ endedAt }) => <DatetimeString date={endedAt} />,
       filter: ({ close }) => (
         <DateRangePicker value={filter.query.endedAt} setValue={filter.setQuery.endedAt} close={close} />
       ),

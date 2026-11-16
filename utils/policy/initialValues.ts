@@ -16,7 +16,13 @@
 
 import _ from 'lodash';
 
-import { APIDeviceTypeLowerCamel, APPHardwareConnection, APPPolicies, APPUseThreshold } from '@/types';
+import {
+  APIDeviceTypeLowerCamel,
+  APPHardwareConnection,
+  APPNodeConfigurationPolicy,
+  APPSystemOperationPolicy,
+  APPUseThreshold,
+} from '@/types';
 
 import { deviceTypes } from '@/utils/define';
 
@@ -34,23 +40,32 @@ const initUseThreshold: APPUseThreshold = {
   comparison: 'le',
 };
 
-export const initialValues: { [key in 'nodeConfigurationPolicy' | 'systemOperationPolicy']: APPPolicies } = {
+export const initialValues = {
   nodeConfigurationPolicy: {
     title: '',
     category: 'nodeConfigurationPolicy',
-    policies: deviceTypes.reduce((acc, item) => {
-      acc[item] = _.cloneDeep(initHardwareConnection);
-      return acc;
-    }, {} as { [key in APIDeviceTypeLowerCamel]: APPHardwareConnection }),
-    _checkboxes: false,
+    policies: deviceTypes.reduce(
+      (acc, item) => {
+        acc[item] = _.cloneDeep(initHardwareConnection);
+        return acc;
+      },
+      {} as { [key in APIDeviceTypeLowerCamel]: APPHardwareConnection }
+    ),
+    _checkboxes: false as boolean,
   },
   systemOperationPolicy: {
     title: '',
     category: 'systemOperationPolicy',
-    policies: deviceTypes.reduce((acc, item) => {
-      acc[item] = _.cloneDeep(initUseThreshold);
-      return acc;
-    }, {} as { [key in APIDeviceTypeLowerCamel]: APPUseThreshold }),
-    _checkboxes: false,
+    policies: deviceTypes.reduce(
+      (acc, item) => {
+        acc[item] = _.cloneDeep(initUseThreshold);
+        return acc;
+      },
+      {} as { [key in APIDeviceTypeLowerCamel]: APPUseThreshold }
+    ),
+    _checkboxes: false as boolean,
   },
+} satisfies {
+  nodeConfigurationPolicy: APPNodeConfigurationPolicy;
+  systemOperationPolicy: APPSystemOperationPolicy;
 };

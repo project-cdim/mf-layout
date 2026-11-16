@@ -188,14 +188,30 @@ describe('Policy', () => {
     expect(title).toHaveTextContent('An error occurred');
     expect(message).toBeNull();
   });
-  test('When the add button is clicked, the modal for adding is displayed', async () => {
+  test('When the add (Node Layout Policy) button is clicked, the modal for adding is displayed', async () => {
     render(
       <NextIntlClientProvider locale='en' messages={useMessages()}>
         <Policy />
       </NextIntlClientProvider>
     );
     // Click the add button
-    const button = screen.getByTitle('Add');
+    const button = screen.getByTitle('Node Layout Policy Add');
+    if (button) {
+      await userEvent.click(button);
+    }
+    await waitFor(() => {
+      // Verify that mockPolicyConfirmModal is called
+      expect(mockPolicyEditModal).toHaveBeenCalled();
+    });
+  });
+  test('When the add (System Operation Policy) button is clicked, the modal for adding is displayed', async () => {
+    render(
+      <NextIntlClientProvider locale='en' messages={useMessages()}>
+        <Policy />
+      </NextIntlClientProvider>
+    );
+    // Click the add button
+    const button = screen.getByTitle('System Operation Policy Add');
     if (button) {
       await userEvent.click(button);
     }
@@ -514,14 +530,14 @@ describe('Policy', () => {
       expect(mockPolicyConfirmModal.mock.lastCall[0].error).toBeDefined();
     });
   });
-  test('The submit for addition is called, and a message that it has been added is displayed', async () => {
+  test('The submit for addition (Node Layout Policy) is called, and a message that it has been added is displayed', async () => {
     render(
       <NextIntlClientProvider locale='en' messages={useMessages()}>
         <Policy />
       </NextIntlClientProvider>
     );
     // Click the add button
-    const button = screen.getByTitle('Add');
+    const button = screen.getByTitle('Node Layout Policy Add');
     if (button) {
       await userEvent.click(button);
     }
@@ -533,6 +549,52 @@ describe('Policy', () => {
           enabled: true,
           maxNum: 10,
           minNum: 1,
+        },
+      },
+      /** Whether at least one checkbox is checked */
+      _checkboxes: true,
+    };
+    // Call the submit passed to mockPolicyConfirmModal
+    const policyID = 'aaeceb14ss';
+
+    await waitFor(() => {
+      const submitFunc = mockPolicyEditModal.mock.lastCall[0].submit;
+      expect(submitFunc).toBeDefined();
+      act(() => {
+        submitFunc(policies);
+      });
+    });
+
+    // Verify the success message
+    const alertDialog = screen.queryByRole('alert');
+    const title = alertDialog?.querySelector('span') as HTMLSpanElement;
+    const message = alertDialog?.querySelector('span')?.parentNode?.nextSibling as HTMLDivElement;
+    expect(alertDialog).toBeInTheDocument();
+    expect(title).toHaveTextContent('The policy has been successfully add');
+    expect(message).toHaveTextContent(`ID : ${policyID}`);
+    expect(message).toHaveTextContent(`Title : ${policies.title}`);
+  });
+
+  test('The submit for addition (System Oparation Policy) is called, and a message that it has been added is displayed', async () => {
+    render(
+      <NextIntlClientProvider locale='en' messages={useMessages()}>
+        <Policy />
+      </NextIntlClientProvider>
+    );
+    // Click the add button
+    const button = screen.getByTitle('System Operation Policy Add');
+    if (button) {
+      await userEvent.click(button);
+    }
+    const policies = {
+      title: 'dummytitle',
+      category: 'systemOperationPolicy',
+      policies: {
+        cpu: {
+          enabled: false,
+          value: 80,
+          unit: 'percent',
+          comparison: 'le',
         },
       },
       /** Whether at least one checkbox is checked */
@@ -586,7 +648,7 @@ describe('Policy', () => {
       _checkboxes: true,
     };
     // Click the valid add button
-    const button = screen.getByTitle('Add');
+    const button = screen.getByTitle('Node Layout Policy Add');
     if (button) {
       await userEvent.click(button);
     }

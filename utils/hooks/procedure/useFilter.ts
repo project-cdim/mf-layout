@@ -24,6 +24,7 @@ import { useTranslations } from 'next-intl';
 
 import { NumberRange } from '@/shared-modules/components';
 import {
+  DateRange,
   APPLY_PROCEDURE_STATUS,
   ApplyProcedureOperationLabelJa,
   ApplyProcedureOperationLabelKey,
@@ -36,7 +37,13 @@ import {
 
 import { APPProcedureWithResult } from '@/types';
 
-import { isAllStringIncluded, isNumberInRange, isNumbersInRange, isSelected } from '@/shared-modules/utils';
+import {
+  isAllStringIncluded,
+  isNumberInRange,
+  isNumbersInRange,
+  isSelected,
+  isDateInRange,
+} from '@/shared-modules/utils';
 import { RESULT_TO_LABEL } from '@/utils/constant';
 import { useLayoutApplyDetail } from '@/utils/hooks';
 
@@ -47,9 +54,13 @@ type ProcedureQuery = {
   operation: ProcedureOperation[];
   dependencies: NumberRange;
   status: ApplyProcedureStatus[];
+  startedAt: DateRange;
+  endedAt: DateRange;
   rollbackOperation: ProcedureOperation[];
   rollbackDependencies: NumberRange;
   rollbackStatus: ApplyProcedureStatus[];
+  rollbackStartedAt: DateRange;
+  rollbackEndedAt: DateRange;
 };
 
 type ProcedureSetQuery = {
@@ -59,9 +70,13 @@ type ProcedureSetQuery = {
   operation: Dispatch<SetStateAction<ProcedureOperation[]>>;
   dependencies: Dispatch<SetStateAction<NumberRange>>;
   status: Dispatch<SetStateAction<ApplyProcedureStatus[]>>;
+  startedAt: Dispatch<SetStateAction<DateRange>>;
+  endedAt: Dispatch<SetStateAction<DateRange>>;
   rollbackOperation: Dispatch<SetStateAction<ProcedureOperation[]>>;
   rollbackDependencies: Dispatch<SetStateAction<NumberRange>>;
   rollbackStatus: Dispatch<SetStateAction<ApplyProcedureStatus[]>>;
+  rollbackStartedAt: Dispatch<SetStateAction<DateRange>>;
+  rollbackEndedAt: Dispatch<SetStateAction<DateRange>>;
 };
 
 export type ApplyProcedureFilter = {
@@ -103,9 +118,13 @@ export const useFilter = (): ApplyProcedureFilter => {
   const [operationQuery, setOperationQuery] = useState<ProcedureOperation[]>([]);
   const [dependenciesQuery, setDependenciesQuery] = useState<NumberRange>([undefined, undefined]);
   const [statusQuery, setStatusQuery] = useState<ApplyProcedureStatus[]>([]);
+  const [startedAtQuery, setStartedAtQuery] = useState<DateRange>([undefined, undefined]);
+  const [endedAtQuery, setEndedAtQuery] = useState<DateRange>([undefined, undefined]);
   const [rollbackOperationQuery, setRollbackOperationQuery] = useState<ProcedureOperation[]>([]);
   const [rollbackDependenciesQuery, setRollbackDependenciesQuery] = useState<NumberRange>([undefined, undefined]);
   const [rollbackStatusQuery, setRollbackStatusQuery] = useState<ApplyProcedureStatus[]>([]);
+  const [rollbackStartedAtQuery, setRollbackStartedAtQuery] = useState<DateRange>([undefined, undefined]);
+  const [rollbackEndedAtQuery, setRollbackEndedAtQuery] = useState<DateRange>([undefined, undefined]);
 
   const filteredRecords = useMemo(() => {
     return data?.procedures
@@ -119,10 +138,14 @@ export const useFilter = (): ApplyProcedureFilter => {
             isSelected(record.apply.operation, operationQuery) &&
             isNumbersInRange(record.apply.dependencies, dependenciesQuery) &&
             isSelected(record.apply.status, statusQuery) &&
+            isDateInRange(record.apply.startedAt, startedAtQuery) &&
+            isDateInRange(record.apply.endedAt, endedAtQuery) &&
             // rollback column group
             isSelected(record.rollback?.operation, rollbackOperationQuery) &&
             isNumbersInRange(record.rollback?.dependencies, rollbackDependenciesQuery) &&
-            isSelected(record.rollback?.status, rollbackStatusQuery)
+            isSelected(record.rollback?.status, rollbackStatusQuery) &&
+            isDateInRange(record.rollback?.startedAt, rollbackStartedAtQuery) &&
+            isDateInRange(record.rollback?.endedAt, rollbackEndedAtQuery)
         )
       : [];
   }, [
@@ -133,9 +156,13 @@ export const useFilter = (): ApplyProcedureFilter => {
     operationQuery,
     dependenciesQuery,
     statusQuery,
+    startedAtQuery,
+    endedAtQuery,
     rollbackOperationQuery,
     rollbackDependenciesQuery,
     rollbackStatusQuery,
+    rollbackStartedAtQuery,
+    rollbackEndedAtQuery,
   ]);
 
   return {
@@ -147,9 +174,13 @@ export const useFilter = (): ApplyProcedureFilter => {
       operation: operationQuery,
       dependencies: dependenciesQuery,
       status: statusQuery,
+      startedAt: startedAtQuery,
+      endedAt: endedAtQuery,
       rollbackOperation: rollbackOperationQuery,
       rollbackDependencies: rollbackDependenciesQuery,
       rollbackStatus: rollbackStatusQuery,
+      rollbackStartedAt: rollbackStartedAtQuery,
+      rollbackEndedAt: rollbackEndedAtQuery,
     },
     setQuery: {
       ID: setIdQuery,
@@ -158,9 +189,13 @@ export const useFilter = (): ApplyProcedureFilter => {
       operation: setOperationQuery,
       dependencies: setDependenciesQuery,
       status: setStatusQuery,
+      startedAt: setStartedAtQuery,
+      endedAt: setEndedAtQuery,
       rollbackOperation: setRollbackOperationQuery,
       rollbackDependencies: setRollbackDependenciesQuery,
       rollbackStatus: setRollbackStatusQuery,
+      rollbackStartedAt: setRollbackStartedAtQuery,
+      rollbackEndedAt: setRollbackEndedAtQuery,
     },
     selectOptions,
   };

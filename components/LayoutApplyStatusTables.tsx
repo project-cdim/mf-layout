@@ -48,11 +48,11 @@ export const StatusTables = () => {
       columnName: t('Status'),
       value: <StatusWithIcon status={status} type='Apply' />,
     },
-    { columnName: t('Started'), value: DatetimeString(startedAt) },
-    { columnName: t('Suspended.at'), value: DatetimeString(suspendedAt), hide: suspendedAt === undefined },
-    { columnName: t('Resume Requested'), value: DatetimeString(resumedAt), hide: resumedAt === undefined },
-    { columnName: t('Cancel Requested'), value: DatetimeString(canceledAt), hide: canceledAt === undefined },
-    { columnName: t('Ended'), value: DatetimeString(endedAt) },
+    { columnName: t('Started'), value: <DatetimeString date={startedAt} /> },
+    { columnName: t('Ended'), value: <DatetimeString date={endedAt} /> },
+    { columnName: t('Suspended.at'), value: <DatetimeString date={suspendedAt} />, hide: suspendedAt === undefined },
+    { columnName: t('Resume Requested'), value: <DatetimeString date={resumedAt} />, hide: resumedAt === undefined },
+    { columnName: t('Cancel Requested'), value: <DatetimeString date={canceledAt} />, hide: canceledAt === undefined },
   ];
 
   // Rollback status
@@ -67,18 +67,18 @@ export const StatusTables = () => {
       columnName: t('Status'),
       value: <StatusWithIcon status={rollbackStatus} type='Rollback' />,
     },
-    { columnName: t('Started'), value: DatetimeString(rollbackStartedAt) },
+    { columnName: t('Started'), value: <DatetimeString date={rollbackStartedAt} /> },
+    { columnName: t('Ended'), value: <DatetimeString date={rollbackEndedAt} /> },
     {
       columnName: t('Suspended.at'),
-      value: DatetimeString(rollbackSuspendedAt),
+      value: <DatetimeString date={rollbackSuspendedAt} />,
       hide: rollbackSuspendedAt === undefined,
     },
     {
       columnName: t('Resume Requested'),
-      value: DatetimeString(rollbackResumedAt),
+      value: <DatetimeString date={rollbackResumedAt} />,
       hide: rollbackResumedAt === undefined,
     },
-    { columnName: t('Ended'), value: DatetimeString(rollbackEndedAt) },
   ];
 
   return (

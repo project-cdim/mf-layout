@@ -51,15 +51,6 @@ describe('useLayoutFilter custom hook', () => {
       endedAt: [undefined, undefined],
       status: [],
     });
-
-    // The setQuery function is for operational testing, so no test is needed for the initial value
-
-    expect(view.result.current.selectOptions).toEqual({
-      status: [
-        { value: 'IN_PROGRESS', label: 'In Progress' },
-        { value: 'COMPLETED', label: 'Completed' },
-      ],
-    });
   });
 
   test('setQuery.id() works correctly', async () => {

@@ -14,6 +14,8 @@
  * under the License.
  */
 
+import { APIProcedure } from '@/shared-modules/types';
+
 /** Design status */
 export const DesignStatuses = ['IN_PROGRESS', 'FAILED', 'COMPLETED', 'CANCELING', 'CANCELED'] as const;
 export type DesignStatus = (typeof DesignStatuses)[number];
@@ -23,38 +25,44 @@ export type DesignStatusLabelKey = 'In Progress' | 'Failed' | 'Completed' | 'Can
 /** Type definition for the response of GET /layout-designs to retrieve the design result list */
 export type APILayoutDesignList = {
   count: number;
-  designs: APIDesignItem[];
+  totalCount: number;
+  designs: APILayoutDesignForList[];
 };
 
-type APIDesignItem = {
-  id: string;
+type APILayoutDesignForList = Omit<APILayoutDesign, 'designID'> & {
+  id: string; // DesignID
+};
+
+export type APILayoutDesign = {
+  designID: string;
   status: DesignStatus;
   requestID: string;
   startedAt: string;
   endedAt: string;
+  cause?: string;
   design: {
     nodes?: APINode[];
   };
-  conditions: APIConditions;
+  conditions?: APIConditions;
   procedures: APIProcedure[];
 };
 
-type APINode = {
+export type APINode = {
   services: {
     id: string;
     requestInstanceID: string;
   }[];
   device: {
-    cpu: APIDeviceIDs;
-    memory: APIDeviceIDs;
-    storage: APIDeviceIDs;
-    gpu: APIDeviceIDs;
-    fpga: APIDeviceIDs;
-    networkInterface: APIDeviceIDs;
-    virtualMedia: APIDeviceIDs;
-    graphicController: APIDeviceIDs;
-    accelerator: APIDeviceIDs;
-    dsp: APIDeviceIDs;
+    cpu?: APIDeviceIDs;
+    memory?: APIDeviceIDs;
+    storage?: APIDeviceIDs;
+    gpu?: APIDeviceIDs;
+    fpga?: APIDeviceIDs;
+    networkInterface?: APIDeviceIDs;
+    virtualMedia?: APIDeviceIDs;
+    graphicController?: APIDeviceIDs;
+    accelerator?: APIDeviceIDs;
+    dsp?: APIDeviceIDs;
   };
 };
 
@@ -64,22 +72,14 @@ type APIDeviceIDs = {
 
 type APIConditions = {
   toleranceCriteria?: {
-    cpu: {
+    cpu?: {
       deviceIDs: string[];
-      limit: { averageUseRate: number };
+      limit: { averageUseRate: number; weights: number[] };
     }[];
-    memory: {
+    memory?: {
       deviceIDs: string[];
       limit: { averageUseBytes: number };
     }[];
   };
   energyCriteria?: number;
-};
-
-type APIProcedure = {
-  operationID: number;
-  operation: string;
-  targetCPUID: string;
-  targetDeviceID: string;
-  dependencies: number[];
 };

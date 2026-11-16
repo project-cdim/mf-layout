@@ -8,8 +8,8 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
  * License for the specific language governing permissions and limitations
  * under the License.
  */
@@ -104,6 +104,23 @@ export const useLayoutApplyDetail = () => {
     return getErrorByResult(resultList?.find((item) => item.operationID === operationID));
   };
 
+  const getProcedureTimestamp = (
+    data: APIApplyIDGetResponse,
+    operationID: number,
+    type: 'apply' | 'rollback',
+    timestampType: 'startedAt' | 'endedAt'
+  ): Date | undefined => {
+    const resultList = type === 'apply' ? data.applyResult : data.rollbackResult;
+    if (shouldCheckResumeResult(data, type)) {
+      const resumeItem = data.resumeResult?.find((item) => item.operationID === operationID);
+      if (resumeItem?.[timestampType]) {
+        return new Date(resumeItem[timestampType]);
+      }
+    }
+    const resultItem = resultList?.find((item) => item.operationID === operationID);
+    return resultItem?.[timestampType] ? new Date(resultItem[timestampType]) : undefined;
+  };
+
   const shouldCheckResumeResult = (data: APIApplyIDGetResponse, type: 'apply' | 'rollback'): boolean => {
     if (data.resumedAt === undefined) return false;
     const isResumeAfterRollback =
@@ -140,6 +157,7 @@ export const useLayoutApplyDetail = () => {
   const layoutApplyDetail: APPLayoutApplyDetail | undefined = useMemo(() => {
     const { data } = layoutSWRResponse;
     if (!data) return undefined;
+
     return {
       applyID: data.applyID,
       apply: {
@@ -171,6 +189,8 @@ export const useLayoutApplyDetail = () => {
             dependencies: procedure.dependencies,
             status: getProcedureResult(data, procedure.operationID, 'apply'),
             error: getProcedureError(data, procedure.operationID, 'apply'),
+            startedAt: getProcedureTimestamp(data, procedure.operationID, 'apply', 'startedAt'),
+            endedAt: getProcedureTimestamp(data, procedure.operationID, 'apply', 'endedAt'),
           },
           rollback: rollbackProcedure
             ? {
@@ -178,6 +198,8 @@ export const useLayoutApplyDetail = () => {
                 dependencies: rollbackProcedure.dependencies,
                 status: getProcedureResult(data, rollbackProcedure.operationID, 'rollback'),
                 error: getProcedureError(data, rollbackProcedure.operationID, 'rollback'),
+                startedAt: getProcedureTimestamp(data, rollbackProcedure.operationID, 'rollback', 'startedAt'),
+                endedAt: getProcedureTimestamp(data, rollbackProcedure.operationID, 'rollback', 'endedAt'),
               }
             : undefined,
         };
